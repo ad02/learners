@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@plugin "@tailwindcss/typography";
+
 :root {
   --bg-primary: #1e1e2e;
   --bg-secondary: #181825;
