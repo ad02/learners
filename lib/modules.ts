@@ -42,7 +42,7 @@ export const MODULES: Module[] = [
     description: "Good prompts, the prompt formula, iterating",
     phase: "AI & Prompting",
     order: 3,
-    lessonCount: 5,
+    lessonCount: 2,
   },
   {
     id: "04-claude-code",
@@ -51,7 +51,7 @@ export const MODULES: Module[] = [
     description: "Using Claude Code to build, fix, and explain",
     phase: "AI & Prompting",
     order: 4,
-    lessonCount: 5,
+    lessonCount: 2,
   },
   {
     id: "05-web-basics",
@@ -60,7 +60,7 @@ export const MODULES: Module[] = [
     description: "HTML, CSS, JS, domains, hosting, DNS",
     phase: "Web & WordPress",
     order: 5,
-    lessonCount: 5,
+    lessonCount: 2,
   },
   {
     id: "06-wordpress",
@@ -69,7 +69,7 @@ export const MODULES: Module[] = [
     description: "Dashboard, pages, posts, themes, plugins",
     phase: "Web & WordPress",
     order: 6,
-    lessonCount: 5,
+    lessonCount: 2,
   },
   {
     id: "07-apis",
@@ -78,7 +78,7 @@ export const MODULES: Module[] = [
     description: "API calls, webhooks, WordPress REST API",
     phase: "Connecting Things",
     order: 7,
-    lessonCount: 5,
+    lessonCount: 2,
   },
   {
     id: "08-automation",
@@ -87,7 +87,7 @@ export const MODULES: Module[] = [
     description: "Triggers, actions, n8n, Make, Zapier",
     phase: "Connecting Things",
     order: 8,
-    lessonCount: 5,
+    lessonCount: 2,
   },
   {
     id: "09-capstone",
@@ -96,7 +96,7 @@ export const MODULES: Module[] = [
     description: "Build your own automation end-to-end",
     phase: "Putting It All Together",
     order: 9,
-    lessonCount: 5,
+    lessonCount: 2,
   },
 ];
 
