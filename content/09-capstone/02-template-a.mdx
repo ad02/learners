@@ -42,6 +42,13 @@ The webhook will receive data like this:
 }
 ```
 
+**Expected result:** After setting up the webhook and sending a test request, you should see the JSON data appear in your automation tool's execution panel. Each field (name, topic, content) should be visible and selectable for use in later steps.
+
+**Troubleshooting:**
+- **No data appears?** Make sure the webhook URL is correct and the workflow is active/listening. In n8n, you need to click "Listen for test event" before sending the test request.
+- **Data shows as empty?** Check that your test tool is sending the `Content-Type: application/json` header.
+- **Getting a 404 error?** The webhook URL may have expired. Create a new one and try again.
+
 **Why this step matters:** Without a trigger, nothing starts. The webhook is the "when" — when a form is submitted, do everything else.
 
 ## Step 2: Connect Claude AI to Summarize
@@ -60,6 +67,21 @@ Raw content: {{content}}
 
 Write a 2-3 paragraph summary that is engaging and professional. Include a suggested title.
 ```
+
+**Expected result:** Claude returns a polished summary. For the test data above, you might see:
+
+```
+Title: "How AI Levels the Playing Field for Small Businesses"
+
+Small businesses have long struggled to compete with larger corporations that have bigger budgets and more staff. But artificial intelligence is changing that equation. Today, even a one-person shop can use AI tools to automate customer service, create professional content, and streamline operations — tasks that used to require entire departments.
+
+From chatbots that handle customer questions 24/7 to AI writing assistants that draft marketing emails in seconds, these tools are giving small businesses superpowers they never had before...
+```
+
+**Troubleshooting:**
+- **AI returns an error?** Check your API key. Make sure it is valid and has not expired.
+- **Response is too long or too short?** Adjust your prompt. Add "Keep it under 200 words" or "Write at least 3 paragraphs" to guide the length.
+- **Response does not include a title?** Make sure your prompt explicitly asks for one. AI follows instructions literally.
 
 **Why this step matters:** Raw form submissions are messy. AI turns them into something publishable without anyone having to manually edit.
 
@@ -86,6 +108,24 @@ POST https://yoursite.com/wp-json/wp/v2/posts
 }
 ```
 
+**Expected result:** WordPress responds with the created post data, including:
+
+```json
+{
+  "id": 789,
+  "title": { "rendered": "How AI Levels the Playing Field for Small Businesses" },
+  "status": "draft",
+  "link": "https://yoursite.com/?p=789"
+}
+```
+
+You should be able to log into your WordPress admin, go to **Posts > All Posts**, and see the new draft.
+
+**Troubleshooting:**
+- **401 Unauthorized?** Your WordPress credentials are wrong. Double-check your username and application password. (Remember: you need an Application Password, not your regular login password.)
+- **404 Not Found?** The site URL is wrong, or the REST API is disabled. Check if `yoursite.com/wp-json/wp/v2/posts` works in your browser.
+- **Post appears but content is empty?** Make sure you are mapping the AI output to the content field correctly. Check variable names in your automation tool.
+
 **Why this step matters:** Automating the draft creation saves time. The post is ready for review — no copy-pasting required.
 
 ## Step 4: Send a Slack Notification
@@ -97,11 +137,17 @@ Finally, let the team know a new draft is ready (Module 8 notification pattern).
 3. Send a message to your content channel:
 
 ```
-📝 New blog draft ready for review!
+New blog draft ready for review!
 Title: {{post_title}}
 Author: {{submitter_name}}
 Link: {{wordpress_edit_link}}
 ```
+
+**Expected result:** A message appears in your Slack channel within seconds. It should include the post title, the submitter's name, and a link to edit the draft in WordPress.
+
+**Troubleshooting:**
+- **Message not appearing?** Check that the bot is added to the channel. In Slack, type `/invite @yourbotname` in the channel.
+- **Message appears but link is wrong?** Make sure you are using the WordPress edit link (usually `yoursite.com/wp-admin/post.php?post=ID&action=edit`), not the public post link.
 
 **Why this step matters:** Without notification, the draft sits there unnoticed. The Slack message closes the loop — someone knows to review it.
 
@@ -109,12 +155,24 @@ Link: {{wordpress_edit_link}}
 
 Your complete workflow now looks like this:
 
-1. **Form submitted** → webhook fires
-2. **Claude AI** → summarizes and polishes the content
-3. **WordPress API** → creates a draft post
-4. **Slack** → notifies the team
+1. **Form submitted** &rarr; webhook fires
+2. **Claude AI** &rarr; summarizes and polishes the content
+3. **WordPress API** &rarr; creates a draft post
+4. **Slack** &rarr; notifies the team
 
 That is four tools working together automatically. What used to take 15-20 minutes of manual work now happens in seconds.
+
+## How to Present Your Project
+
+Once your workflow is complete and tested, here is how to document it:
+
+1. **Take a screenshot** of your complete workflow in the automation tool
+2. **Write a brief description:** What does it do? What problem does it solve?
+3. **List the tools used:** Webhook, Claude AI, WordPress REST API, Slack
+4. **Show a test result:** Include the Slack notification or WordPress draft as proof it works
+5. **Note any customizations:** Did you add error handling? Change the prompt? Add extra steps?
+
+This documentation is useful for your own reference and for showing others what you have built.
 
 ## What You Learned
 

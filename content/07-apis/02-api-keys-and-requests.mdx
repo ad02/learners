@@ -20,7 +20,17 @@ When you walk into a secure office building, you swipe your badge at the door. T
 
 An API key works the same way. It's a long string of letters and numbers (like `sk-abc123xyz789`) that you include when you talk to an API. Without it, the API says "sorry, who are you?"
 
-> **Important:** Never share your API keys publicly. They're like passwords. If someone gets your key, they can use the API pretending to be you.
+> **Important:** Never share your API keys publicly. They're like passwords. If someone gets your key, they can use the API pretending to be you — and you could get charged for their usage.
+
+## Three Types of Authentication
+
+Not every API uses a simple key. Here are the three most common ways APIs verify who you are:
+
+1. **API Key** — a single key you include in your request. The simplest method. Example: OpenAI, weather APIs.
+2. **Bearer Token** — similar to an API key, but sent in a special header that looks like `Authorization: Bearer your-token-here`. Example: GitHub, Slack.
+3. **OAuth** — the "Sign in with Google" flow. Instead of sharing a password, you grant permission through a popup. Example: Google Sheets, Twitter.
+
+For automation work, you will mostly use API keys and Bearer tokens. OAuth is more complex but automation tools like n8n and Make handle it for you.
 
 ## Anatomy of an API Request
 
@@ -30,6 +40,8 @@ When you talk to an API, you send a **request**. Every request has a few parts:
 
 - **GET** — "Give me some data" (reading)
 - **POST** — "Here's some data, do something with it" (creating or sending)
+- **PUT** — "Update this existing data" (replacing)
+- **DELETE** — "Remove this data" (deleting)
 
 Think of GET as asking a question, and POST as filling out a form.
 
@@ -44,9 +56,45 @@ Every API has an address, just like a website. For example:
 
 Headers are like the envelope around a letter. They carry extra information, like your API key or what format you want the response in.
 
+Here is what a real set of headers looks like:
+
+```
+Authorization: Bearer sk-abc123xyz789
+Content-Type: application/json
+Accept: application/json
+```
+
+- `Authorization` — your API key or token (proving who you are)
+- `Content-Type` — tells the API what format your data is in
+- `Accept` — tells the API what format you want the response in
+
 ### Body (The Data You're Sending)
 
 When you use POST, you often include a **body** — the actual data you're sending. For example, if you're creating a new blog post, the body would contain the title and content.
+
+## JSON: The Language of APIs
+
+Almost every API speaks **JSON** (pronounced "jay-son"). JSON is a way to organize data that both humans and computers can read. Think of it as a structured form that computers can fill out and read.
+
+Here is what JSON looks like:
+
+```json
+{
+  "name": "Jane Smith",
+  "email": "jane@example.com",
+  "message": "I love your product!",
+  "rating": 5
+}
+```
+
+The rules are simple:
+- Data comes in **key-value pairs** — a label and its value
+- Text goes in **double quotes**
+- Numbers do **not** need quotes
+- Everything is wrapped in **curly braces** `{ }`
+- Items are separated by **commas**
+
+When you send data to an API, you send JSON. When the API responds, it sends JSON back. That is the whole conversation.
 
 ## Status Codes: The Waiter's Response
 
@@ -54,14 +102,72 @@ Remember our restaurant analogy? After the waiter takes your order to the kitche
 
 - **200 OK** — "Here's your food!" Everything worked perfectly.
 - **201 Created** — "Your order has been placed!" Something new was created.
-- **401 Unauthorized** — "Can I see your ID, please?" You forgot your API key or it's wrong.
-- **404 Not Found** — "Sorry, we don't serve that dish." The URL or resource doesn't exist.
-- **500 Server Error** — "The kitchen is on fire!" Something went wrong on their end, not yours.
+- **400 Bad Request** — "I can't understand your order." You sent something the API didn't expect. Like ordering a pizza at a sushi restaurant.
+- **401 Unauthorized** — "Can I see your ID, please?" You forgot your API key or it's wrong. Like showing up at a VIP lounge without a wristband.
+- **403 Forbidden** — "You're not allowed in here." Your key is valid, but you don't have permission for this action. Like an employee badge that only works on certain floors.
+- **404 Not Found** — "Sorry, we don't serve that dish." The URL or resource doesn't exist. Like looking for aisle 15 in a store that only has 12 aisles.
+- **429 Too Many Requests** — "Slow down, please!" You're sending requests too fast. More on this below.
+- **500 Server Error** — "The kitchen is on fire!" Something went wrong on their end, not yours. Try again later.
+
+> **Pro tip:** If you get a 4xx error, the problem is on **your** side (wrong key, bad URL, etc.). If you get a 5xx error, the problem is on **their** side. This helps you know where to look when things break.
+
+## Rate Limiting: Don't Ask Too Fast
+
+Imagine calling a restaurant every 2 seconds to ask "Is my food ready yet?" They would eventually stop answering your calls.
+
+APIs work the same way. Most APIs have **rate limits** — rules about how many requests you can make per minute or per hour. For example:
+
+- OpenAI: 60 requests per minute (free tier)
+- GitHub: 60 requests per hour (without a key)
+- Twitter: 300 requests per 15 minutes
+
+If you exceed the limit, you get a **429 Too Many Requests** error. The fix is simple: slow down, wait a bit, and try again.
+
+> **Why rate limits exist:** They protect the API from being overwhelmed. Without them, one user could flood the server and ruin it for everyone else.
+
+## A Complete API Request Example
+
+Let's put all the pieces together. Here is what a real API request looks like when you ask Claude to summarize some text:
+
+```
+POST https://api.anthropic.com/v1/messages
+Headers:
+  x-api-key: sk-ant-abc123...
+  Content-Type: application/json
+
+Body:
+{
+  "model": "claude-sonnet-4-20250514",
+  "max_tokens": 200,
+  "messages": [
+    { "role": "user", "content": "Summarize this in one sentence: ..." }
+  ]
+}
+```
+
+And the response comes back as:
+
+```json
+{
+  "content": [
+    { "text": "Here is the summary..." }
+  ]
+}
+```
+
+That is the full conversation. You sent a question, and the API sent back an answer.
 
 ## Try It Out
 
 Use the API explorer below to make some requests and see how APIs respond. Click on each endpoint to see what comes back.
 
+
+## Common Mistakes
+
+- **Forgetting the API key.** You will get a 401 error every time. Double-check your headers.
+- **Using GET when you need POST.** GET is for reading, POST is for creating. Mix them up and you will get errors.
+- **Invalid JSON.** A missing comma or quote breaks everything. Use a JSON validator if you are not sure.
+- **Ignoring rate limits.** If your automation suddenly stops working, check if you hit a rate limit before assuming the API is broken.
 
 ## Key Takeaway
 

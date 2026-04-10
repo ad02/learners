@@ -31,6 +31,27 @@ Unlike Template A which uses a webhook (something happens, then react), this aut
 3. Set it to run daily at 9:00 AM
 4. Choose your timezone
 
+**Expected result:** The trigger shows "Runs daily at 9:00 AM" in your automation tool. You can click "Run Once" or "Test" to trigger it manually for testing purposes — you do not have to wait until 9am!
+
+**Troubleshooting:**
+- **Trigger does not fire?** In most tools, scheduled triggers only run when the workflow is turned "on." During development, use the manual test button.
+- **Wrong timezone?** Double-check the timezone setting. A schedule set to 9am UTC fires at 4am Eastern or 1am Pacific.
+
+### Cron Schedule Examples
+
+Under the hood, many automation tools use **cron expressions** — a compact way to define schedules. Here are some common ones:
+
+| Schedule | Cron Expression | Meaning |
+|---|---|---|
+| Every day at 9am | `0 9 * * *` | At 9:00 every day |
+| Every weekday at 9am | `0 9 * * 1-5` | At 9:00, Monday through Friday |
+| Every Monday at 8am | `0 8 * * 1` | At 8:00 every Monday |
+| Every hour | `0 * * * *` | At the start of every hour |
+| Every 15 minutes | `*/15 * * * *` | Every 15 minutes |
+| First day of the month | `0 9 1 * *` | At 9:00 on the 1st of each month |
+
+You do not need to memorize these. Most tools let you pick from a dropdown instead of typing cron expressions manually. But it is useful to know what they look like when you see them.
+
 **Why this step matters:** Scheduled triggers are perfect for recurring tasks. No human needs to remember to start it — it just runs.
 
 ## Step 2: Fetch Data from an API
@@ -60,6 +81,13 @@ The API returns data like this:
 }
 ```
 
+**Expected result:** The HTTP Request step shows a green checkmark and you can see the returned JSON data. Each field (date, visitors, top_pages, etc.) should be visible for mapping in later steps.
+
+**Troubleshooting:**
+- **401 Unauthorized?** Your API key is wrong or expired. Generate a new one from the API provider's dashboard.
+- **Timeout error?** The API might be slow. Increase the timeout setting in your HTTP Request node (try 30 seconds).
+- **Empty response?** Check the API URL. A typo in the endpoint path is the most common cause.
+
 **Why this step matters:** APIs give you real, up-to-date data. Instead of checking dashboards manually, you pull the numbers automatically.
 
 ## Step 3: Summarize with Claude AI
@@ -82,6 +110,23 @@ Format it as:
 Keep it under 200 words. Write for a non-technical audience.
 ```
 
+**Expected result:** Claude returns a formatted summary like:
+
+```
+A solid day overall — visitor traffic is up and signups are strong.
+
+Key Highlights:
+- 1,247 visitors today, with the AI tools blog post leading traffic
+- 23 new signups (above our daily average of 18)
+- 8 support tickets — manageable load for the team
+
+Trend to Watch: The AI tools blog post continues to drive significant organic traffic. Consider publishing a follow-up piece to capture this interest.
+```
+
+**Troubleshooting:**
+- **Summary is too technical?** Add to your prompt: "Explain everything as if writing for someone who is not a data analyst."
+- **AI is hallucinating numbers?** Make sure the actual API data is being passed in the `{{api_response}}` variable, not a placeholder or empty string. Check the data mapping in your automation tool.
+
 **Why this step matters:** AI turns raw numbers into a story. Your team gets insights, not just data points.
 
 ## Step 4: Post to WordPress
@@ -103,6 +148,14 @@ POST https://yoursite.com/wp-json/wp/v2/posts
 
 Notice that this time we set the status to "publish" instead of "draft." Since the AI writes the same format every day and the data comes from a trusted source, auto-publishing is safe.
 
+**Expected result:** A new post appears on your WordPress site with today's date in the title and the AI-generated digest as the content. You should be able to visit your site and see it on the front page.
+
+**Troubleshooting:**
+- **Post publishes but the title shows today's date wrong?** Make sure you are using a dynamic date variable, not a hardcoded date string. Most tools have a "now" or "today" function.
+- **Category not assigned?** You need the category ID (a number), not the category name. Check `/wp-json/wp/v2/categories` on your site to find the right ID.
+
+> **Pro tip:** Create a "Daily Digest" category in WordPress before building this step. Then all your digests will be neatly organized and easy to browse.
+
 **Why this step matters:** WordPress becomes your team's daily log. Anyone can search past digests to spot trends over time.
 
 ## Step 5: Commit Config to GitHub
@@ -120,19 +173,36 @@ Commit message: "chore: update daily digest config — April 10, 2026"
 
 This is what you learned in Module 2 — Git saves every version. If you ever need to roll back a change to your automation, it is right there in the history.
 
+**Expected result:** A new commit appears in your GitHub repository. You can visit the repo on GitHub and see the committed file with today's date in the commit message.
+
+**Troubleshooting:**
+- **Authentication error?** Make sure your GitHub token has "repo" permissions. Generate a new Personal Access Token from GitHub Settings > Developer settings > Tokens.
+- **File already exists error?** Change the GitHub action from "Create file" to "Create or update file."
+- **Commit message is wrong?** Use a dynamic date variable in the commit message, just like you did for the WordPress title.
+
 **Why this step matters:** Treating your automation configs as code means they are backed up, versioned, and reviewable.
 
 ## Putting It All Together
 
 Your complete workflow now runs every morning:
 
-1. **9:00 AM** → schedule fires
-2. **API call** → fetches today's data
-3. **Claude AI** → writes a friendly digest
-4. **WordPress** → publishes the post
-5. **GitHub** → saves the config
+1. **9:00 AM** &rarr; schedule fires
+2. **API call** &rarr; fetches today's data
+3. **Claude AI** &rarr; writes a friendly digest
+4. **WordPress** &rarr; publishes the post
+5. **GitHub** &rarr; saves the config
 
 Your team wakes up to a fresh digest every day. No one lifts a finger.
+
+## How to Present Your Project
+
+Once your workflow is complete and tested:
+
+1. **Take a screenshot** of the complete workflow in your automation tool
+2. **Show a published digest post** on your WordPress site as proof
+3. **Show the GitHub commit history** with at least two commits
+4. **Write a one-paragraph summary** explaining what the bot does and why it is useful
+5. **Note any customizations** you made to the prompt, schedule, or data source
 
 ## What You Learned
 

@@ -49,6 +49,71 @@ Think of Make like a **manual car** — takes a bit more learning, but gives you
 
 Think of n8n like **building your own car** — the most work upfront, but you can customize everything exactly how you want.
 
+## Detailed Comparison
+
+| Feature | Zapier | Make | n8n |
+|---|---|---|---|
+| **Free plan** | 100 tasks/month | 1,000 ops/month | Unlimited (self-hosted) |
+| **Paid plans start at** | $20/month | $9/month | $20/month (cloud) |
+| **Number of integrations** | 6,000+ | 1,500+ | 400+ (but growing fast) |
+| **Visual workflow editor** | Linear (step by step) | Canvas (drag anywhere) | Canvas (drag anywhere) |
+| **Conditional logic** | Basic (Paths) | Advanced (Routers) | Advanced (IF nodes) |
+| **Error handling** | Basic | Good | Excellent |
+| **AI integrations** | Good | Good | Excellent |
+| **Self-hosting option** | No | No | Yes (free!) |
+| **Learning curve** | Easiest | Moderate | Moderate-Hard |
+| **Best for** | Quick simple automations | Visual, complex workflows | Full control, technical users |
+
+## When to Use Each Tool
+
+Here is a decision guide based on your situation:
+
+**Choose Zapier if:**
+- You want the fastest setup possible
+- You need to connect two specific apps and nothing else
+- You don't mind paying for convenience
+- You are brand new to automation
+
+**Choose Make if:**
+- You want a good balance of power and ease
+- You plan to build workflows with multiple branches
+- You want a generous free plan
+- You like visual, diagram-style editors
+
+**Choose n8n if:**
+- You want to learn how automation really works under the hood
+- You care about data privacy (your data stays on your server)
+- You want to use AI models without per-request fees
+- You enjoy tinkering and customizing
+
+## Self-Hosted vs. Cloud
+
+Two of these tools (n8n and Make) offer different hosting options. Here is what that means:
+
+**Cloud-hosted** (Zapier, Make cloud, n8n cloud):
+- Someone else runs the servers for you
+- You just log in and use it
+- Pros: no setup, always available, automatic updates
+- Cons: monthly fees, your data is on their servers
+
+**Self-hosted** (n8n only):
+- You run the software on your own computer or server
+- You control everything
+- Pros: free, private, fully customizable
+- Cons: you handle setup, updates, and backups
+
+For beginners, cloud is the way to go. Self-hosting is great once you are more comfortable with the tools.
+
+## Why n8n is Great for Learning
+
+While we recommend starting with Make for its balance, n8n deserves a special mention for learning:
+
+- **It is free.** No task limits, no feature gates. You can build as many workflows as you want.
+- **It is visual.** You see every step, every piece of data, every transformation.
+- **It shows you the data.** After each step runs, you can inspect exactly what data went in and what came out. This is incredibly helpful for understanding how APIs and data transformations work.
+- **It supports AI natively.** n8n has built-in nodes for Claude, ChatGPT, and other AI models.
+- **The community is active.** Thousands of free workflow templates you can import and learn from.
+
 ## They All Work the Same Way
 
 Despite their differences, all three tools follow the same pattern you already learned:
@@ -59,17 +124,18 @@ Despite their differences, all three tools follow the same pattern you already l
 4. **Test it** — run it once to make sure it works
 5. **Turn it on** — let it run automatically from now on
 
-## Which One Should You Pick?
+## Try It Yourself
 
-Here's a simple guide:
+Let's get hands-on. Do this right now:
 
-| Choose this... | If you want... |
-|----------------|----------------|
-| **Zapier** | The easiest option, and you don't mind paying |
-| **Make** | A good balance of power and ease, with a nice free tier |
-| **n8n** | Maximum control and flexibility, and you're comfortable with setup |
+1. Go to [n8n.io](https://n8n.io) and sign up for a free cloud account
+2. Once logged in, click "New Workflow"
+3. Look around the interface — notice the canvas, the node panel on the left, and the execution controls at the top
+4. Click the "+" button to see all available trigger and action nodes
+5. Try adding a "Manual Trigger" node and a "Set" node, then connect them with a line
+6. Click "Test Workflow" to see data flow through the steps
 
-**Our recommendation for beginners:** Start with **Make**. It has the best balance of power, visual clarity, and a generous free plan. You can always switch later.
+You do not need to build anything real yet. Just explore the interface and get comfortable with how it looks and feels.
 
 ## Don't Overthink It
 

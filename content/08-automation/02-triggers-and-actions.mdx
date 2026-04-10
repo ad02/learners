@@ -27,16 +27,52 @@ Here are some common triggers:
 - **"Every Monday at 9am"** — a scheduled time arrives
 - **"When a webhook fires"** — another app sends a signal (you learned about webhooks in the API module!)
 
+## Types of Triggers
+
+There are more trigger types than you might expect. Here are the most common ones:
+
+| Trigger Type | Example | When to Use |
+|---|---|---|
+| **Webhook** | Form submitted, payment received | Reacting to external events |
+| **Schedule** | Every day at 9am, every Monday | Recurring tasks |
+| **Email** | New email arrives, email with specific subject | Email-based workflows |
+| **File change** | New file uploaded to Google Drive | File processing |
+| **Database change** | New row added to spreadsheet | Data entry workflows |
+| **Form submission** | Typeform, Google Forms, Gravity Forms | Lead capture, surveys |
+| **API response** | API returns specific data | Monitoring and alerting |
+| **Chat message** | New message in Slack or Teams | Team communication |
+| **Calendar event** | Meeting starts, event created | Scheduling workflows |
+| **Manual button** | Click a button in n8n or Make | On-demand tasks |
+
 ## What is an Action?
 
 An action is **what happens next**. It's the task your automation performs after the trigger fires.
 
-Here are some common actions:
+Here are common actions organized by category:
 
-- **"Send an email"** — automatically reply to someone
-- **"Create a WordPress post"** — publish content to your website
-- **"Add a row to a spreadsheet"** — log data in Google Sheets
-- **"Send a Slack message"** — notify your team about something
+**Communication:**
+- Send an email
+- Post a Slack message
+- Send an SMS via Twilio
+- Create a notification
+
+**Data:**
+- Add a row to Google Sheets
+- Create a record in your CRM
+- Update a database entry
+- Save data to a file
+
+**Content:**
+- Create a WordPress post
+- Upload a file to Google Drive
+- Generate a PDF
+- Post to social media
+
+**AI:**
+- Summarize text with Claude
+- Categorize data automatically
+- Generate a response
+- Translate content
 
 ## Chaining Actions Together
 
@@ -53,6 +89,38 @@ For example:
 
 All three actions happen **automatically**, one after another, every single time someone submits that form.
 
+## Conditional Logic: IF / THEN / ELSE
+
+Not every trigger should lead to the same actions. Sometimes you need to make decisions along the way.
+
+This is called **conditional logic** — fancy words for "IF this, THEN that, ELSE do something different."
+
+For example:
+
+> **Trigger:** New support email arrives
+> - **IF** urgency is "high" &rarr; notify the manager immediately
+> - **ELSE IF** urgency is "medium" &rarr; add to the normal queue
+> - **ELSE** &rarr; send an auto-reply and log it
+
+Think of it like a fork in the road. The automation checks a condition and decides which path to take.
+
+Most automation tools make this visual — you literally draw a fork in your workflow and set the conditions.
+
+## Error Handling: What if Something Fails?
+
+Here is something beginners often overlook: **what happens when step 3 of your automation fails?**
+
+Maybe the API is down. Maybe the email address is invalid. Maybe the spreadsheet is full. Without error handling, your entire workflow stops and you might never know it broke.
+
+Good automations plan for failure:
+
+- **Retry** — try the failed step again after a short delay (maybe it was a temporary glitch)
+- **Fallback action** — if step A fails, do step B instead (e.g., if Slack fails, send an email)
+- **Error notification** — send yourself an alert when something breaks, so you can fix it
+- **Logging** — save error details so you can investigate later
+
+> **Pro tip:** Always add an error notification to important workflows. A broken automation that fails silently is worse than no automation at all.
+
 ## This Chain is Called a "Workflow"
 
 When you connect a trigger to one or more actions, you've created a **workflow**.
@@ -63,6 +131,8 @@ Here's how to think about it:
 
 - **Trigger** = the "when"
 - **Actions** = the "what"
+- **Conditions** = the "if"
+- **Error handling** = the "what if it breaks"
 - **Workflow** = the whole thing together
 
 ## A Few More Examples
@@ -72,6 +142,28 @@ Here's how to think about it:
 | New email from boss | Forward to phone, add to task list | Never miss an important email |
 | Someone buys a product | Send receipt, update inventory, notify warehouse | Orders process themselves |
 | Every Friday at 5pm | Pull weekly data, create report, email to team | Reports write themselves |
+| New blog post published | Share to Twitter, LinkedIn, Facebook | Social media runs itself |
+| Support ticket open > 48 hours | Escalate to manager, send follow-up to customer | No ticket falls through the cracks |
+
+## Try It Yourself
+
+Before building anything digital, practice designing workflows on paper. Try these three:
+
+**Workflow 1: New Employee Onboarding**
+- What triggers it? (Hint: new employee record created)
+- What actions should happen? (Welcome email? Account creation? Manager notification?)
+
+**Workflow 2: Customer Review Response**
+- What triggers it? (Hint: new review posted)
+- What conditions might you need? (Positive vs. negative reviews?)
+- What actions for each path?
+
+**Workflow 3: Weekly Content Publishing**
+- What triggers it? (Hint: schedule)
+- What data do you need to gather?
+- What actions publish and promote the content?
+
+Write out each one as: **When [trigger], IF [condition], THEN [action 1] &rarr; [action 2] &rarr; [action 3]**
 
 ## The Pattern is Always the Same
 

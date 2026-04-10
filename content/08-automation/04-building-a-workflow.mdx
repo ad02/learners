@@ -30,6 +30,19 @@ In most automation tools, this uses a **webhook** — a special URL that receive
 
 You paste the webhook URL into your contact form settings, and now every submission automatically sends data to your automation tool.
 
+**What you should see after this step:** When you test the webhook, you should see data appear in your automation tool that looks like:
+
+```json
+{
+  "name": "Jane Doe",
+  "email": "jane@example.com",
+  "message": "I love your product! It saved me hours...",
+  "submitted_at": "2026-04-10T10:30:00Z"
+}
+```
+
+If you see this data, the trigger is working. If nothing appears, double-check that the webhook URL is correct in your form settings.
+
 ## Step 2: Add an AI Step
 
 Next, we want AI to summarize the message. This is where **Claude** comes in.
@@ -39,6 +52,15 @@ The automation tool sends the form message to Claude with a prompt like:
 > "Summarize this customer message in 2 sentences. Identify if it's a question, testimonial, or complaint."
 
 Claude reads the message and sends back a clean summary. No copy-pasting required.
+
+**What you should see after this step:** Claude returns something like:
+
+```json
+{
+  "summary": "Customer is expressing satisfaction with the product and its time-saving features.",
+  "type": "testimonial"
+}
+```
 
 ## Step 3: Add a WordPress Action
 
@@ -52,13 +74,26 @@ The automation tool connects to your WordPress site using the REST API (which yo
 
 You can review and publish the draft later — or set it to publish automatically if you're feeling bold!
 
+**What you should see after this step:** WordPress returns a response confirming the post was created:
+
+```json
+{
+  "id": 456,
+  "title": "Customer Testimonial from Jane Doe",
+  "status": "draft",
+  "link": "https://yoursite.com/?p=456"
+}
+```
+
 ## Step 4: Add a Notification
 
 Finally, we send a **Slack message** to your team:
 
-> "New contact form submission from Jane Doe. Summary: Customer is asking about pricing for the premium plan. Type: Question."
+> "New contact form submission from Jane Doe. Summary: Customer is expressing satisfaction with the product and its time-saving features. Type: Testimonial."
 
 Now your whole team knows about the submission instantly, with a clean summary, without anyone having to do anything.
+
+**What you should see after this step:** A message appears in your Slack channel within seconds of the form being submitted. If no message appears, check that the Slack channel name is correct and that your bot has permission to post there.
 
 ## Step 5: Test It!
 
@@ -71,7 +106,69 @@ Testing helps you catch problems like:
 
 Fix any issues, test again, and then **turn it on**. Your automation is now live!
 
+## Debugging: "My Workflow Isn't Working!"
+
+Something will go wrong. It always does with the first attempt. Here is how to fix the most common issues:
+
+### Problem: The trigger is not firing
+- **Check the webhook URL.** Did you copy the correct one? Is it pasted in the right place?
+- **Check the method.** Most webhooks expect POST, not GET. Make sure your form is sending a POST request.
+- **Check if the workflow is active.** Some tools require you to turn the workflow "on" before the trigger listens.
+
+### Problem: The AI step returns an error
+- **Check your API key.** Is it valid? Has it expired? Did you copy the full key?
+- **Check the prompt.** Make sure the data from the previous step is correctly mapped into the prompt (using the right variable names).
+- **Check rate limits.** If you are testing rapidly, you might hit the API's rate limit.
+
+### Problem: WordPress post is not created
+- **Check authentication.** Make sure your username and application password are correct.
+- **Check the site URL.** Is it the right domain? Does it include `https://`?
+- **Check the content.** WordPress requires at least a title. Make sure it is not empty.
+
+### Problem: Slack notification is missing
+- **Check the channel.** Is the channel name spelled correctly (including the `#`)?
+- **Check bot permissions.** Your Slack bot needs permission to post in that channel.
+- **Check the message format.** Some special characters can break Slack messages.
+
+> **Pro tip:** Test each step individually before connecting them all together. If step 1 works alone and step 2 works alone, connecting them is usually straightforward.
+
+## Testing Strategies
+
+Here is a proven approach for testing workflows:
+
+1. **Test step by step.** Run only the trigger first. Verify data comes through. Then add the AI step and test again. Then add WordPress. Then add Slack. Build and verify one step at a time.
+
+2. **Use test data.** Don't use real customer data while testing. Create a test form submission with obvious fake data like "Test Name" and "This is a test message." That way you can easily identify and delete test posts.
+
+3. **Check the logs.** Every automation tool has an execution log. After each test, check the log to see exactly what data went into each step and what came out. This is the fastest way to find problems.
+
+4. **Test edge cases.** What happens if someone submits the form with an empty message? What if the message is extremely long? Good automations handle unexpected input gracefully.
+
+## Versioning Your Workflows
+
+As your workflows evolve, you will want to keep backups. Here are some strategies:
+
+- **Export your workflow.** Most tools let you download the workflow as a JSON file. Save it in a folder on your computer or in Git.
+- **Name your versions.** Use names like "Blog Publisher v1", "Blog Publisher v2" so you can tell them apart.
+- **Document changes.** Keep a simple note about what changed in each version (e.g., "v2: added error handling for empty messages").
+- **Don't delete old versions immediately.** If the new version breaks, you want to be able to go back to the one that worked.
+
 ## Try It Yourself
+
+Build this workflow step by step in your automation tool. Here is the exact sequence:
+
+1. Create a new workflow
+2. Add a Webhook trigger node
+3. Copy the webhook URL
+4. Open a new browser tab and use a tool like [webhook.site](https://webhook.site) or a simple form to send test data to the webhook URL
+5. Verify the data appears in your automation tool
+6. Add a Claude AI node — write a prompt that summarizes the incoming message
+7. Test the workflow up to this step — verify Claude returns a good summary
+8. Add a WordPress node — configure it to create a draft post
+9. Test again — check that the draft appears in your WordPress admin
+10. Add a Slack node — configure it to post to a test channel
+11. Test the complete workflow end to end
+12. Turn it on and celebrate!
 
 Drag the blocks below into the correct order to build this workflow:
 
@@ -93,3 +190,5 @@ This is the power of automation workflows. Each step is simple on its own, but c
 - **Always test** — run your workflow manually before turning it on
 - **Add error handling** — what happens if one step fails? Most tools let you add a "fallback" action
 - **Document your workflows** — write a quick note about what each one does, so future-you remembers
+- **Monitor after launch** — check your workflow execution logs for the first week to catch any issues you missed during testing
+- **Set up failure alerts** — add a notification that emails you if any step in the workflow fails

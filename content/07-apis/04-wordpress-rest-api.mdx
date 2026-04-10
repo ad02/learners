@@ -37,25 +37,131 @@ Let's break that down:
 - **/wp/v2** — version 2 of the WordPress API
 - **/posts** — what you want (posts, pages, users, etc.)
 
-Want pages instead of posts? Just change the end:
+## All the Endpoints You Can Use
+
+Here are the most useful endpoints — just change the last part of the URL:
+
+| Endpoint | What It Returns |
+|---|---|
+| `/wp-json/wp/v2/posts` | Blog posts |
+| `/wp-json/wp/v2/pages` | Static pages |
+| `/wp-json/wp/v2/media` | Images and files in the media library |
+| `/wp-json/wp/v2/users` | Site users (authors, admins) |
+| `/wp-json/wp/v2/categories` | Post categories |
+| `/wp-json/wp/v2/tags` | Post tags |
+| `/wp-json/wp/v2/comments` | Comments on posts |
+
+You can also filter results. Want only the 5 most recent posts? Add a query parameter:
 
 ```
-yoursite.com/wp-json/wp/v2/pages
+yoursite.com/wp-json/wp/v2/posts?per_page=5&orderby=date
 ```
 
-Want to see users?
+Want posts from a specific category? Add the category ID:
 
 ```
-yoursite.com/wp-json/wp/v2/users
+yoursite.com/wp-json/wp/v2/posts?categories=7
 ```
 
-It's that simple.
+It is like searching your site, but in a way that other apps can understand.
 
 ## Reading vs. Writing
 
 **Reading** (GET requests) is open by default. Anyone can read your published posts through the API — just like anyone can read them on your website.
 
-**Writing** (POST requests) requires authentication. You need an API key or login credentials to create or update content. This makes sense — you wouldn't want random people creating posts on your site!
+**Writing** (POST requests) requires authentication. You need credentials to create or update content. This makes sense — you wouldn't want random people creating posts on your site!
+
+## Authentication: Application Passwords
+
+To write content via the API, WordPress uses **Application Passwords**. Here is how to set one up:
+
+1. Go to your WordPress admin panel
+2. Navigate to **Users** &rarr; **Your Profile**
+3. Scroll down to **Application Passwords**
+4. Enter a name (like "My Automation") and click **Add New**
+5. WordPress generates a password — copy it immediately (you won't see it again!)
+
+Then include it in your API requests:
+
+```
+POST https://yoursite.com/wp-json/wp/v2/posts
+Headers:
+  Authorization: Basic base64(username:app-password)
+  Content-Type: application/json
+```
+
+> **Tip:** Automation tools like n8n and Make handle this for you. You just paste your username and application password into their WordPress connection settings.
+
+## Creating Content via API
+
+Here is a full example of creating a blog post via the API:
+
+```json
+POST https://yoursite.com/wp-json/wp/v2/posts
+
+{
+  "title": "5 Ways AI Can Save You Time",
+  "content": "<p>Artificial intelligence is not just for tech companies anymore...</p>",
+  "status": "draft",
+  "categories": [7],
+  "tags": [12, 15],
+  "excerpt": "Learn how small businesses are using AI to automate daily tasks.",
+  "featured_media": 234
+}
+```
+
+Let's break down each field:
+
+- **title** — the post title
+- **content** — the full HTML content of the post
+- **status** — "draft" (needs review) or "publish" (goes live immediately)
+- **categories** — array of category IDs
+- **tags** — array of tag IDs
+- **excerpt** — short summary for previews
+- **featured_media** — the ID of the featured image (from the media library)
+
+The API responds with the created post, including its ID and URL. You can use that in the next step of your automation.
+
+## Try It Yourself
+
+Want to see the WordPress REST API in action? Try this in your browser:
+
+1. Pick any WordPress site (even wordpress.org itself)
+2. Add `/wp-json/wp/v2/posts` to the end of the URL
+3. Hit Enter
+
+For example, try:
+
+```
+https://wordpress.org/news/wp-json/wp/v2/posts
+```
+
+You will see a big chunk of JSON — that is all the recent posts from the WordPress news blog, delivered via API. Each post has its title, content, date, author ID, and more.
+
+> **Tip:** Install the "JSON Formatter" browser extension to make the data easier to read.
+
+## How Automation Tools Use the WP API
+
+Here is how popular automation tools connect to WordPress:
+
+**n8n:**
+- Add a "WordPress" node to your workflow
+- Enter your site URL, username, and application password
+- Choose the action: Create Post, Update Post, Get Posts, etc.
+- Map data from previous steps to the post fields
+
+**Make (Integromat):**
+- Add a "WordPress" module
+- Connect using your credentials
+- Choose "Create a Post" and fill in the fields
+- Run the scenario
+
+**Zapier:**
+- Add a "WordPress" action step
+- Connect your site
+- Map trigger data to the title, content, and category fields
+
+All three tools are using the same WordPress REST API under the hood — they just give you a friendly interface for it.
 
 ## Try It Out
 
@@ -79,6 +185,13 @@ Now imagine this automation workflow:
 No manual work. No copying and pasting. No logging into WordPress. The whole thing runs on its own.
 
 This is the power of connecting APIs, webhooks, and AI together. And in the next module, you'll learn how to build these kinds of workflows step by step.
+
+## Common Mistakes
+
+- **Forgetting to enable the REST API.** Some security plugins disable it. If you get errors, check your security plugin settings.
+- **Using the wrong status.** Setting `"status": "publish"` posts it live immediately. Use `"draft"` while testing!
+- **Not creating an Application Password.** You cannot use your regular WordPress login password for API authentication.
+- **Wrong category IDs.** Categories use numeric IDs, not names. Check `/wp-json/wp/v2/categories` to find the right IDs.
 
 ## Key Takeaway
 
