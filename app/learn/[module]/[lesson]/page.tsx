@@ -142,19 +142,19 @@ export default async function LessonPage({ params }: LessonPageProps) {
             }
           })() : null;
 
-          // Split layout: content left, exercise right
+          // Split layout: content left, exercise right (50/50)
           if (hasExercise) {
             return (
               <div className="flex h-[calc(100vh-48px)]">
                 {/* Left: lesson content (scrollable) */}
-                <div className="flex-1 overflow-y-auto px-8 py-8 max-w-[600px]">
+                <div className="flex-1 overflow-y-auto px-8 py-8">
                   {breadcrumb}
                   <LessonContent source={lessonData.content} />
                   {bottomControls}
                 </div>
 
-                {/* Right: interactive exercise (sticky) */}
-                <div className="w-[480px] flex-shrink-0 border-l border-border overflow-y-auto bg-bg-secondary/30 px-6 py-8">
+                {/* Right: interactive exercise (scrollable, equal width) */}
+                <div className="flex-1 border-l border-border overflow-y-auto bg-bg-secondary/30 px-6 py-8">
                   <div className="text-xs uppercase text-accent-blue mb-3 tracking-wider font-bold">
                     Practice Exercise
                   </div>
