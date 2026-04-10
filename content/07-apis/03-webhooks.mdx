@@ -1,0 +1,67 @@
+---
+title: "Webhooks — When Apps Call You"
+description: "Learn how webhooks flip the script — instead of you asking for data, the data comes to you."
+order: 3
+type: lesson
+---
+
+# Webhooks — When Apps Call You
+
+So far, you've learned about APIs where **you** ask for information. But what if the information could come to **you** automatically? That's what webhooks do.
+
+## The Difference: Calling vs. Being Called
+
+Let's go back to our restaurant analogy.
+
+**APIs are like calling the restaurant** to ask if your takeout order is ready. You call, they check, they tell you. If it's not ready, you have to call again later. And again. And again. That's a lot of phone calls.
+
+**Webhooks are like the restaurant calling YOU** when your food is ready. You give them your phone number, and they ring you the moment it's done. No repeated calls needed.
+
+The simple version: **"Don't call us — we'll call you."**
+
+## How Webhooks Work
+
+A webhook is surprisingly simple. It only needs two things:
+
+1. **A URL to send data to** — this is like giving the restaurant your phone number. You set up a web address that's ready to receive information.
+2. **An event that triggers it** — this is the "when." When the food is ready. When a payment is received. When someone pushes code.
+
+When the event happens, the service automatically sends data to your URL. No asking required.
+
+## Real-World Examples
+
+Webhooks are everywhere. Here are some you might encounter:
+
+- **Stripe** sends a webhook when a customer makes a payment — so your app can instantly update the order status
+- **GitHub** sends a webhook when someone pushes code — so your website can automatically rebuild
+- **Shopify** sends a webhook when a new order comes in — so your warehouse system can start packing
+- **Slack** can receive webhooks — so other apps can post messages to your channels automatically
+
+## Why Webhooks Matter for Automation
+
+Here's the big idea: **webhooks are the foundation of automation**.
+
+Every automation starts with a trigger — "when THIS happens, do THAT." Webhooks are the "when THIS happens" part.
+
+- When a form is submitted → send an email
+- When a payment is received → create an invoice
+- When a blog post is published → share it on social media
+
+Without webhooks, you'd have to constantly check if something happened. With webhooks, you get notified the instant it does.
+
+## APIs vs. Webhooks: A Quick Comparison
+
+| | APIs | Webhooks |
+|---|---|---|
+| **Who starts it?** | You do | They do |
+| **How it works** | You ask for data | Data is sent to you |
+| **Analogy** | Calling the restaurant | Restaurant calls you |
+| **Best for** | Getting data when you need it | Reacting to events instantly |
+
+Most automation workflows use **both**: webhooks to detect when something happens, and APIs to take action in response.
+
+## Key Takeaway
+
+Webhooks are the opposite of APIs. Instead of you asking for information, the information comes to you. They're the "trigger" that makes automation possible — when something happens in one app, a webhook notifies another app to take action.
+
+In the next lesson, you'll see a real API in action — one that's already built into WordPress.

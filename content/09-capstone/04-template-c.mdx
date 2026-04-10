@@ -1,0 +1,157 @@
+---
+title: "Template C: Support Ticket Router"
+description: "Build an automation that categorizes and routes support tickets"
+order: 4
+type: lesson
+---
+
+# Template C: Support Ticket Router
+
+In this project, you will build an automation that handles incoming support emails:
+
+1. **Receives** a new email via webhook
+2. **Categorizes** the ticket using Claude AI
+3. **Updates** a WordPress tracking page
+4. **Notifies** the right team member
+
+By the end, you will have a system that automatically sorts, tracks, and routes support requests.
+
+## The Big Picture
+
+Before we start building, let's see the full workflow. Drag the blocks below into the correct order:
+
+<WorkflowBuilder
+  availableBlocks={[
+    { id: "email-webhook", type: "trigger", label: "Email Received", description: "New support email", icon: "📧" },
+    { id: "claude-classify", type: "ai", label: "Claude AI", description: "Categorize ticket", icon: "🤖" },
+    { id: "wp-update", type: "action", label: "WordPress", description: "Update tracker", icon: "📋" },
+    { id: "notify-person", type: "notify", label: "Notify", description: "Alert team member", icon: "🔔" }
+  ]}
+  expectedFlow={["trigger", "ai", "action", "notify"]}
+/>
+
+## Step 1: Set Up the Email Webhook
+
+When a customer sends a support email, your email service can forward it to a webhook. This is the same concept from Module 7 — an event triggers your workflow.
+
+1. In your automation tool, create a new workflow
+2. Add a **Webhook** trigger
+3. Configure your email service to forward support emails to the webhook URL
+
+The webhook receives data like this:
+
+```json
+{
+  "from": "customer@example.com",
+  "subject": "Can't log in to my account",
+  "body": "Hi, I've been trying to log in for the past hour but I keep getting an error message that says 'invalid credentials.' I've reset my password twice and it still doesn't work. This is urgent because I have a deadline today.",
+  "timestamp": "2026-04-10T14:23:00Z"
+}
+```
+
+**Why this step matters:** Without automation, someone has to read every email and manually decide where to send it. The webhook starts the process instantly.
+
+## Step 2: Categorize with Claude AI
+
+Now AI reads the email and figures out what kind of issue it is and how urgent it is. This uses your prompting skills from Module 3 and 4.
+
+1. Add a **Claude AI** step
+2. Write a classification prompt:
+
+```
+You are a support ticket classifier. Read this email and respond with JSON.
+
+From: {{from}}
+Subject: {{subject}}
+Body: {{body}}
+
+Classify it as:
+- category: one of "billing", "technical", "account", "feature-request", "other"
+- urgency: one of "low", "medium", "high"
+- summary: a one-sentence summary of the issue
+- assigned_to: suggest "billing-team", "dev-team", or "support-team"
+
+Respond ONLY with valid JSON.
+```
+
+The AI responds with something like:
+
+```json
+{
+  "category": "account",
+  "urgency": "high",
+  "summary": "Customer cannot log in despite multiple password resets",
+  "assigned_to": "support-team"
+}
+```
+
+**Why this step matters:** AI can read and categorize hundreds of emails in minutes. A human doing the same work would take hours and might miscategorize some.
+
+## Step 3: Update the WordPress Tracker
+
+Now we log the ticket on a WordPress page so the team has a central tracking dashboard. This uses the WordPress REST API from Module 6 and 7.
+
+1. Add a **WordPress** step
+2. Update your support tracker page with the new ticket:
+
+```
+POST https://yoursite.com/wp-json/wp/v2/posts
+{
+  "title": "Ticket: Can't log in to my account",
+  "content": "<table>
+    <tr><td>From</td><td>customer@example.com</td></tr>
+    <tr><td>Category</td><td>Account</td></tr>
+    <tr><td>Urgency</td><td>High</td></tr>
+    <tr><td>Assigned</td><td>Support Team</td></tr>
+    <tr><td>Summary</td><td>Customer cannot log in despite multiple password resets</td></tr>
+  </table>",
+  "status": "publish",
+  "categories": [support-tracker-category-id]
+}
+```
+
+**Why this step matters:** WordPress becomes your ticket database. Anyone on the team can check the tracker page to see all open tickets, search by category, and track patterns.
+
+## Step 4: Notify the Right Person
+
+Finally, send a notification to the team member who should handle this ticket (Module 8 notification pattern).
+
+1. Add a **Notification** step
+2. Route based on the AI's `assigned_to` value:
+
+```
+If assigned_to == "billing-team" → notify billing@yourcompany.com
+If assigned_to == "dev-team" → notify dev@yourcompany.com
+If assigned_to == "support-team" → notify support@yourcompany.com
+```
+
+The notification message:
+
+```
+🎫 New support ticket assigned to you!
+Category: Account (High urgency)
+Summary: Customer cannot log in despite multiple password resets
+From: customer@example.com
+Tracker: {{wordpress_post_link}}
+```
+
+**Why this step matters:** The right person gets notified immediately. No more emails sitting in a shared inbox waiting for someone to claim them.
+
+## Putting It All Together
+
+Your complete workflow handles support emails end to end:
+
+1. **Email arrives** → webhook fires
+2. **Claude AI** → reads, categorizes, and assigns
+3. **WordPress** → logs the ticket for tracking
+4. **Notification** → alerts the right team member
+
+What used to require a person reading every email, deciding the category, updating a spreadsheet, and forwarding to the right team — now happens automatically in seconds.
+
+## What You Learned
+
+- How webhooks can capture incoming emails
+- How AI can classify and route data intelligently
+- How WordPress can serve as a lightweight ticket tracker
+- How conditional notifications route information to the right people
+- How combining four simple steps creates a powerful system

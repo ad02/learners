@@ -1,0 +1,92 @@
+---
+title: "API Keys & Making Requests"
+description: "Learn how API keys work, how to make requests, and what those status codes mean."
+order: 2
+type: lesson
+---
+
+# API Keys & Making Requests
+
+Now that you know what an API is, let's learn how to actually use one. Don't worry — it's simpler than you think.
+
+## API Keys: Your ID Badge
+
+Most APIs don't let just anyone use them. You need an **API key** — think of it as your ID badge.
+
+When you walk into a secure office building, you swipe your badge at the door. The badge tells the building:
+
+- **Who you are** — so they can track usage
+- **What you're allowed to do** — maybe you can enter some floors but not others
+
+An API key works the same way. It's a long string of letters and numbers (like `sk-abc123xyz789`) that you include when you talk to an API. Without it, the API says "sorry, who are you?"
+
+> **Important:** Never share your API keys publicly. They're like passwords. If someone gets your key, they can use the API pretending to be you.
+
+## Anatomy of an API Request
+
+When you talk to an API, you send a **request**. Every request has a few parts:
+
+### The Method (What You Want to Do)
+
+- **GET** — "Give me some data" (reading)
+- **POST** — "Here's some data, do something with it" (creating or sending)
+
+Think of GET as asking a question, and POST as filling out a form.
+
+### The URL (Where to Send It)
+
+Every API has an address, just like a website. For example:
+
+- `https://api.weather.com/forecast` — get the weather forecast
+- `https://api.stripe.com/charges` — process a payment
+
+### Headers (Extra Info)
+
+Headers are like the envelope around a letter. They carry extra information, like your API key or what format you want the response in.
+
+### Body (The Data You're Sending)
+
+When you use POST, you often include a **body** — the actual data you're sending. For example, if you're creating a new blog post, the body would contain the title and content.
+
+## Status Codes: The Waiter's Response
+
+Remember our restaurant analogy? After the waiter takes your order to the kitchen, they come back with a response. Status codes tell you how it went:
+
+- **200 OK** — "Here's your food!" Everything worked perfectly.
+- **201 Created** — "Your order has been placed!" Something new was created.
+- **401 Unauthorized** — "Can I see your ID, please?" You forgot your API key or it's wrong.
+- **404 Not Found** — "Sorry, we don't serve that dish." The URL or resource doesn't exist.
+- **500 Server Error** — "The kitchen is on fire!" Something went wrong on their end, not yours.
+
+## Try It Out
+
+Use the API explorer below to make some requests and see how APIs respond. Click on each endpoint to see what comes back.
+
+<ApiExplorer
+  endpoints={[
+    {
+      method: "GET",
+      url: "/weather",
+      response: {
+        status: 200,
+        statusText: "OK",
+        body: { city: "London", temperature: 15, condition: "Cloudy", humidity: 72 },
+        explanation: "Success! The API returned weather data for London. GET requests are used to read data."
+      }
+    },
+    {
+      method: "GET",
+      url: "/users",
+      response: {
+        status: 200,
+        statusText: "OK",
+        body: { users: [{ name: "Alice", role: "admin" }, { name: "Bob", role: "editor" }] },
+        explanation: "This endpoint returns a list of users. Notice the data comes back as JSON — a structured format that computers can easily read."
+      }
+    }
+  ]}
+/>
+
+## Key Takeaway
+
+Making an API request is like ordering at a restaurant: you pick what you want (method), say where to send it (URL), show your ID (API key), and get a response back (status code + data). Once you understand this pattern, you can talk to almost any API in the world.

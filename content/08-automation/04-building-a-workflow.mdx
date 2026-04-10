@@ -1,0 +1,104 @@
+---
+title: "Building Your First Workflow"
+description: "Walk through building a real automation step by step"
+order: 4
+type: lesson
+---
+
+# Building Your First Workflow
+
+Time to put everything together! In this lesson, we'll walk through building a real automation workflow from start to finish.
+
+## The Scenario
+
+Imagine you run a small business website. People fill out a contact form, and you want the following to happen **automatically**:
+
+1. The form submission triggers the workflow
+2. AI summarizes the message (so you get the key points at a glance)
+3. A draft blog post is created in WordPress (if it's a testimonial or FAQ)
+4. Your team gets notified on Slack
+
+Right now, you might do all of this **by hand** — reading each message, copying text, creating posts, sending messages. That takes 10-15 minutes per submission. With automation, it takes **zero minutes** because the computer does it for you.
+
+## Step 1: Choose Your Trigger
+
+Every workflow starts with a trigger. In this case, our trigger is:
+
+> **"When a contact form is submitted"**
+
+In most automation tools, this uses a **webhook** — a special URL that receives data when someone submits the form. You learned about webhooks in the API module, so this should feel familiar!
+
+You paste the webhook URL into your contact form settings, and now every submission automatically sends data to your automation tool.
+
+## Step 2: Add an AI Step
+
+Next, we want AI to summarize the message. This is where **Claude** comes in.
+
+The automation tool sends the form message to Claude with a prompt like:
+
+> "Summarize this customer message in 2 sentences. Identify if it's a question, testimonial, or complaint."
+
+Claude reads the message and sends back a clean summary. No copy-pasting required.
+
+## Step 3: Add a WordPress Action
+
+Now we take Claude's summary and use it to **create a draft post in WordPress**.
+
+The automation tool connects to your WordPress site using the REST API (which you also learned about!) and creates a new draft post with:
+
+- The customer's message as the content
+- Claude's summary as the excerpt
+- A category based on the message type
+
+You can review and publish the draft later — or set it to publish automatically if you're feeling bold!
+
+## Step 4: Add a Notification
+
+Finally, we send a **Slack message** to your team:
+
+> "New contact form submission from Jane Doe. Summary: Customer is asking about pricing for the premium plan. Type: Question."
+
+Now your whole team knows about the submission instantly, with a clean summary, without anyone having to do anything.
+
+## Step 5: Test It!
+
+Before turning on any automation, **always test it**. Most tools have a "Test" or "Run Once" button that simulates the trigger and shows you what each step does.
+
+Testing helps you catch problems like:
+- Missing data (the form didn't send the right fields)
+- Wrong formatting (the WordPress post looks weird)
+- Notification issues (the Slack message goes to the wrong channel)
+
+Fix any issues, test again, and then **turn it on**. Your automation is now live!
+
+## Try It Yourself
+
+Drag the blocks below into the correct order to build this workflow:
+
+<WorkflowBuilder
+  availableBlocks={[
+    { id: "webhook", type: "trigger", label: "Webhook", description: "Form submitted", icon: "📨" },
+    { id: "claude", type: "ai", label: "Claude AI", description: "Summarize content", icon: "🤖" },
+    { id: "wordpress", type: "action", label: "WordPress", description: "Create post", icon: "📝" },
+    { id: "slack", type: "notify", label: "Slack", description: "Send message", icon: "🔔" }
+  ]}
+  expectedFlow={["trigger", "ai", "action", "notify"]}
+/>
+
+## What You Just Built
+
+Look at what you've done! A single form submission now triggers **four automated steps**:
+
+1. Data received via webhook
+2. AI summarizes the message
+3. WordPress draft created
+4. Team notified on Slack
+
+This is the power of automation workflows. Each step is simple on its own, but chained together they save you **hours** of manual work every week.
+
+## Tips for Your Own Workflows
+
+- **Start small** — automate one simple task before building complex workflows
+- **Always test** — run your workflow manually before turning it on
+- **Add error handling** — what happens if one step fails? Most tools let you add a "fallback" action
+- **Document your workflows** — write a quick note about what each one does, so future-you remembers

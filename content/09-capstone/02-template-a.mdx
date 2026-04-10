@@ -1,0 +1,134 @@
+---
+title: "Template A: Blog Auto-Publisher"
+description: "Build an automation that publishes blog posts from form submissions"
+order: 2
+type: lesson
+---
+
+# Template A: Blog Auto-Publisher
+
+In this project, you will build an automation that does four things in sequence:
+
+1. **Receives** a form submission via webhook
+2. **Summarizes** the content using Claude AI
+3. **Publishes** a draft post to WordPress
+4. **Notifies** your team on Slack
+
+By the end, you will have a complete workflow that turns raw form submissions into polished blog drafts — automatically.
+
+## The Big Picture
+
+Before we start building, let's see the full workflow. Drag the blocks below into the correct order:
+
+<WorkflowBuilder
+  availableBlocks={[
+    { id: "form-webhook", type: "trigger", label: "Form Webhook", description: "Form submitted", icon: "📨" },
+    { id: "claude-summarize", type: "ai", label: "Claude AI", description: "Summarize content", icon: "🤖" },
+    { id: "wp-create-post", type: "action", label: "WordPress", description: "Create draft post", icon: "📝" },
+    { id: "slack-notify", type: "notify", label: "Slack", description: "Notify team", icon: "🔔" }
+  ]}
+  expectedFlow={["trigger", "ai", "action", "notify"]}
+/>
+
+## Step 1: Set Up the Webhook Trigger
+
+Remember webhooks from Module 7? A webhook is like a doorbell — when someone submits the form, it "rings" your automation.
+
+Here is what you need to do:
+
+1. In your automation tool (like n8n, Make, or Zapier), create a new workflow
+2. Add a **Webhook** trigger as the first step
+3. Set it to accept POST requests
+4. Copy the webhook URL — you will paste this into your form
+
+The webhook will receive data like this:
+
+```json
+{
+  "name": "Jane Smith",
+  "topic": "How AI is changing small business",
+  "content": "AI tools are making it easier for small businesses to compete with larger companies. From automated customer service to content creation..."
+}
+```
+
+**Why this step matters:** Without a trigger, nothing starts. The webhook is the "when" — when a form is submitted, do everything else.
+
+## Step 2: Connect Claude AI to Summarize
+
+Now we connect Claude AI to process the form submission. This is where your prompting skills from Module 3 and 4 come in.
+
+1. Add an **AI** step after the webhook
+2. Connect it to Claude (via API key)
+3. Write a prompt like this:
+
+```
+You are a blog editor. Take the following submission and create a polished blog post summary.
+
+Topic: {{topic}}
+Raw content: {{content}}
+
+Write a 2-3 paragraph summary that is engaging and professional. Include a suggested title.
+```
+
+**Why this step matters:** Raw form submissions are messy. AI turns them into something publishable without anyone having to manually edit.
+
+## Step 3: Create a WordPress Draft Post
+
+Now we use the WordPress REST API (Module 6 & 7) to create a draft post.
+
+1. Add a **WordPress** action step
+2. Connect it to your WordPress site using the REST API
+3. Set it to create a new post with:
+   - **Title:** The AI-generated title
+   - **Content:** The AI-generated summary
+   - **Status:** "draft" (so a human can review before publishing)
+   - **Author:** Set to your default author
+
+The API call looks like this:
+
+```
+POST https://yoursite.com/wp-json/wp/v2/posts
+{
+  "title": "AI-Generated Title Here",
+  "content": "The polished summary from Claude...",
+  "status": "draft"
+}
+```
+
+**Why this step matters:** Automating the draft creation saves time. The post is ready for review — no copy-pasting required.
+
+## Step 4: Send a Slack Notification
+
+Finally, let the team know a new draft is ready (Module 8 notification pattern).
+
+1. Add a **Slack** notification step
+2. Connect it to your Slack workspace
+3. Send a message to your content channel:
+
+```
+📝 New blog draft ready for review!
+Title: {{post_title}}
+Author: {{submitter_name}}
+Link: {{wordpress_edit_link}}
+```
+
+**Why this step matters:** Without notification, the draft sits there unnoticed. The Slack message closes the loop — someone knows to review it.
+
+## Putting It All Together
+
+Your complete workflow now looks like this:
+
+1. **Form submitted** → webhook fires
+2. **Claude AI** → summarizes and polishes the content
+3. **WordPress API** → creates a draft post
+4. **Slack** → notifies the team
+
+That is four tools working together automatically. What used to take 15-20 minutes of manual work now happens in seconds.
+
+## What You Learned
+
+- How to chain multiple steps into one automation
+- How webhooks start workflows automatically
+- How AI can transform raw data into polished content
+- How APIs let tools talk to each other
+- How notifications close the loop for human review

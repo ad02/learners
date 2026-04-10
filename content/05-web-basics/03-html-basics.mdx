@@ -1,0 +1,69 @@
+---
+title: "HTML Basics"
+description: "Learn the building blocks that every webpage is made of"
+order: 3
+type: lesson
+---
+
+# HTML Basics
+
+HTML stands for **HyperText Markup Language**. Don't let the fancy name scare you — it's just a way of labeling content so your browser knows what it is.
+
+Think of HTML like **labeling boxes when you move house**. You write "kitchen" on one box and "bedroom" on another so you know what goes where. HTML does the same thing for web content.
+
+## Tags: The Building Blocks
+
+HTML uses **tags** to label everything. Tags come in pairs, like bookends:
+
+```html
+<p>This is a paragraph.</p>
+```
+
+- `<p>` is the **opening tag** — it says "a paragraph starts here"
+- `</p>` is the **closing tag** — it says "the paragraph ends here"
+- Everything between them is the **content**
+
+That's the whole concept. Every HTML tag works this way.
+
+## The Most Common Tags
+
+You don't need to memorize hundreds of tags. Here are the ones you'll see everywhere:
+
+| Tag | What It Does | Example |
+|-----|-------------|---------|
+| `<h1>` to `<h6>` | Headings (h1 is the biggest) | `<h1>Welcome!</h1>` |
+| `<p>` | A paragraph of text | `<p>Hello there.</p>` |
+| `<a>` | A link to another page | `<a href="https://google.com">Google</a>` |
+| `<img>` | An image | `<img src="photo.jpg">` |
+| `<ul>` and `<li>` | A bullet-point list | See below |
+
+### Lists
+
+Lists use two tags together — `<ul>` wraps the whole list, and `<li>` wraps each item:
+
+```html
+<ul>
+  <li>First item</li>
+  <li>Second item</li>
+  <li>Third item</li>
+</ul>
+```
+
+## Try It Yourself
+
+Here's a simple webpage. Try adding a bullet-point list below the paragraph. Use `<ul>` and `<li>` tags like the example above.
+
+<CodePlayground
+  starterCode="<h1>My First Page</h1>\n<p>Hello! This is my website.</p>\n\n<!-- Try adding a list below -->\n"
+  solution="<h1>My First Page</h1>\n<p>Hello! This is my website.</p>\n\n<ul>\n  <li>Item one</li>\n  <li>Item two</li>\n  <li>Item three</li>\n</ul>"
+/>
+
+## Why HTML Matters for Automation
+
+When you automate web tasks later, you'll be telling your tools things like:
+
+- "Find the `<h1>` tag and read its text"
+- "Click the `<a>` link that says 'Submit'"
+- "Fill in the text inside this `<input>` tag"
+
+Knowing these basic tags means you'll understand what your automation tools are looking for. You don't need to be an HTML expert — just recognizing these common tags is enough.

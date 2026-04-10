@@ -1,0 +1,76 @@
+---
+title: "Common Workflows"
+description: "Learn the most useful things you can do with Claude Code"
+order: 4
+type: lesson
+---
+
+# Common Workflows
+
+Now that you know the basics, let's look at the things people use Claude Code for every day. These are the "greatest hits" — the workflows you'll use over and over.
+
+## 1. Fix a Bug
+
+Something's broken? Just describe the problem:
+
+> "The submit button on the contact form doesn't do anything when I click it. It should send the form data and show a success message."
+
+Notice how this includes **what's broken**, **where it is**, and **what should happen**. That gives Claude everything it needs.
+
+## 2. Add a Feature
+
+Want something new? Describe it:
+
+> "Add a dark mode toggle to the settings page. It should save the user's preference so it stays dark when they come back."
+
+You don't need to know *how* to build dark mode. Just describe what you want it to do.
+
+## 3. Explain Code
+
+Found confusing code? Ask Claude to break it down:
+
+> "What does the function on line 42 of auth.ts do? Explain it like I'm a beginner."
+
+Claude will read that file and explain it in plain English. This is one of the best ways to learn — let Claude be your tutor.
+
+## 4. Refactor Code
+
+Code works but looks messy? Ask Claude to clean it up:
+
+> "This file is getting really long and hard to follow. Can you make it cleaner and add comments explaining each section?"
+
+Claude will reorganize the code while keeping it working exactly the same way.
+
+## 5. Generate Tests
+
+Want to make sure your code keeps working?
+
+> "Write tests for the login form. It should test that valid credentials log the user in and invalid credentials show an error."
+
+Even if you've never written a test before, Claude handles the details.
+
+## The Golden Rule
+
+In all of these workflows, notice the pattern: **describe the problem or goal, not the solution.** You're the product manager. Claude is the developer. Tell it *what* you want, and let it figure out *how*.
+
+## Practice: Write a Bug Report Prompt
+
+Try writing a prompt that clearly describes a bug to Claude Code:
+
+<PromptSandbox
+  exercise="claude-code-workflow"
+  badExample="fix it"
+  hint="Tell Claude what's broken, where it is, and what the expected behavior should be"
+/>
+
+## Quick Reference
+
+| Workflow | Example Prompt |
+|----------|---------------|
+| Fix a bug | "The login button shows an error. It should redirect to the dashboard." |
+| Add a feature | "Add a search bar to the top of the products page." |
+| Explain code | "What does this useEffect hook do in Dashboard.tsx?" |
+| Refactor | "Split this 200-line component into smaller pieces." |
+| Write tests | "Add tests for the checkout flow." |
+
+Save this table — you'll come back to it often!

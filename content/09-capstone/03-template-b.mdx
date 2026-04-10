@@ -1,0 +1,153 @@
+---
+title: "Template B: Daily Digest Bot"
+description: "Build an automation that creates daily summaries from API data"
+order: 3
+type: lesson
+---
+
+# Template B: Daily Digest Bot
+
+In this project, you will build an automation that runs every day and does five things:
+
+1. **Triggers** on a daily schedule (every day at 9am)
+2. **Fetches** data from an external API
+3. **Summarizes** the data using Claude AI
+4. **Posts** the summary to WordPress
+5. **Commits** the workflow config to GitHub
+
+By the end, you will have a bot that creates a daily digest post — completely hands-free.
+
+## The Big Picture
+
+Before we start building, let's see the full workflow. Drag the blocks below into the correct order:
+
+<WorkflowBuilder
+  availableBlocks={[
+    { id: "schedule", type: "trigger", label: "Daily Schedule", description: "Every day at 9am", icon: "⏰" },
+    { id: "api-fetch", type: "action", label: "Fetch Data", description: "Get from API", icon: "📡" },
+    { id: "claude-format", type: "ai", label: "Claude AI", description: "Format summary", icon: "🤖" },
+    { id: "wp-post", type: "action", label: "WordPress", description: "Create post", icon: "📝" },
+    { id: "git-commit", type: "action", label: "GitHub", description: "Commit config", icon: "📦" }
+  ]}
+  expectedFlow={["trigger", "action", "ai", "action", "action"]}
+/>
+
+## Step 1: Set Up the Daily Schedule
+
+Unlike Template A which uses a webhook (something happens, then react), this automation uses a **scheduled trigger** — it runs at the same time every day, like an alarm clock.
+
+1. In your automation tool, create a new workflow
+2. Add a **Schedule** trigger as the first step
+3. Set it to run daily at 9:00 AM
+4. Choose your timezone
+
+**Why this step matters:** Scheduled triggers are perfect for recurring tasks. No human needs to remember to start it — it just runs.
+
+## Step 2: Fetch Data from an API
+
+Now we pull in fresh data. This uses what you learned about APIs in Module 7.
+
+1. Add an **HTTP Request** step after the schedule
+2. Set the method to GET
+3. Point it at a data source, for example:
+
+```
+GET https://api.example.com/v1/daily-stats
+Headers: {
+  "Authorization": "Bearer your-api-key"
+}
+```
+
+The API returns data like this:
+
+```json
+{
+  "date": "2026-04-10",
+  "visitors": 1247,
+  "top_pages": ["/blog/ai-tools", "/about", "/pricing"],
+  "new_signups": 23,
+  "support_tickets": 8
+}
+```
+
+**Why this step matters:** APIs give you real, up-to-date data. Instead of checking dashboards manually, you pull the numbers automatically.
+
+## Step 3: Summarize with Claude AI
+
+Raw data is useful but hard to read. Let's use AI to turn it into a human-friendly summary.
+
+1. Add a **Claude AI** step
+2. Write a prompt that formats the data:
+
+```
+You are a daily report writer. Take these stats and write a brief, friendly daily digest.
+
+Data: {{api_response}}
+
+Format it as:
+- A one-line summary of the day
+- Key highlights (bullet points)
+- One action item or trend to watch
+
+Keep it under 200 words. Write for a non-technical audience.
+```
+
+**Why this step matters:** AI turns raw numbers into a story. Your team gets insights, not just data points.
+
+## Step 4: Post to WordPress
+
+Now publish the digest as a WordPress post so your team has a permanent record.
+
+1. Add a **WordPress** step
+2. Use the REST API to create a new post:
+
+```
+POST https://yoursite.com/wp-json/wp/v2/posts
+{
+  "title": "Daily Digest — April 10, 2026",
+  "content": "The AI-generated summary...",
+  "status": "publish",
+  "categories": [daily-digest-category-id]
+}
+```
+
+Notice that this time we set the status to "publish" instead of "draft." Since the AI writes the same format every day and the data comes from a trusted source, auto-publishing is safe.
+
+**Why this step matters:** WordPress becomes your team's daily log. Anyone can search past digests to spot trends over time.
+
+## Step 5: Commit Config to GitHub
+
+Finally, save your workflow configuration to GitHub so it is version-controlled.
+
+1. Add a **GitHub** step
+2. Commit the workflow file to your repository:
+
+```
+Repository: your-org/automations
+File: workflows/daily-digest.json
+Commit message: "chore: update daily digest config — April 10, 2026"
+```
+
+This is what you learned in Module 2 — Git saves every version. If you ever need to roll back a change to your automation, it is right there in the history.
+
+**Why this step matters:** Treating your automation configs as code means they are backed up, versioned, and reviewable.
+
+## Putting It All Together
+
+Your complete workflow now runs every morning:
+
+1. **9:00 AM** → schedule fires
+2. **API call** → fetches today's data
+3. **Claude AI** → writes a friendly digest
+4. **WordPress** → publishes the post
+5. **GitHub** → saves the config
+
+Your team wakes up to a fresh digest every day. No one lifts a finger.
+
+## What You Learned
+
+- How scheduled triggers automate recurring tasks
+- How to fetch live data from APIs
+- How AI can summarize raw data into readable reports
+- How WordPress can serve as an automatic publishing platform
+- How GitHub keeps your automation configs safe and versioned

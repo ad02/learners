@@ -1,0 +1,59 @@
+---
+title: "Domains, Hosting & DNS"
+description: "How websites get their names, where they live, and how your browser finds them"
+order: 4
+type: lesson
+---
+
+# Domains, Hosting & DNS
+
+You know that websites are just files. But where do those files live, and how does your browser find them? Let's break it down with simple analogies.
+
+## Domains: Your Website's Address
+
+A **domain** is your website's address — like a street address for a house.
+
+- `google.com` is Google's address
+- `youtube.com` is YouTube's address
+- `learners.academy` could be ours!
+
+Just like you can't have two houses with the same street address, no two websites can have the same domain. That's why you have to buy and register a domain name — you're claiming that address as yours.
+
+## Hosting: Where Your Files Live
+
+**Hosting** is the computer where your website's files are stored. Think of it like **renting an apartment for your website**.
+
+Your website's files (HTML, CSS, JavaScript) need to live on a computer that's always turned on and always connected to the internet. That computer is called a **server**.
+
+Most people don't run their own servers — they pay a hosting company to do it. It's like renting an apartment instead of building your own house. Some popular hosting companies include:
+
+- **WP Engine** — for WordPress sites
+- **Vercel** — for modern web apps
+- **Amazon Web Services (AWS)** — for everything from small sites to Netflix
+
+## DNS: The Phone Book of the Internet
+
+Here's the tricky part: computers don't actually understand domain names like "google.com". They use **numbers** called IP addresses, like `142.250.80.46`.
+
+**DNS** (Domain Name System) is like a **phone book** that translates names into numbers. When you type "google.com", DNS looks up the number for that name so your browser knows which computer to talk to.
+
+## What Happens When You Visit a Website
+
+Let's put it all together. When you type `google.com` and press Enter:
+
+1. **DNS lookup** — Your browser asks DNS: "What's the number for google.com?" DNS replies: "142.250.80.46"
+2. **Connect** — Your browser connects to the computer at that address
+3. **Download** — That computer (the server/host) sends back the HTML, CSS, and JavaScript files
+4. **Display** — Your browser assembles those files into the page you see
+
+All of this happens in a fraction of a second, every single time you visit any website.
+
+## Why This Matters for Automation
+
+When you automate tasks later, you'll sometimes need to:
+
+- **Connect to APIs** using domain names (like `api.openai.com`)
+- **Understand error messages** like "DNS resolution failed" (now you know — it couldn't look up the address!)
+- **Know where data lives** — on which server, at which address
+
+These aren't concepts you need to memorize perfectly. Just having a mental picture of how it works will help you troubleshoot when things don't go as planned.

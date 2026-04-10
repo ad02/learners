@@ -1,0 +1,78 @@
+---
+title: "Setting Up Claude Code"
+description: "Install Claude Code and run it for the first time"
+order: 2
+type: lesson
+---
+
+# Setting Up Claude Code
+
+Let's get Claude Code installed on your computer. Don't worry — it's just one command, and we'll walk through every step.
+
+## Step 1: Install Claude Code
+
+Open your terminal (remember, that's the command line area at the bottom of VS Code) and type:
+
+```bash
+npm install -g @anthropic-ai/claude-code
+```
+
+This tells your computer to download Claude Code and make it available everywhere. The `-g` means "global" — you can use it in any project, not just the current one.
+
+It might take a minute to download. You'll see some progress messages scroll by. That's normal!
+
+## Step 2: Get an API Key
+
+Claude Code needs an **API key** to work. Think of an API key like a **password that lets the app talk to Claude's brain** in the cloud.
+
+1. Go to [console.anthropic.com](https://console.anthropic.com)
+2. Create an account (or sign in)
+3. Find the **API Keys** section
+4. Click **Create Key** and copy the key it gives you
+
+Keep this key safe — treat it like a password. Don't share it publicly.
+
+## Step 3: Run It for the First Time
+
+Now for the exciting part! In your terminal, type:
+
+```bash
+claude
+```
+
+That's it. Just one word. Claude Code will start up and greet you. It might ask for your API key the first time — just paste in the key you copied.
+
+## The Terminal Interface
+
+Claude Code looks like a **chat conversation** right in your terminal. You type a message, press Enter, and Claude responds. It's just like texting, but in your terminal.
+
+There's no fancy interface with buttons and menus. Just you and Claude, having a conversation about your code.
+
+## Try It Out
+
+Practice starting Claude Code and exploring the help command:
+
+<Terminal
+  steps={[
+    {
+      prompt: "~ $",
+      expectedCommands: ["claude", "claude code"],
+      response: "Welcome to Claude Code! How can I help you today?",
+      hint: "Type 'claude' to start Claude Code"
+    },
+    {
+      prompt: "claude>",
+      expectedCommands: ["help", "/help"],
+      response: "Available commands:\n  /help - Show this help\n  /clear - Clear conversation\n  /exit - Exit Claude Code",
+      hint: "Type 'help' to see what commands are available"
+    }
+  ]}
+/>
+
+## What If Something Goes Wrong?
+
+- **"command not found"** — npm might not be installed. Go back to Module 1 and make sure you have Node.js set up.
+- **"invalid API key"** — double-check that you copied the full key, with no extra spaces.
+- **It's slow to start** — the first launch can take a few seconds. Be patient!
+
+You're all set up! In the next lesson, we'll have our first real conversation with Claude Code.

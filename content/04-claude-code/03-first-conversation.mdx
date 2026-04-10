@@ -1,0 +1,78 @@
+---
+title: "Your First Conversation"
+description: "Learn how to give Claude Code instructions and review its work"
+order: 3
+type: lesson
+---
+
+# Your First Conversation
+
+Now that Claude Code is installed, let's actually use it! In this lesson, you'll learn how to give it instructions and review what it does.
+
+## Start Simple
+
+The best way to learn is to start with something easy. Try asking Claude Code to create a file:
+
+> "Create a file called hello.txt with the text 'Hello World'"
+
+That's it. Plain English. No special syntax or code needed.
+
+## Claude Shows Its Work
+
+Here's something important: **Claude Code always shows you what it wants to do before doing it.** It doesn't just silently change your files.
+
+When you ask it to create a file, it will show you:
+- What file it wants to create
+- What content it wants to put in that file
+- A prompt asking if you want to **accept** or **reject** the change
+
+This is like a safety net. You're always in control.
+
+## Accepting and Rejecting Changes
+
+When Claude shows you a proposed change:
+
+- **Accept** — press `y` or Enter to let Claude make the change
+- **Reject** — press `n` to stop it and try a different approach
+
+Don't be afraid to reject changes! It's totally normal. You can say something like "Actually, I wanted it to say 'Hi there' instead" and Claude will adjust.
+
+## Try It Yourself
+
+Practice giving Claude Code instructions:
+
+<Terminal
+  steps={[
+    {
+      prompt: "claude>",
+      expectedCommands: ["create a file called hello.txt", "create hello.txt", "make a file called hello.txt"],
+      response: "I'll create a file called hello.txt with 'Hello World' content.\n\nCreated: hello.txt\n✓ File created successfully!",
+      hint: "Ask Claude to create a file called hello.txt"
+    },
+    {
+      prompt: "claude>",
+      expectedCommands: ["show me the file", "cat hello.txt", "read hello.txt", "open hello.txt"],
+      response: "Contents of hello.txt:\n\nHello World",
+      hint: "Ask Claude to show you the file contents"
+    }
+  ]}
+/>
+
+## Tips for Good Instructions
+
+Remember the prompt formula from Module 3? The same ideas apply here:
+
+1. **Be specific** — "Create a file called notes.txt" is better than "make a file"
+2. **Give context** — "I'm building a to-do app" helps Claude make better decisions
+3. **One thing at a time** — start with one task, then ask for the next
+4. **Describe what you want, not how** — say "make a login page" instead of trying to describe every HTML tag
+
+## What If Claude Gets It Wrong?
+
+It happens! AI isn't perfect. If Claude does something unexpected:
+
+- **Tell it what's wrong** — "That's not quite right, I wanted X instead of Y"
+- **Be more specific** — add details you might have left out
+- **Start fresh** — type `/clear` to start a new conversation
+
+The more you practice, the better you'll get at communicating with Claude Code. It's a skill, just like learning to give good directions to someone new in town.
