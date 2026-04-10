@@ -36,6 +36,62 @@ As you learn automation and coding, you'll run into these file types regularly:
 
 > **Pro tip:** The `.env` file is special — it holds sensitive information like passwords and API keys. Never share it, never upload it to GitHub, and never send it in a chat. We'll learn how to protect it later.
 
+### Markdown Files (.md) — Your New Best Friend
+
+You'll see `.md` files everywhere — README.md, CHANGELOG.md, docs, notes. Markdown is a simple way to write **formatted text** without a word processor.
+
+Instead of clicking Bold/Italic buttons like in Word, you type simple symbols:
+
+| What You Type | What You Get |
+|--------------|-------------|
+| `# Big Heading` | A big heading |
+| `## Smaller Heading` | A smaller heading |
+| `**bold text**` | **bold text** |
+| `*italic text*` | *italic text* |
+| `- item` | A bullet point |
+| `1. item` | A numbered list |
+| `` `code` `` | Inline code |
+| `[link text](url)` | A clickable link |
+
+**Why Markdown matters:**
+- Every GitHub project has a `README.md` — it's the first thing people see
+- Documentation is written in Markdown
+- This entire training platform's lessons are written in Markdown!
+- Claude Code and AI tools understand Markdown perfectly
+
+> **Try it:** Create a file called `notes.md` in VS Code. Type `# My Notes` on the first line, then `## Today I Learned` on the next. You just wrote Markdown!
+
+### JSON Files (.json) — How Computers Share Data
+
+JSON (JavaScript Object Notation) is how computers send structured data to each other. You'll encounter it constantly with APIs and automation. It looks like this:
+
+```json
+{
+  "name": "Sarah",
+  "email": "sarah@example.com",
+  "role": "admin",
+  "skills": ["automation", "wordpress", "ai"]
+}
+```
+
+Think of JSON like a **form with labels and answers**. Each line has a label (called a "key") and a value. The curly braces `{}` wrap the whole thing. Square brackets `[]` mean a list.
+
+You don't need to write JSON from scratch — tools and APIs generate it for you. But you need to **read** it, because every API response comes back as JSON.
+
+### Configuration Files (.yml, .yaml, .toml)
+
+These files control how tools behave. They're like settings menus, but in text form:
+
+```yaml
+name: my-project
+version: 1.0
+settings:
+  auto_save: true
+  theme: dark
+```
+
+You'll edit these when setting up automation tools, deployment pipelines, and development environments. The key thing is: **indentation matters** in YAML. Use spaces, not tabs, and be consistent.
+
 ## Folders
 
 Folders (also called **directories**) are containers that hold files and other folders. Think of them like folders in a filing cabinet — they help you organize related files together.
