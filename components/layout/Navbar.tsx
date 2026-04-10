@@ -20,6 +20,14 @@ export function Navbar() {
           <span className="text-xs text-text-secondary">
             Hi, {session.user.name}
           </span>
+          {session.user.role === "admin" && (
+            <Link
+              href="/admin"
+              className="text-xs text-accent hover:text-accent/80 transition-colors"
+            >
+              Admin
+            </Link>
+          )}
           <button
             onClick={() => signOut({ callbackUrl: "/auth/login" })}
             className="text-xs text-text-muted hover:text-text-secondary transition-colors"

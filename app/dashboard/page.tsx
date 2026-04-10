@@ -74,11 +74,15 @@ export default async function DashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-8">
         {MODULES.map((mod) => {
           const modData = moduleProgressMap.get(mod.order);
-          const status = getModuleStatus(
+          const isUserAdmin = session.user?.role === "admin";
+          let status = getModuleStatus(
             mod.order,
             moduleProgress,
             modData?.lessonsCompleted ?? 0
           );
+          if (isUserAdmin && status === "locked") {
+            status = "available";
+          }
 
           return (
             <ModuleCard

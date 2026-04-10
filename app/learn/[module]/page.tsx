@@ -47,8 +47,9 @@ export default async function ModulePage({ params }: ModulePageProps) {
   }
   const moduleProgress = Array.from(moduleProgressMap.values());
 
-  // Check if module is unlocked
-  if (!isModuleUnlocked(mod.order, moduleProgress)) {
+  // Check if module is unlocked (admins bypass locking)
+  const isUserAdmin = session.user?.role === "admin";
+  if (!isModuleUnlocked(mod.order, moduleProgress) && !isUserAdmin) {
     redirect("/dashboard");
   }
 
