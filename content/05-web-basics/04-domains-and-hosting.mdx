@@ -19,17 +19,36 @@ A **domain** is your website's address — like a street address for a house.
 
 Just like you can't have two houses with the same street address, no two websites can have the same domain. That's why you have to buy and register a domain name — you're claiming that address as yours.
 
+### How to Buy a Domain
+
+Getting a domain is surprisingly simple:
+
+1. **Pick a registrar** — these are companies that sell domains. Popular ones include Namecheap, Google Domains, and Cloudflare Registrar.
+2. **Search for your domain** — type in the name you want and see if it's available.
+3. **Choose an extension** — `.com` is the most popular, but there's also `.org`, `.net`, `.io`, and hundreds more.
+4. **Purchase it** — domains cost about $10-15 per year. You're renting the name, not buying it permanently.
+5. **Renew it** — don't forget to renew! If your domain expires, someone else can grab it.
+
+You don't need to buy a domain right now. Just know the process for when you're ready.
+
 ## Hosting: Where Your Files Live
 
 **Hosting** is the computer where your website's files are stored. Think of it like **renting an apartment for your website**.
 
 Your website's files (HTML, CSS, JavaScript) need to live on a computer that's always turned on and always connected to the internet. That computer is called a **server**.
 
-Most people don't run their own servers — they pay a hosting company to do it. It's like renting an apartment instead of building your own house. Some popular hosting companies include:
+Most people don't run their own servers — they pay a hosting company to do it. It's like renting an apartment instead of building your own house.
 
-- **WP Engine** — for WordPress sites
-- **Vercel** — for modern web apps
-- **Amazon Web Services (AWS)** — for everything from small sites to Netflix
+### Types of Hosting
+
+Not all hosting is the same. Here are the main types, from simplest to most powerful:
+
+- **Shared hosting** — like living in an apartment building. Your website shares a server with hundreds of others. Cheap ($3-10/month) but slower. Good for small sites.
+- **VPS (Virtual Private Server)** — like renting a condo. You get your own dedicated space on a server. More power and control ($20-80/month).
+- **Managed WordPress hosting** — like a luxury apartment with a concierge. The hosting company handles updates, security, and backups for you. Great for WordPress sites ($15-50/month). Examples: WP Engine, Kinsta.
+- **Cloud hosting** — like renting office space that grows as you need it. Pay for what you use. Can handle massive traffic. Examples: AWS, Google Cloud, Azure.
+
+For most small websites and automation projects, shared or managed hosting is more than enough.
 
 ## DNS: The Phone Book of the Internet
 
@@ -37,16 +56,57 @@ Here's the tricky part: computers don't actually understand domain names like "g
 
 **DNS** (Domain Name System) is like a **phone book** that translates names into numbers. When you type "google.com", DNS looks up the number for that name so your browser knows which computer to talk to.
 
+## SSL/HTTPS: The Padlock
+
+You've probably noticed a **padlock icon** in your browser's address bar. That means the website uses **HTTPS** (the "S" stands for Secure).
+
+HTTPS encrypts the data between your browser and the server. Think of it like sending a letter in a **sealed envelope** instead of a postcard — nobody can read it in transit.
+
+- **HTTP** — postcard. Anyone handling it could read it.
+- **HTTPS** — sealed envelope. Only the sender and receiver can read it.
+
+Almost all websites use HTTPS now. If you see a website without the padlock, be cautious — especially with login forms or payment pages.
+
+SSL certificates (what makes HTTPS work) used to be expensive, but now they're usually **free** through services like Let's Encrypt. Most hosting companies set them up automatically.
+
+## CDN: Copies Around the World
+
+A **CDN** (Content Delivery Network) is like having **copies of your website stored in cities around the world**.
+
+Without a CDN, if your server is in New York and someone visits from Tokyo, the files have to travel across the Pacific Ocean. That's slow.
+
+With a CDN, a copy of your website is stored in Tokyo, London, Sydney, and dozens of other locations. Visitors get the files from the closest copy, which is much faster.
+
+Popular CDNs include Cloudflare, Amazon CloudFront, and Fastly. Many hosting companies include a CDN automatically.
+
 ## What Happens When You Visit a Website
 
 Let's put it all together. When you type `google.com` and press Enter:
 
 1. **DNS lookup** — Your browser asks DNS: "What's the number for google.com?" DNS replies: "142.250.80.46"
 2. **Connect** — Your browser connects to the computer at that address
-3. **Download** — That computer (the server/host) sends back the HTML, CSS, and JavaScript files
-4. **Display** — Your browser assembles those files into the page you see
+3. **SSL handshake** — Your browser and the server agree on encryption (if HTTPS)
+4. **Download** — That computer (the server/host) sends back the HTML, CSS, and JavaScript files
+5. **Display** — Your browser assembles those files into the page you see
 
 All of this happens in a fraction of a second, every single time you visit any website.
+
+## Try It Yourself: Look Up DNS Records
+
+You can see the DNS records for any domain using a free tool:
+
+1. Go to [dnschecker.org](https://dnschecker.org)
+2. Type in any domain — try `google.com`
+3. Look at the **A records** — these show the IP addresses where the website lives
+4. Try a few different domains and compare the results
+
+You can also do this from your terminal:
+
+```bash
+nslookup google.com
+```
+
+This shows you the IP address that "google.com" points to. It's the DNS lookup happening right before your eyes!
 
 ## Why This Matters for Automation
 
@@ -55,5 +115,23 @@ When you automate tasks later, you'll sometimes need to:
 - **Connect to APIs** using domain names (like `api.openai.com`)
 - **Understand error messages** like "DNS resolution failed" (now you know — it couldn't look up the address!)
 - **Know where data lives** — on which server, at which address
+- **Troubleshoot connection issues** — is it a DNS problem? A hosting problem? An SSL issue?
 
 These aren't concepts you need to memorize perfectly. Just having a mental picture of how it works will help you troubleshoot when things don't go as planned.
+
+## Tips and Common Mistakes
+
+- **Domain vs hosting are separate things** — you can buy a domain from one company and host your site with another. They're connected through DNS settings.
+- **Don't buy extras at checkout** — domain registrars often upsell "privacy protection" or "website builders." You usually don't need these.
+- **Always set up HTTPS** — there's no reason not to in 2026. Most hosting companies do it for free.
+- **DNS changes take time** — when you change DNS settings, it can take 1-48 hours for the change to spread across the internet. This is called "propagation."
+
+## Practice Scenario
+
+Pick two websites you use regularly:
+1. Look up their DNS records using dnschecker.org
+2. Do they use a CDN? (Hint: if the IP addresses are from Cloudflare or Fastly, they're using a CDN)
+3. Check if they use HTTPS — look for the padlock icon
+4. Look at the domain extension — is it `.com`, `.org`, `.io`, or something else?
+
+This builds your intuition for how websites are set up behind the scenes.

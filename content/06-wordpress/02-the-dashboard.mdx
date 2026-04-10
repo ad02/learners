@@ -9,25 +9,48 @@ type: lesson
 
 When you log into WordPress, you land on the **Dashboard**. Think of it as the **cockpit of an airplane** — it has all the controls you need to fly your website. It might look overwhelming at first, but you'll only use a handful of buttons regularly.
 
+## Getting to the Dashboard
+
+To access the dashboard, add `/wp-admin` to your website's URL:
+
+```
+https://yoursite.com/wp-admin
+```
+
+Enter your username and password, and you're in.
+
 ## The Main Areas
 
-The left sidebar is your main menu. Here are the sections you'll use most:
+The left sidebar is your main menu. Here's what each section does:
 
-- **Posts** — write blog articles and news updates
-- **Pages** — create static pages like "About Us" or "Contact"
-- **Media** — upload and manage images, videos, and documents
-- **Appearance** — change how your site looks (themes, menus, widgets)
-- **Plugins** — add extra features to your site
-- **Settings** — configure your site name, tagline, and other basics
-- **Users** — manage who can access and edit your site
+### Content
+- **Posts** — write blog articles and news updates. This is where most of your regular content goes.
+- **Pages** — create static pages like "About Us," "Contact," or "Services." These don't change often.
+- **Media** — upload and manage images, videos, PDFs, and documents. Everything you upload lives here.
+- **Comments** — view, approve, or delete comments that visitors leave on your posts.
+
+### Design
+- **Appearance** — change how your site looks. This includes themes (the overall design), menus (navigation links), and widgets (sidebar content).
+
+### Functionality
+- **Plugins** — add extra features to your site. Like an app store for your website.
+- **Users** — manage who can access and edit your site. You can create accounts for team members with different permission levels.
+
+### Configuration
+- **Settings** — configure your site name, tagline, homepage, and other basics.
+- **Tools** — import/export content, check site health, and manage data.
 
 ## The Admin Bar
 
 At the very top of the screen, you'll see a dark bar. This is the **admin bar**. It gives you quick shortcuts:
 
-- Your site name (click to visit your live site)
-- A **"+ New"** button to quickly create posts, pages, or upload media
-- Your profile and logout options on the right
+- **Your site name** (on the left) — click to visit your live site in a new tab
+- **"+ New"** button — quickly create posts, pages, or upload media without navigating the sidebar
+- **Updates indicator** — shows a number if themes, plugins, or WordPress itself needs updating
+- **Comments bubble** — shows how many comments are waiting for approval
+- **Your profile** (on the right) — edit your profile, change your password, or log out
+
+The admin bar also appears when you're viewing your live site (while logged in), so you can jump back to the dashboard anytime.
 
 ## Front-End vs Back-End
 
@@ -37,6 +60,30 @@ These are two terms you'll hear a lot:
 - **Back-end** — the Dashboard. Where you make changes, write content, and manage everything behind the scenes.
 
 You can switch between them anytime. Click your site name in the admin bar to see the front-end, and click "Dashboard" to jump back to the back-end.
+
+## Settings: The Most Important Ones
+
+Before you do anything else on a new WordPress site, check these settings:
+
+### General Settings (Settings > General)
+- **Site Title** — your website's name (shows in browser tabs and search results)
+- **Tagline** — a short description of your site
+- **Site Address** — make sure it shows HTTPS, not HTTP
+- **Timezone** — set it to your local timezone so posts show the correct time
+
+### Permalinks (Settings > Permalinks)
+- This controls your URL structure
+- Change it to **"Post name"** — this gives you clean URLs like `yoursite.com/about-us` instead of `yoursite.com/?p=123`
+- Do this immediately — changing it later can break links
+
+### Reading Settings (Settings > Reading)
+- Choose what your homepage shows — your latest posts or a static page
+- Set how many posts appear per page (10 is a good default)
+
+### Discussion Settings (Settings > Discussion)
+- Control whether people can leave comments
+- Set up comment moderation rules
+- Turn off comments entirely if you don't want them
 
 ## The 80/20 Rule
 
@@ -48,3 +95,24 @@ Here's a secret: **you'll use about 20% of the Dashboard features 80% of the tim
 4. **Plugins** — adding features
 
 Don't feel pressured to learn every single menu item. Focus on these core areas first, and explore the rest as you need them.
+
+## Try It Yourself
+
+If you have access to a WordPress site (even a practice one), try this tour:
+
+1. **Click through every menu item** in the sidebar — just to see what's there. Don't change anything yet, just look.
+2. **Go to Settings > General** — change the site title to something fun (you can change it back later).
+3. **Go to Settings > Permalinks** — make sure it's set to "Post name."
+4. **Click your site name** in the admin bar to see the front-end, then click "Dashboard" to go back.
+5. **Click "+" New** in the admin bar and explore the options for creating content.
+
+## Tips and Common Mistakes
+
+- **Don't change permalinks after your site is live** — changing URL structure on an established site breaks all existing links. Set it once at the beginning.
+- **Check for updates regularly** — that little number badge on the Updates menu is important. Outdated software is a security risk.
+- **Create a strong password** — your dashboard is the control center for your entire website. Use a long, unique password.
+- **Bookmark the login URL** — `yoursite.com/wp-admin` is easy to remember, but a bookmark saves time.
+
+## Why This Matters
+
+The dashboard is where you'll spend most of your WordPress time. Getting comfortable navigating it now means you'll work faster and more confidently on every project. Whether you're managing your own site or helping a client, the dashboard is your command center.

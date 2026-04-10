@@ -7,7 +7,7 @@ type: lesson
 
 # Your First Conversation
 
-Now that Claude Code is installed, let's actually use it! In this lesson, you'll learn how to give it instructions and review what it does.
+Now that Claude Code is installed, let's actually use it! In this lesson, you'll learn how to give it instructions, review what it does, and communicate effectively.
 
 ## Start Simple
 
@@ -37,9 +37,55 @@ When Claude shows you a proposed change:
 
 Don't be afraid to reject changes! It's totally normal. You can say something like "Actually, I wanted it to say 'Hi there' instead" and Claude will adjust.
 
+## Five Example Conversations
+
+Here are five real conversations showing different types of requests. Notice how each one gives Claude clear context:
+
+### 1. Creating Something New
+> "Create an HTML file called about.html with a heading that says 'About Us', a paragraph introducing our team, and a contact email link."
+
+### 2. Fixing a Problem
+> "The image on index.html isn't showing up. The file is called logo.png and it's in the images folder. Can you fix the path?"
+
+### 3. Asking for Explanations
+> "I'm looking at styles.css and I don't understand what 'display: flex' does. Can you explain it simply and show me what it looks like?"
+
+### 4. Improving Existing Work
+> "The contact form in contact.html works, but it looks ugly. Can you make it look more professional with better spacing, rounded corners, and a blue submit button?"
+
+### 5. Researching Something
+> "I need to add a newsletter signup to my WordPress site. What are the best ways to do this? Give me 3 options from simplest to most advanced."
+
+## How to Give Better Context
+
+The more context you give, the better Claude's response will be. Compare these:
+
+**Vague:** "Make a form"
+
+**Better:** "I'm working on a WordPress site for a local bakery. Create a contact form with fields for name, email, phone number, and a message. The submit button should say 'Send Message'."
+
+The second version tells Claude:
+- **What project** — a WordPress site
+- **What kind of business** — a bakery
+- **Exactly what fields** — name, email, phone, message
+- **Specific details** — the button text
+
+## Understanding Claude's Responses
+
+When Claude responds, here's what to look for:
+
+- **File changes** — highlighted in green (added) and red (removed). Review these carefully before accepting.
+- **Explanations** — Claude often explains *why* it made certain choices. Read these — you'll learn a lot!
+- **Questions** — sometimes Claude asks for clarification. That's a good sign — it wants to get things right.
+- **Warnings** — if Claude says "this might break X" or "you should also update Y," pay attention.
+
 ## Try It Yourself
 
-Practice giving Claude Code instructions:
+Practice having three different conversations with Claude Code:
+
+1. **Create** — ask Claude to create a simple HTML page about your favorite hobby
+2. **Explain** — point Claude at any file in your project and ask it to explain what the code does
+3. **Fix** — intentionally break something (like deleting a closing tag) and ask Claude to fix it
 
 
 ## Tips for Good Instructions
@@ -57,6 +103,23 @@ It happens! AI isn't perfect. If Claude does something unexpected:
 
 - **Tell it what's wrong** — "That's not quite right, I wanted X instead of Y"
 - **Be more specific** — add details you might have left out
+- **Show an example** — "I want it to look like this: [description]"
 - **Start fresh** — type `/clear` to start a new conversation
+
+## Common Mistakes
+
+- **Accepting changes without reading them** — always review what Claude proposes. It takes 10 seconds and saves you from headaches later.
+- **Giving up after one try** — if the first result isn't perfect, refine your request. Think of it like giving directions — sometimes you need a second attempt.
+- **Typing code instead of describing** — you don't need to write code! Describe what you want in plain English and let Claude handle the technical details.
+
+## Practice Scenario
+
+Here's a small challenge: imagine you're building a personal website. Have a conversation with Claude Code where you:
+
+1. Ask it to create an `index.html` file with your name as the heading
+2. Ask it to add three sections: About Me, My Skills, and Contact
+3. Ask it to make the page look professional with some CSS
+
+Notice how each step builds on the last. This is how real conversations with Claude Code flow.
 
 The more you practice, the better you'll get at communicating with Claude Code. It's a skill, just like learning to give good directions to someone new in town.

@@ -17,6 +17,12 @@ Something's broken? Just describe the problem:
 
 Notice how this includes **what's broken**, **where it is**, and **what should happen**. That gives Claude everything it needs.
 
+**Real example:** A client reports their website's navigation menu disappears on mobile. You tell Claude Code:
+
+> "The nav menu on index.html disappears on screens smaller than 768px. It should show a hamburger menu icon instead. Check the CSS media queries."
+
+Claude reads the CSS, finds the issue (maybe the menu is set to `display: none` without a mobile alternative), and fixes it.
+
 ## 2. Add a Feature
 
 Want something new? Describe it:
@@ -24,6 +30,10 @@ Want something new? Describe it:
 > "Add a dark mode toggle to the settings page. It should save the user's preference so it stays dark when they come back."
 
 You don't need to know *how* to build dark mode. Just describe what you want it to do.
+
+**Real example:** Your boss wants a "Back to Top" button on the company blog:
+
+> "Add a smooth-scrolling 'Back to Top' button that appears when the user scrolls down more than 500 pixels. Make it a small round button in the bottom-right corner."
 
 ## 3. Explain Code
 
@@ -53,10 +63,67 @@ Even if you've never written a test before, Claude handles the details.
 
 In all of these workflows, notice the pattern: **describe the problem or goal, not the solution.** You're the product manager. Claude is the developer. Tell it *what* you want, and let it figure out *how*.
 
-## Practice: Write a Bug Report Prompt
+## Power User Tips
 
-Try writing a prompt that clearly describes a bug to Claude Code:
+Once you're comfortable with the basics, these tips will make you even faster:
 
+### Use a CLAUDE.md File
+Create a file called `CLAUDE.md` in your project root. This is like a cheat sheet that Claude reads every time it starts. Put things like:
+- What your project is about
+- Which technologies you use
+- Rules and conventions (like "always use Tailwind CSS for styling")
+- Common patterns it should follow
+
+### Useful Slash Commands
+- `/help` — see all available commands
+- `/clear` — start a fresh conversation (keeps project context)
+- `/compact` — summarize the conversation to save memory
+
+### Context Management
+- Start Claude Code from your project folder so it can see all files
+- If Claude seems confused, try `/clear` to reset the conversation
+- For big projects, point Claude at specific files: "Look at src/components/Header.tsx"
+
+## Real Project Walkthrough
+
+Let's walk through a realistic scenario. Your manager says: "We need a contact form on our WordPress site."
+
+Here's how you'd handle it with Claude Code:
+
+**Step 1 — Describe the goal:**
+> "I need to add a contact form to our WordPress site. It should have fields for name, email, subject, and message. When someone submits it, it should send an email to info@ourcompany.com and show a thank-you message."
+
+**Step 2 — Review and refine:**
+Claude creates the form. You look at it and notice it's missing phone number. You say:
+> "Add a phone number field too, and make it optional."
+
+**Step 3 — Handle the details:**
+> "Add form validation — make sure the email field only accepts valid emails, and the name and message fields are required."
+
+**Step 4 — Polish:**
+> "Make the form match our site's style. The primary color is #2563EB and we use rounded corners on everything."
+
+Notice how each step builds on the last. You didn't need to plan the whole thing upfront — you had a conversation.
+
+## When NOT to Use Claude Code
+
+Claude Code is powerful, but there are times to be careful:
+
+- **Sensitive data** — don't paste passwords, API keys, or customer data into prompts
+- **Production deployments** — always review and test code before putting it on a live site
+- **Critical business logic** — for things like payment processing, have a human developer review Claude's work
+- **When you don't understand the output** — if Claude generates something and you have no idea what it does, ask it to explain before accepting
+
+## Practice: Build Something Real
+
+Try this exercise: use Claude Code to build a simple "Team" page for an imaginary company. Ask it to:
+
+1. Create the HTML page with a heading and three team member cards
+2. Each card should have a name, job title, and short bio
+3. Style the cards in a grid layout
+4. Add hover effects so the cards slightly enlarge when you mouse over them
+
+This will give you practice with the create, refine, and polish workflow.
 
 ## Quick Reference
 
@@ -67,5 +134,7 @@ Try writing a prompt that clearly describes a bug to Claude Code:
 | Explain code | "What does this useEffect hook do in Dashboard.tsx?" |
 | Refactor | "Split this 200-line component into smaller pieces." |
 | Write tests | "Add tests for the checkout flow." |
+| Style changes | "Make the header sticky and add a shadow when scrolling." |
+| Performance | "This page loads slowly. Find what's slowing it down and fix it." |
 
 Save this table — you'll come back to it often!

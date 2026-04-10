@@ -31,6 +31,21 @@ That's it — your site's entire look changes instantly.
 - **Check the reviews** — look for themes with good ratings and regular updates
 - **Test on mobile** — make sure it looks good on phones (most visitors browse on mobile)
 - **Stick with popular ones** — they're more likely to be maintained and secure
+- **Check the last update date** — if a theme hasn't been updated in over a year, avoid it
+
+### Child Themes: Never Edit a Theme Directly
+
+Here's an important rule: **never modify a theme's code directly.**
+
+Why? Because when the theme updates (and it will), your changes get overwritten. Everything you customized — gone.
+
+The solution is a **child theme**. Think of it like this:
+- The **parent theme** is the original blueprint
+- The **child theme** is your custom layer on top
+
+The child theme inherits everything from the parent but lets you override specific parts. When the parent updates, your customizations stay safe.
+
+Most WordPress developers follow this rule religiously. If someone asks you to customize a theme, always ask: "Is there a child theme set up?"
 
 ## Plugins: Extra Features
 
@@ -45,15 +60,56 @@ A **plugin** adds new features to your site. Need a contact form? Install a plug
 
 Once activated, the plugin starts working. Some plugins add new menu items to your sidebar, while others work quietly in the background.
 
-### Plugins Every Site Should Have
+### How to Evaluate a Plugin
 
-Here are the essential categories:
+Not all plugins are created equal. Before installing one, check these things:
 
-- **Security** — protects your site from hackers (e.g., Wordfence, Sucuri)
-- **Backup** — automatically saves copies of your site (e.g., UpdraftPlus)
-- **SEO** — helps your site show up in Google (e.g., Yoast SEO, Rank Math)
-- **Contact Forms** — lets visitors send you messages (e.g., WPForms, Contact Form 7)
-- **Performance** — makes your site load faster (e.g., WP Super Cache, LiteSpeed Cache)
+| What to Check | What to Look For |
+|----------------|-----------------|
+| **Star rating** | 4 stars or higher (out of 5) |
+| **Active installs** | At least 10,000+ for important plugins |
+| **Last updated** | Within the last 3 months |
+| **Tested with** | Your version of WordPress |
+| **Support forum** | Active responses from the developer |
+
+If a plugin has 2 stars, hasn't been updated in 2 years, and has unanswered support questions — skip it. There's always an alternative.
+
+### Essential Plugins Every Site Should Have
+
+Here are the must-haves, organized by category:
+
+**Security — Wordfence Security**
+- Firewall to block attacks
+- Malware scanner
+- Login security (blocks brute force attempts)
+
+**Backup — UpdraftPlus**
+- Automatic scheduled backups
+- Store backups in Google Drive, Dropbox, or Amazon S3
+- One-click restore if something goes wrong
+
+**SEO — Yoast SEO**
+- Helps your site show up in Google
+- Analyzes each post/page for SEO best practices
+- Creates XML sitemaps automatically
+- Adds meta descriptions for search results
+
+**Contact Forms — WPForms**
+- Drag-and-drop form builder
+- Contact forms, surveys, payment forms
+- Spam protection built in
+- Email notifications when someone submits a form
+
+**Performance — LiteSpeed Cache** (or WP Super Cache)
+- Makes your site load faster
+- Caches pages so the server doesn't rebuild them every time
+- Image optimization
+- CDN integration
+
+**Anti-Spam — Akismet**
+- Filters spam comments automatically
+- Comes pre-installed with WordPress
+- Free for personal sites
 
 ### The Plugin Warning
 
@@ -68,3 +124,47 @@ Every plugin you add:
 A good WordPress site typically has **10-20 plugins**. If you have 40 or 50, it's time to clean house.
 
 Before installing any plugin, ask yourself: "Do I really need this?" If the answer is no, skip it. Your site will thank you.
+
+## Try It Yourself
+
+If you have access to a WordPress site, try this hands-on exercise:
+
+### Install and Configure Yoast SEO
+1. Go to **Plugins > Add New**
+2. Search for "Yoast SEO"
+3. Click **Install Now**, then **Activate**
+4. Follow the setup wizard that appears
+5. Go to any post or page — you'll see a new "Yoast SEO" panel below the editor
+6. Try writing a meta description for one of your pages
+
+### Install and Configure WPForms
+1. Go to **Plugins > Add New**
+2. Search for "WPForms"
+3. Click **Install Now**, then **Activate**
+4. Go to **WPForms > Add New**
+5. Choose the "Simple Contact Form" template
+6. Customize the fields if you want
+7. Add the form to a page using the WPForms block in the editor
+
+## Tips and Common Mistakes
+
+- **Don't install plugins you're "just trying out"** — if you install something and decide you don't need it, deactivate AND delete it. Inactive plugins still pose security risks.
+- **Update plugins regularly** — check for updates at least weekly. Outdated plugins are the number one way WordPress sites get hacked.
+- **Read the plugin description carefully** — some "free" plugins are actually freemium. The free version might not have the feature you need.
+- **One plugin per job** — don't install three SEO plugins. Pick one and stick with it. Multiple plugins doing the same thing cause conflicts.
+- **Back up before big changes** — before installing a new theme or a major plugin, create a backup. If something breaks, you can restore.
+
+## Why This Matters
+
+Themes and plugins are what make WordPress so flexible. A photographer's portfolio looks completely different from a restaurant's menu site, even though they're both WordPress. Understanding how to choose, install, and manage themes and plugins is the skill that turns a blank WordPress installation into a real website.
+
+## Practice Scenario
+
+Imagine a client asks you to build a WordPress site for their yoga studio. They need:
+- A beautiful, calming design
+- A schedule/timetable of classes
+- An online booking system
+- A contact form
+- A blog for wellness tips
+
+What theme features would you look for? What 5-6 plugins would you recommend? Write down your answers — this is the kind of planning you'll do on real projects.

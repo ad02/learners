@@ -49,10 +49,126 @@ Lists use two tags together — `<ul>` wraps the whole list, and `<li>` wraps ea
 </ul>
 ```
 
+## More Tags You Should Know
+
+Here are additional tags that show up constantly on real websites:
+
+| Tag | What It Does | Example |
+|-----|-------------|---------|
+| `<div>` | A generic container (like a box) | `<div>...stuff inside...</div>` |
+| `<span>` | An inline container (for small bits) | `<span>highlighted text</span>` |
+| `<button>` | A clickable button | `<button>Click Me</button>` |
+| `<input>` | A text field, checkbox, etc. | `<input type="text">` |
+| `<form>` | Groups inputs together | `<form>...inputs here...</form>` |
+| `<table>` | A data table | See below |
+
+### Tables
+
+Tables organize data in rows and columns:
+
+```html
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Role</th>
+  </tr>
+  <tr>
+    <td>Alice</td>
+    <td>Designer</td>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>Developer</td>
+  </tr>
+</table>
+```
+
+- `<table>` wraps the whole table
+- `<tr>` is a **table row**
+- `<th>` is a **table header** cell (bold by default)
+- `<td>` is a regular **table data** cell
+
+## Nesting: Tags Inside Tags
+
+Tags can go inside other tags, like **boxes inside boxes**. This is called **nesting**:
+
+```html
+<div>
+  <h2>Our Team</h2>
+  <p>We are a small group of <span>passionate</span> builders.</p>
+  <ul>
+    <li>Alice — Design</li>
+    <li>Bob — Development</li>
+  </ul>
+</div>
+```
+
+The `<div>` is the big outer box. Inside it are a heading, a paragraph (which has a `<span>` inside it), and a list. Each level is indented to make it easier to read — but the indentation is just for humans. The browser doesn't care about spaces.
+
+Think of it like Russian nesting dolls — each doll fits inside a bigger one. HTML works the same way.
+
+## Attributes: Extra Details on Tags
+
+Some tags need extra information. These are called **attributes** — they go inside the opening tag:
+
+```html
+<a href="https://google.com">Visit Google</a>
+```
+
+- `href` is an attribute that tells the link **where to go**
+
+Here are the most common attributes:
+
+| Attribute | Used On | What It Does |
+|-----------|---------|-------------|
+| `href` | `<a>` | The URL the link points to |
+| `src` | `<img>` | The file path of the image |
+| `class` | Any tag | A name used for styling with CSS |
+| `id` | Any tag | A unique name for one specific element |
+| `type` | `<input>` | What kind of input (text, email, password) |
+| `alt` | `<img>` | Text description of the image (for accessibility) |
+
+For example, an image tag with attributes:
+
+```html
+<img src="team-photo.jpg" alt="Our team at the office" class="hero-image">
+```
+
+This says: "Show the image from team-photo.jpg, describe it as 'Our team at the office', and style it using the hero-image CSS class."
+
 ## Try It Yourself
+
+Build a mini bio page! Create an HTML file with these elements:
+
+1. A **heading** (`<h1>`) with your name
+2. A **paragraph** (`<p>`) with a short intro about yourself
+3. An **image** (`<img>`) — use any placeholder image URL like `https://placehold.co/200x200`
+4. A **link** (`<a>`) to your favorite website
+
+Here's a template to start with:
+
+```html
+<html>
+  <body>
+    <h1>Your Name Here</h1>
+    <p>Write something about yourself.</p>
+    <img src="https://placehold.co/200x200" alt="My photo">
+    <a href="https://example.com">My Favorite Site</a>
+  </body>
+</html>
+```
+
+Save it as `bio.html` and open it in your browser. It won't look pretty (no CSS yet!), but it works.
 
 Here's a simple webpage. Try adding a bullet-point list below the paragraph. Use `<ul>` and `<li>` tags like the example above.
 
+
+## Tips and Common Mistakes
+
+- **Forgetting the closing tag** — if your page looks broken, check that every `<p>` has a `</p>`, every `<div>` has a `</div>`, etc.
+- **Mixing up `<ul>` and `<ol>`** — `<ul>` makes bullet points, `<ol>` makes numbered lists
+- **Forgetting the `alt` attribute on images** — screen readers use this for accessibility, and it shows up when images fail to load
+- **Tags are not case-sensitive** — `<P>` and `<p>` both work, but lowercase is the standard convention
 
 ## Why HTML Matters for Automation
 
@@ -61,5 +177,18 @@ When you automate web tasks later, you'll be telling your tools things like:
 - "Find the `<h1>` tag and read its text"
 - "Click the `<a>` link that says 'Submit'"
 - "Fill in the text inside this `<input>` tag"
+- "Find the `<table>` and extract all the data from each `<tr>` row"
+- "Look for the `<div>` with class='price' and grab the number inside it"
 
 Knowing these basic tags means you'll understand what your automation tools are looking for. You don't need to be an HTML expert — just recognizing these common tags is enough.
+
+## Practice Scenario
+
+Go to any website and use **Inspect** (right-click, Inspect) to explore the page:
+
+1. Find a heading — what tag is it? (`<h1>`, `<h2>`, etc.)
+2. Find a link — what does the `href` attribute point to?
+3. Find an image — what's in the `src` attribute? What about `alt`?
+4. Find a button — is it a `<button>` tag or an `<a>` tag styled to look like a button?
+
+This detective work is exactly what you'll do when building web automations. Get comfortable poking around!

@@ -7,7 +7,33 @@ type: lesson
 
 # Setting Up Claude Code
 
-Let's get Claude Code installed on your computer. Don't worry — it's just one command, and we'll walk through every step.
+Let's get Claude Code installed on your computer. Don't worry — we'll walk through every step, starting from the prerequisites.
+
+## Prerequisites: Node.js
+
+Claude Code runs on **Node.js**, so you need that installed first. If you followed Module 1, you should already have it. Let's verify.
+
+Open your terminal and type:
+
+```bash
+node --version
+```
+
+You should see something like `v20.11.0` or higher. If you get "command not found," you need to install Node.js first:
+
+1. Go to [nodejs.org](https://nodejs.org)
+2. Download the **LTS** (Long Term Support) version
+3. Run the installer — accept all the defaults
+4. **Close and reopen** VS Code so the terminal picks up the change
+5. Run `node --version` again to confirm it worked
+
+You also need **npm** (it comes with Node.js). Check it:
+
+```bash
+npm --version
+```
+
+You should see a version number like `10.2.0` or higher.
 
 ## Step 1: Install Claude Code
 
@@ -21,7 +47,17 @@ This tells your computer to download Claude Code and make it available everywher
 
 It might take a minute to download. You'll see some progress messages scroll by. That's normal!
 
-## Step 2: Get an API Key
+## Step 2: Verify the Installation
+
+After the install finishes, confirm Claude Code is ready:
+
+```bash
+claude --version
+```
+
+You should see a version number. If you get "command not found," try closing and reopening your terminal.
+
+## Step 3: Get an API Key
 
 Claude Code needs an **API key** to work. Think of an API key like a **password that lets the app talk to Claude's brain** in the cloud.
 
@@ -32,7 +68,18 @@ Claude Code needs an **API key** to work. Think of an API key like a **password 
 
 Keep this key safe — treat it like a password. Don't share it publicly.
 
-## Step 3: Run It for the First Time
+## Step 4: Configure VS Code Terminal
+
+For the best experience, make sure your VS Code terminal is set up correctly:
+
+1. Open VS Code
+2. Press **Ctrl+`** (backtick) to open the terminal
+3. Make sure the terminal type says **bash** or **PowerShell** (either works)
+4. Navigate to your project folder using `cd` — for example: `cd ~/my-project`
+
+Claude Code works best when you start it from inside a project folder. That way, it can see all your project files right away.
+
+## Step 5: Run It for the First Time
 
 Now for the exciting part! In your terminal, type:
 
@@ -48,15 +95,33 @@ Claude Code looks like a **chat conversation** right in your terminal. You type 
 
 There's no fancy interface with buttons and menus. Just you and Claude, having a conversation about your code.
 
-## Try It Out
+## Try It Yourself
+
+Now that Claude Code is running, try these three simple commands to get comfortable:
+
+1. **Say hello** — type "Hi, what can you help me with?" and see how it responds
+2. **Ask about your project** — type "What files are in this project?" and watch it look around
+3. **Get help** — type "/help" to see all available commands
 
 Practice starting Claude Code and exploring the help command:
 
 
 ## What If Something Goes Wrong?
 
-- **"command not found"** — npm might not be installed. Go back to Module 1 and make sure you have Node.js set up.
+- **"command not found" for claude** — the npm install might have failed. Try running the install command again.
+- **"command not found" for npm** — Node.js might not be installed. Go back to the Node.js steps above.
 - **"invalid API key"** — double-check that you copied the full key, with no extra spaces.
 - **It's slow to start** — the first launch can take a few seconds. Be patient!
+- **Permission errors on Mac/Linux** — try adding `sudo` before the install command: `sudo npm install -g @anthropic-ai/claude-code`
+
+## Tips and Common Mistakes
+
+- **Always start Claude Code from a project folder** — if you start it from your home directory, it won't know which files to look at.
+- **Don't share your API key** — never paste it in public chats, GitHub repos, or screenshots.
+- **Keep Claude Code updated** — run `npm update -g @anthropic-ai/claude-code` occasionally to get the latest features.
+
+## Why This Matters
+
+Getting Claude Code set up is your gateway to building things faster. Once it's running, you can start creating websites, fixing bugs, and automating tasks — all by describing what you want in plain English.
 
 You're all set up! In the next lesson, we'll have our first real conversation with Claude Code.
