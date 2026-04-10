@@ -4,10 +4,12 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { getModuleBySlug, isModuleUnlocked, type ModuleProgress } from "@/lib/modules";
 import { getLessonsForModule, getLessonContent } from "@/lib/content";
+import { getQuizData } from "@/lib/quizzes";
 import { LessonSidebar } from "@/components/layout/LessonSidebar";
 import { LessonNav } from "@/components/layout/LessonNav";
 import { LessonContent } from "@/components/layout/LessonContent";
 import { MarkCompleteButton } from "@/components/layout/MarkCompleteButton";
+import { Quiz } from "@/components/interactive/Quiz";
 
 interface LessonPageProps {
   params: Promise<{ module: string; lesson: string }>;
@@ -102,6 +104,23 @@ export default async function LessonPage({ params }: LessonPageProps) {
 
           {/* MDX Content */}
           <LessonContent source={lessonData.content} />
+
+          {/* Quiz Component (rendered server-side with data from lib/quizzes.ts) */}
+          {lessonData.meta.type === "quiz" && (() => {
+            const quizData = getQuizData(moduleSlug);
+            if (quizData) {
+              return (
+                <Quiz
+                  questions={quizData.questions}
+                  moduleId={quizData.moduleId}
+                  lessonId={quizData.lessonId}
+                  moduleOrder={quizData.moduleOrder}
+                  lessonOrder={quizData.lessonOrder}
+                />
+              );
+            }
+            return null;
+          })()}
 
           {/* Mark Complete Button (not for quiz type) */}
           {lessonData.meta.type !== "quiz" && (

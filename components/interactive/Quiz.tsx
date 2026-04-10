@@ -31,6 +31,14 @@ export function Quiz({
   const [correctCount, setCorrectCount] = useState(0);
   const [showResult, setShowResult] = useState(false);
 
+  if (!questions || !Array.isArray(questions) || questions.length === 0) {
+    return (
+      <div className="bg-bg-secondary rounded-lg p-6 mt-6 text-accent-red text-sm">
+        Quiz error: questions data not loaded. Check MDX content.
+      </div>
+    );
+  }
+
   const current = questions[currentIndex];
   const isLastQuestion = currentIndex === questions.length - 1;
   const isCorrect = selectedOption === current.correct;
