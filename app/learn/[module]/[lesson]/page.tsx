@@ -91,27 +91,48 @@ export default async function LessonPage({ params }: LessonPageProps) {
         completedLessons={completedLessonSlugs}
       />
 
-      <main className="flex-1 flex justify-center">
-        <div className="w-full max-w-[680px] px-6 py-8">
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-sm text-text-secondary mb-1">
-            <Link href="/dashboard" className="hover:text-text-primary transition-colors">
-              ← Dashboard
-            </Link>
-            <span>|</span>
-            <span>Module {mod.order}: {mod.title}</span>
-          </div>
-          <div className="text-xs text-text-muted mb-6">
-            Lesson {currentIndex + 1} of {totalLessons}
-          </div>
+      <main className="flex-1 overflow-hidden">
+        {(() => {
+          const exercise = getExerciseData(moduleSlug, lessonSlug);
+          const quizData = lessonData.meta.type === "quiz" ? getQuizData(moduleSlug) : null;
+          const hasExercise = !!exercise;
 
-          {/* MDX Content */}
-          <LessonContent source={lessonData.content} />
+          const breadcrumb = (
+            <>
+              <div className="flex items-center gap-2 text-sm text-text-secondary mb-1">
+                <Link href="/dashboard" className="hover:text-text-primary transition-colors">
+                  ← Dashboard
+                </Link>
+                <span>|</span>
+                <span>Module {mod.order}: {mod.title}</span>
+              </div>
+              <div className="text-xs text-text-muted mb-6">
+                Lesson {currentIndex + 1} of {totalLessons}
+              </div>
+            </>
+          );
 
-          {/* Interactive Exercise (rendered server-side with data from lib/exercises.ts) */}
-          {(() => {
-            const exercise = getExerciseData(moduleSlug, lessonSlug);
-            if (!exercise) return null;
+          const bottomControls = (
+            <>
+              {lessonData.meta.type !== "quiz" && (
+                <MarkCompleteButton
+                  moduleId={mod.id}
+                  lessonId={lessonSlug}
+                  moduleOrder={mod.order}
+                  lessonOrder={lessonData.meta.order}
+                  isCompleted={isCurrentLessonCompleted}
+                />
+              )}
+              <LessonNav
+                moduleSlug={moduleSlug}
+                lessons={lessons}
+                currentLessonSlug={lessonSlug}
+                isCompleted={isCurrentLessonCompleted}
+              />
+            </>
+          );
+
+          const exerciseComponent = exercise ? (() => {
             switch (exercise.component) {
               case "Terminal": return <Terminal {...exercise.props} />;
               case "PromptSandbox": return <PromptSandbox {...exercise.props} />;
@@ -119,44 +140,52 @@ export default async function LessonPage({ params }: LessonPageProps) {
               case "ApiExplorer": return <ApiExplorer {...exercise.props} />;
               case "WorkflowBuilder": return <WorkflowBuilder {...exercise.props} />;
             }
-          })()}
+          })() : null;
 
-          {/* Quiz Component (rendered server-side with data from lib/quizzes.ts) */}
-          {lessonData.meta.type === "quiz" && (() => {
-            const quizData = getQuizData(moduleSlug);
-            if (quizData) {
-              return (
-                <Quiz
-                  questions={quizData.questions}
-                  moduleId={quizData.moduleId}
-                  lessonId={quizData.lessonId}
-                  moduleOrder={quizData.moduleOrder}
-                  lessonOrder={quizData.lessonOrder}
-                />
-              );
-            }
-            return null;
-          })()}
+          // Split layout: content left, exercise right
+          if (hasExercise) {
+            return (
+              <div className="flex h-[calc(100vh-48px)]">
+                {/* Left: lesson content (scrollable) */}
+                <div className="flex-1 overflow-y-auto px-8 py-8 max-w-[600px]">
+                  {breadcrumb}
+                  <LessonContent source={lessonData.content} />
+                  {bottomControls}
+                </div>
 
-          {/* Mark Complete Button (not for quiz type) */}
-          {lessonData.meta.type !== "quiz" && (
-            <MarkCompleteButton
-              moduleId={mod.id}
-              lessonId={lessonSlug}
-              moduleOrder={mod.order}
-              lessonOrder={lessonData.meta.order}
-              isCompleted={isCurrentLessonCompleted}
-            />
-          )}
+                {/* Right: interactive exercise (sticky) */}
+                <div className="w-[480px] flex-shrink-0 border-l border-border overflow-y-auto bg-bg-secondary/30 px-6 py-8">
+                  <div className="text-xs uppercase text-accent-blue mb-3 tracking-wider font-bold">
+                    Practice Exercise
+                  </div>
+                  {exerciseComponent}
+                </div>
+              </div>
+            );
+          }
 
-          {/* Previous / Next Navigation */}
-          <LessonNav
-            moduleSlug={moduleSlug}
-            lessons={lessons}
-            currentLessonSlug={lessonSlug}
-            isCompleted={isCurrentLessonCompleted}
-          />
-        </div>
+          // Standard centered layout (no exercise or quiz)
+          return (
+            <div className="flex justify-center">
+              <div className="w-full max-w-[680px] px-6 py-8">
+                {breadcrumb}
+                <LessonContent source={lessonData.content} />
+
+                {quizData && (
+                  <Quiz
+                    questions={quizData.questions}
+                    moduleId={quizData.moduleId}
+                    lessonId={quizData.lessonId}
+                    moduleOrder={quizData.moduleOrder}
+                    lessonOrder={quizData.lessonOrder}
+                  />
+                )}
+
+                {bottomControls}
+              </div>
+            </div>
+          );
+        })()}
       </main>
     </div>
   );
