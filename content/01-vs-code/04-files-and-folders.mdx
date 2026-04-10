@@ -7,7 +7,7 @@ type: lesson
 
 # Files and Folders
 
-Your computer organizes everything in **files** and **folders** — just like a physical filing cabinet.
+Your computer organizes everything in **files** and **folders** — just like a physical filing cabinet. Understanding how this works is essential because every project you build, every script you write, and every automation you create lives inside files and folders.
 
 ## Files
 
@@ -19,12 +19,178 @@ A file is a single document. It could be:
 
 The part after the dot is called the **extension** — it tells the computer what kind of file it is.
 
+### Common File Types You'll Encounter
+
+As you learn automation and coding, you'll run into these file types regularly:
+
+| Extension | What It Is | Example |
+|-----------|-----------|---------|
+| `.js` | JavaScript code | A script that automates a task |
+| `.json` | Data in a structured format | Configuration settings, API responses |
+| `.md` | Markdown — formatted text | Documentation, README files |
+| `.html` | Web page content | A webpage you're building |
+| `.css` | Web page styling | Colors, fonts, and layout rules |
+| `.env` | Environment variables | Secret keys and passwords (never share these!) |
+| `.yml` or `.yaml` | Configuration files | Settings for tools and services |
+| `.csv` | Spreadsheet data | Data exported from Excel |
+
+> **Pro tip:** The `.env` file is special — it holds sensitive information like passwords and API keys. Never share it, never upload it to GitHub, and never send it in a chat. We'll learn how to protect it later.
+
 ## Folders
 
-Folders (also called **directories**) are containers that hold files and other folders. Think of them like folders in a filing cabinet.
+Folders (also called **directories**) are containers that hold files and other folders. Think of them like folders in a filing cabinet — they help you organize related files together.
 
-## Creating files in VS Code
+### Nesting Folders
 
-1. Click the **New File** icon in the sidebar
+Folders can go inside other folders. This creates a **tree structure**:
+
+```
+my-project/
+  images/
+    logo.png
+    banner.jpg
+  scripts/
+    automate.js
+  data/
+    contacts.csv
+  README.md
+```
+
+This is called a **project structure**. Every professional project has one. The top-level folder (`my-project/`) is the **root** of the project — everything lives inside it.
+
+## What a Real Project Looks Like
+
+Here's what the folder structure of a real automation project might look like:
+
+```
+email-automation/
+  node_modules/       ← installed libraries (don't touch this)
+  src/                ← your code goes here
+    send-emails.js
+    templates/
+      welcome.html
+      reminder.html
+  data/
+    contacts.csv
+  .env                ← secret keys (never share!)
+  package.json        ← project settings
+  README.md           ← project description
+```
+
+Don't worry about understanding every file — the point is to see how **everything is organized in a logical structure**. Code in one folder, data in another, templates in another. This organization makes projects manageable even when they grow large.
+
+## Naming Conventions
+
+How you name your files and folders matters more than you'd think. Follow these rules and you'll avoid a lot of headaches:
+
+- **No spaces** — use hyphens instead: `my-project` not `my project`
+- **All lowercase** — `images` not `Images` or `IMAGES`
+- **Be descriptive** — `email-templates` not `stuff` or `folder1`
+- **Use hyphens, not underscores** — `my-project` is the modern convention (though underscores like `my_project` work too)
+
+Why no spaces? Because the terminal and many programming tools get confused by spaces in file names. You'd have to wrap the name in quotes every time. Save yourself the trouble — just use hyphens.
+
+**Before and After:**
+
+| Bad Name | Good Name | Why |
+|----------|-----------|-----|
+| `My Project Files` | `my-project-files` | No spaces, lowercase |
+| `FINAL_v2_REAL_FINAL` | `report-2024-03-15` | Use dates, not "final" |
+| `stuff` | `email-templates` | Be descriptive |
+| `a.js` | `send-welcome-email.js` | Name describes what the file does |
+
+## Creating Files in VS Code
+
+There are three ways to create files, and all of them are useful:
+
+### Method 1: Sidebar (Mouse)
+
+1. Click the **New File** icon in the sidebar (it looks like a page with a plus sign)
 2. Type a name for your file (like `hello.txt`)
 3. Press Enter — your file is created!
+
+### Method 2: Command Palette
+
+1. Press **Ctrl + Shift + P** (Cmd + Shift + P on Mac)
+2. Type **"new file"**
+3. Select **"File: New File"**
+4. Choose a file type or start with an untitled file
+
+### Method 3: Terminal
+
+```
+touch hello.txt
+```
+Or on Windows:
+```
+type nul > hello.txt
+```
+
+> **Pro tip:** When you open a **folder** in VS Code (File > Open Folder), the sidebar shows you all the files in that folder. This is the best way to work — always open the project folder, not individual files.
+
+## Opening a Project Folder
+
+This is one of the most important habits to build:
+
+1. Click **File** > **Open Folder** (not "Open File"!)
+2. Navigate to your project folder
+3. Click **Select Folder**
+
+Now the sidebar shows your entire project structure. You can click any file to open it in the editor. This is how professional developers work — they always open the whole project folder, not individual files one at a time.
+
+## Try It Yourself
+
+Let's practice creating a proper project structure:
+
+1. **Open the terminal** in VS Code (Ctrl + `)
+2. **Navigate to your Desktop:**
+   ```
+   cd Desktop
+   ```
+3. **Create a project folder:**
+   ```
+   mkdir my-first-project
+   ```
+4. **Move into it:**
+   ```
+   cd my-first-project
+   ```
+5. **Create subfolders:**
+   ```
+   mkdir scripts
+   mkdir data
+   mkdir templates
+   ```
+6. **Verify the structure:**
+   ```
+   ls
+   ```
+   You should see: `data  scripts  templates`
+
+7. Now **open this folder in VS Code**: File > Open Folder > navigate to Desktop > my-first-project > Select Folder
+
+8. You should see all three subfolders in the sidebar!
+
+## Practice Scenario
+
+Imagine your boss asks you to set up a folder for a new automation project that will:
+- Send automated emails to new customers
+- Track which emails were opened
+- Store email templates
+
+What folder structure would you create? Think about it, then compare with this suggestion:
+
+```
+customer-email-automation/
+  scripts/
+  templates/
+  data/
+  logs/
+  README.md
+```
+
+There's no single "right" answer, but the key is: **group related files together** and **use clear, descriptive names**.
+
+## Why This Matters
+
+Every automation project starts with creating files and organizing them into folders. A messy folder structure leads to lost files, confusion, and wasted time. A clean structure means you (and anyone else on your team) can find anything in seconds. This might seem basic, but professionals who skip this step always regret it later.

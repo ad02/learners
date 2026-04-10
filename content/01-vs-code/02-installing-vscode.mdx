@@ -7,19 +7,113 @@ type: lesson
 
 # Installing VS Code
 
-Let's get VS Code installed on your computer. This should take about 5 minutes.
+Let's get VS Code installed on your computer. This should take about 5-10 minutes. Don't rush — follow each step carefully.
 
 ## Step 1: Download
 
-Go to the VS Code website and click the big download button. It will automatically detect your computer type (Windows, Mac, or Linux).
+1. Open your web browser (Chrome, Edge, Firefox — any will work)
+2. Go to **[code.visualstudio.com](https://code.visualstudio.com)**
+3. Click the big blue **Download** button. The website is smart enough to detect whether you're on Windows or Mac and will give you the right version automatically.
+4. Wait for the download to finish — the file is about 90 MB, so it might take a minute or two
+
+> **Pro tip:** If you see multiple download options and aren't sure which to pick, choose the **"User Installer"** for Windows or the **".zip"** for Mac. These are the simplest to install.
 
 ## Step 2: Install
 
-- **Windows**: Double-click the downloaded file and follow the wizard
-- **Mac**: Drag VS Code to your Applications folder
+### On Windows
 
-## Step 3: Open It
+1. Find the downloaded file (usually in your **Downloads** folder). It'll be named something like `VSCodeUserSetup-x64-1.xx.x.exe`
+2. **Double-click** the file to start the installer
+3. You'll see a setup wizard. Click through these screens:
+   - **License Agreement** — check "I accept" and click Next
+   - **Installation Location** — leave the default, click Next
+   - **Start Menu Folder** — leave the default, click Next
+   - **Additional Tasks** — check these two important boxes:
+     - "Add to PATH" (this lets you open VS Code from the terminal later)
+     - "Add 'Open with Code' to context menu" (lets you right-click folders to open them in VS Code)
+   - Click **Install** and wait about 30 seconds
+4. Click **Finish** — VS Code will open automatically
 
-Find VS Code in your applications and open it. You should see a welcome screen.
+### On Mac
 
-Congratulations — you just installed your first developer tool!
+1. Find the downloaded `.zip` file in your Downloads folder
+2. **Double-click** it to unzip. You'll see a file called **"Visual Studio Code"** with a blue icon
+3. **Drag** that file into your **Applications** folder (you can find it in Finder's sidebar)
+4. Open your Applications folder and **double-click** Visual Studio Code to launch it
+5. If Mac asks "Are you sure you want to open this?" — click **Open**. This is normal for apps downloaded from the internet.
+
+> **Watch out for:** On Mac, don't just run VS Code from the Downloads folder. Always move it to Applications first. If you run it from Downloads, it might not work properly later.
+
+## Step 3: First Time Setup
+
+When VS Code opens for the first time, you'll see a **Welcome tab**. Here are some settings to adjust right away that will make your life easier:
+
+### Turn On Auto-Save
+
+This is the single best setting for beginners. It saves your files automatically so you never lose work.
+
+1. Click **File** in the top menu
+2. Click **Auto Save**
+3. A checkmark will appear next to it — that means it's on
+
+Now your files will save automatically whenever you switch tabs or click away. No more forgetting to press Ctrl + S!
+
+### Adjust Font Size
+
+If the text looks too small (or too big):
+
+1. Press **Ctrl + Shift + P** (Cmd + Shift + P on Mac) to open the Command Palette
+2. Type **"font size"**
+3. Click **"Preferences: Open Settings (UI)"**
+4. Search for **"Font Size"** in the settings search bar
+5. Change the number to something comfortable — **14** or **16** is good for most people
+
+### Choose a Color Theme
+
+VS Code starts with a dark theme, but you can change it:
+
+1. Press **Ctrl + Shift + P** (Cmd + Shift + P on Mac)
+2. Type **"color theme"**
+3. Click **"Preferences: Color Theme"**
+4. Use arrow keys to preview different themes — press **Enter** to pick one
+
+Popular choices: **Dark+** (default dark), **Light+** (if you prefer light), or **One Dark Pro** (a popular community theme).
+
+## Step 4: Verify It Works
+
+Let's make sure everything is set up correctly:
+
+1. Press **Ctrl + N** (Cmd + N on Mac) to create a new file
+2. Type `Hello, world!` in the editor
+3. Press **Ctrl + S** (Cmd + S on Mac) to save
+4. Save it to your Desktop as `test.txt`
+5. Check your Desktop — you should see the file there
+
+If that worked, you're all set!
+
+## Troubleshooting
+
+If something went wrong, don't panic. Here are common issues:
+
+> **"It won't install"** — On Windows, try right-clicking the installer and choosing **"Run as administrator."** On Mac, check your Security settings under System Preferences and allow apps from identified developers.
+
+> **"It opens but looks weird"** — Try pressing **Ctrl + Shift + P** and typing **"reset"** to find the option to reset your layout to defaults.
+
+> **"I can't find it after installing"** — On Windows, search for "Visual Studio Code" in the Start Menu. On Mac, check your Applications folder.
+
+> **"The text is too small to read"** — Use **Ctrl + =** (Cmd + =) to zoom in, or **Ctrl + -** (Cmd + -) to zoom out. This works just like zooming in a web browser.
+
+## Try It Yourself
+
+Now that VS Code is installed, try these small challenges:
+
+1. **Change the color theme** to something you like (Ctrl + Shift + P, type "color theme")
+2. **Create a new file**, type your name in it, and save it to your Desktop
+3. **Open the terminal** by pressing Ctrl + ` (backtick key, usually below Escape)
+4. **Turn on Auto Save** if you haven't already (File > Auto Save)
+
+If you completed all four, you're ready for the next lesson!
+
+## Why This Matters
+
+Getting your tools set up correctly from the start saves you headaches later. Professional developers spend time customizing their editor because they'll use it for hours every day. Your settings don't have to be perfect now — you can always change them later. The important thing is that VS Code is installed, open, and ready to go.

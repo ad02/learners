@@ -7,14 +7,156 @@ type: lesson
 
 # GitHub
 
-**GitHub** is where your code lives on the internet. Think of it like **Google Drive, but for code**.
+**GitHub** is where your code lives on the internet. Think of it like **Google Drive, but for code**. Your code is on your computer (local), and GitHub keeps a copy online (remote) — so it's backed up, shareable, and accessible from anywhere.
 
 ## Why GitHub?
 
-- **Backup** — your code is safe even if your computer breaks
+- **Backup** — your code is safe even if your computer breaks, gets stolen, or crashes
 - **Collaboration** — others can see and contribute to your code
-- **Portfolio** — it shows what you've built
+- **Portfolio** — it shows what you've built (recruiters and clients look at GitHub profiles)
+- **Automation** — many automation tools connect directly to GitHub (deploy scripts, CI/CD, etc.)
+
+## Local vs Remote
+
+This is an important concept to understand:
+
+- **Local** = your computer. When you run `git init` and `git commit`, everything is saved on your machine only.
+- **Remote** = GitHub's servers. When you `git push`, you upload your local commits to GitHub.
+
+Think of it like writing a document on your laptop (local) and then uploading it to Google Drive (remote). The document exists in both places, and you can sync them.
+
+```
+Your Computer (Local)     ──push──>     GitHub (Remote)
+                          <──pull──
+```
+
+- **Push** sends your changes from local to remote
+- **Pull** downloads changes from remote to local (useful when working with others)
 
 ## Repository
 
-A **repository** (or "repo") is a project on GitHub. It contains all your files and the entire history of changes.
+A **repository** (or "repo") is a project on GitHub. It contains all your files and the entire history of changes. Every project gets its own repo.
+
+When you visit a repo on GitHub, you'll see:
+- **Files and folders** — your project's code
+- **README.md** — a description of the project (shown on the main page)
+- **Commits** — the history of all changes
+- **Issues** — a place to track bugs and feature requests
+- **Pull Requests** — proposed changes from collaborators
+
+## Creating a GitHub Account
+
+If you don't have one yet, here's how:
+
+1. Go to **[github.com](https://github.com)**
+2. Click **"Sign Up"**
+3. Enter your email address and create a password
+4. Choose a username — pick something professional (this will be public!)
+   - Good: `jane-smith`, `jsmith-dev`
+   - Avoid: `xXx_coder_xXx`, `test12345`
+5. Complete the verification puzzle
+6. Check your email and verify your account
+
+> **Pro tip:** Your GitHub profile is public. Many companies and clients check GitHub profiles when hiring. Even a few simple projects show that you're learning and building.
+
+## Creating Your First Repo on GitHub
+
+1. Log into GitHub
+2. Click the **green "New"** button (or the `+` icon in the top right, then "New repository")
+3. Fill in:
+   - **Repository name:** `my-first-project` (use hyphens, no spaces)
+   - **Description:** "A practice project for learning Git" (optional but helpful)
+   - **Public** or **Private:** Choose Public for practice (Private hides it from others)
+   - **Check** "Add a README file" — this creates a starter file for you
+4. Click **"Create repository"**
+
+You now have a repo on GitHub!
+
+## Connecting Your Local Project to GitHub
+
+There are two ways to get started:
+
+### Option A: Clone (Download a Repo from GitHub)
+
+If you already created a repo on GitHub and want to download it to your computer:
+
+```
+git clone https://github.com/yourusername/my-first-project.git
+```
+
+This creates a folder called `my-first-project` on your computer with all the files from GitHub. It's already connected — you can make changes, commit, and push right away.
+
+**When to use this:** When the project already exists on GitHub and you want a copy on your computer.
+
+### Option B: Connect an Existing Local Project
+
+If you already have a project on your computer and want to upload it to GitHub:
+
+1. Create an **empty repo** on GitHub (don't check "Add README" this time)
+2. GitHub will show you setup instructions. Run these commands in your project folder:
+
+```
+git remote add origin https://github.com/yourusername/my-first-project.git
+git push -u origin main
+```
+
+The first command tells Git: "The remote copy of this project lives at this URL." The second command uploads your commits.
+
+**When to use this:** When you started building locally and want to back it up to GitHub.
+
+## Cloning vs Creating from Scratch
+
+| Scenario | What to Do |
+|----------|-----------|
+| Starting a brand new project | Create repo on GitHub first, then clone it |
+| Already have files on your computer | Create empty repo on GitHub, then connect and push |
+| Want to work on someone else's project | Clone their repo |
+
+## The Daily Workflow with GitHub
+
+Once your local project is connected to GitHub, your daily workflow looks like this:
+
+```
+# Make changes to your files in VS Code
+
+# Stage and commit
+git add .
+git commit -m "Describe what changed"
+
+# Push to GitHub
+git push
+```
+
+After pushing, visit your repo on GitHub — you'll see your changes appear online within seconds.
+
+## Try It Yourself
+
+1. **Create a GitHub account** at [github.com](https://github.com) (if you haven't already)
+2. **Create a new repo** called `learning-git` with a README file
+3. **Clone it** to your Desktop:
+   ```
+   cd Desktop
+   git clone https://github.com/yourusername/learning-git.git
+   cd learning-git
+   ```
+4. **Open the folder in VS Code** (File > Open Folder)
+5. **Edit the README.md** — add a line: "I'm learning Git and GitHub!"
+6. **Commit and push:**
+   ```
+   git add .
+   git commit -m "Add personal note to README"
+   git push
+   ```
+7. **Check GitHub** — visit your repo in the browser. You should see your change!
+
+## Common Mistakes to Avoid
+
+> **Watch out for:** Pushing sensitive information to a public repo. Never commit files with passwords, API keys, or personal data. If you accidentally do, the information is visible in the commit history even if you delete the file later.
+
+> **Watch out for:** Forgetting which account you're logged into. If `git push` gives you a permission error, make sure you're pushing to your own repo, not someone else's.
+
+> **Pro tip:** Add a `.gitignore` file to your project to tell Git which files to ignore (like `.env` files with secrets, or `node_modules` folders with thousands of library files).
+
+## Why This Matters
+
+GitHub is where the professional world stores and shares code. Every automation workflow, every script, every project you build should be backed up on GitHub. It's your safety net, your portfolio, and your collaboration platform — all in one. Getting comfortable with GitHub now means you'll be ready to work on real team projects later.
