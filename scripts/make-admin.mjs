@@ -1,23 +1,24 @@
-// Run with: node scripts/make-admin.mjs your@email.com
-import { PrismaClient } from "../generated/prisma/client/default.js";
+// Promotes a user to admin role
+// Usage: node scripts/make-admin.mjs your@email.com
 
-async function main() {
-  const email = process.argv[2];
-  if (!email) {
-    console.log("Usage: node scripts/make-admin.mjs your@email.com");
-    process.exit(1);
-  }
+import { execSync } from "child_process";
 
-  const prisma = new PrismaClient();
-  const user = await prisma.user.update({
-    where: { email },
-    data: { role: "admin" },
-  });
-  console.log("Made admin:", user.email);
-  await prisma.$disconnect();
+const email = process.argv[2];
+if (!email) {
+  console.log("Usage: node scripts/make-admin.mjs your@email.com");
+  process.exit(1);
 }
 
-main().catch((e) => {
-  console.error(e);
+const sql = `UPDATE User SET role = 'admin' WHERE email = '${email.replace(/'/g, "''")}';`;
+
+try {
+  execSync(`npx prisma db execute --stdin`, {
+    input: sql,
+    cwd: process.cwd(),
+    stdio: ["pipe", "inherit", "inherit"],
+  });
+  console.log("Made admin:", email);
+} catch {
+  console.error("Failed to promote user:", email);
   process.exit(1);
-});
+}

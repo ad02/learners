@@ -39,4 +39,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    ...authConfig.callbacks,
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        // Fetch role from DB since NextAuth strips non-standard fields
+        const dbUser = await prisma.user.findUnique({
+          where: { id: user.id as string },
+          select: { role: true },
+        });
+        token.role = dbUser?.role || "user";
+      }
+      return token;
+    },
+  },
 });
