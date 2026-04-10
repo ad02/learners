@@ -62,30 +62,6 @@ Remember our restaurant analogy? After the waiter takes your order to the kitche
 
 Use the API explorer below to make some requests and see how APIs respond. Click on each endpoint to see what comes back.
 
-<ApiExplorer
-  endpoints={[
-    {
-      method: "GET",
-      url: "/weather",
-      response: {
-        status: 200,
-        statusText: "OK",
-        body: { city: "London", temperature: 15, condition: "Cloudy", humidity: 72 },
-        explanation: "Success! The API returned weather data for London. GET requests are used to read data."
-      }
-    },
-    {
-      method: "GET",
-      url: "/users",
-      response: {
-        status: 200,
-        statusText: "OK",
-        body: { users: [{ name: "Alice", role: "admin" }, { name: "Bob", role: "editor" }] },
-        explanation: "This endpoint returns a list of users. Notice the data comes back as JSON — a structured format that computers can easily read."
-      }
-    }
-  ]}
-/>
 
 ## Key Takeaway
 

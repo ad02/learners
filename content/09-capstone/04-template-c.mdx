@@ -20,15 +20,6 @@ By the end, you will have a system that automatically sorts, tracks, and routes 
 
 Before we start building, let's see the full workflow. Drag the blocks below into the correct order:
 
-<WorkflowBuilder
-  availableBlocks={[
-    { id: "email-webhook", type: "trigger", label: "Email Received", description: "New support email", icon: "📧" },
-    { id: "claude-classify", type: "ai", label: "Claude AI", description: "Categorize ticket", icon: "🤖" },
-    { id: "wp-update", type: "action", label: "WordPress", description: "Update tracker", icon: "📋" },
-    { id: "notify-person", type: "notify", label: "Notify", description: "Alert team member", icon: "🔔" }
-  ]}
-  expectedFlow={["trigger", "ai", "action", "notify"]}
-/>
 
 ## Step 1: Set Up the Email Webhook
 

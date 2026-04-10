@@ -5,11 +5,13 @@ import { prisma } from "@/lib/db";
 import { getModuleBySlug, isModuleUnlocked, type ModuleProgress } from "@/lib/modules";
 import { getLessonsForModule, getLessonContent } from "@/lib/content";
 import { getQuizData } from "@/lib/quizzes";
+import { getExerciseData } from "@/lib/exercises";
 import { LessonSidebar } from "@/components/layout/LessonSidebar";
 import { LessonNav } from "@/components/layout/LessonNav";
 import { LessonContent } from "@/components/layout/LessonContent";
 import { MarkCompleteButton } from "@/components/layout/MarkCompleteButton";
 import { Quiz } from "@/components/interactive/Quiz";
+import { Terminal, PromptSandbox, CodePlayground, ApiExplorer, WorkflowBuilder } from "@/components/interactive";
 
 interface LessonPageProps {
   params: Promise<{ module: string; lesson: string }>;
@@ -105,6 +107,19 @@ export default async function LessonPage({ params }: LessonPageProps) {
 
           {/* MDX Content */}
           <LessonContent source={lessonData.content} />
+
+          {/* Interactive Exercise (rendered server-side with data from lib/exercises.ts) */}
+          {(() => {
+            const exercise = getExerciseData(moduleSlug, lessonSlug);
+            if (!exercise) return null;
+            switch (exercise.component) {
+              case "Terminal": return <Terminal {...exercise.props} />;
+              case "PromptSandbox": return <PromptSandbox {...exercise.props} />;
+              case "CodePlayground": return <CodePlayground {...exercise.props} />;
+              case "ApiExplorer": return <ApiExplorer {...exercise.props} />;
+              case "WorkflowBuilder": return <WorkflowBuilder {...exercise.props} />;
+            }
+          })()}
 
           {/* Quiz Component (rendered server-side with data from lib/quizzes.ts) */}
           {lessonData.meta.type === "quiz" && (() => {

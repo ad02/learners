@@ -21,16 +21,6 @@ By the end, you will have a bot that creates a daily digest post — completely 
 
 Before we start building, let's see the full workflow. Drag the blocks below into the correct order:
 
-<WorkflowBuilder
-  availableBlocks={[
-    { id: "schedule", type: "trigger", label: "Daily Schedule", description: "Every day at 9am", icon: "⏰" },
-    { id: "api-fetch", type: "action", label: "Fetch Data", description: "Get from API", icon: "📡" },
-    { id: "claude-format", type: "ai", label: "Claude AI", description: "Format summary", icon: "🤖" },
-    { id: "wp-post", type: "action", label: "WordPress", description: "Create post", icon: "📝" },
-    { id: "git-commit", type: "action", label: "GitHub", description: "Commit config", icon: "📦" }
-  ]}
-  expectedFlow={["trigger", "action", "ai", "action", "action"]}
-/>
 
 ## Step 1: Set Up the Daily Schedule
 

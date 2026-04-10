@@ -20,15 +20,6 @@ By the end, you will have a complete workflow that turns raw form submissions in
 
 Before we start building, let's see the full workflow. Drag the blocks below into the correct order:
 
-<WorkflowBuilder
-  availableBlocks={[
-    { id: "form-webhook", type: "trigger", label: "Form Webhook", description: "Form submitted", icon: "📨" },
-    { id: "claude-summarize", type: "ai", label: "Claude AI", description: "Summarize content", icon: "🤖" },
-    { id: "wp-create-post", type: "action", label: "WordPress", description: "Create draft post", icon: "📝" },
-    { id: "slack-notify", type: "notify", label: "Slack", description: "Notify team", icon: "🔔" }
-  ]}
-  expectedFlow={["trigger", "ai", "action", "notify"]}
-/>
 
 ## Step 1: Set Up the Webhook Trigger
 
