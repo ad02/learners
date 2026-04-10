@@ -37,10 +37,10 @@ export default async function AchievementsPage() {
           return (
             <div
               key={achievement.id}
-              className={`rounded-lg p-4 border ${
+              className={`rounded-xl p-4 border shadow-sm ${
                 unlocked
-                  ? "bg-bg-secondary border-accent-green/30 glow-card"
-                  : "bg-bg-secondary/50 border-border opacity-50"
+                  ? "bg-white border-accent-green/30 glow-card"
+                  : "bg-gray-50 border-border opacity-60"
               }`}
               style={{
                 animationDelay: `${index * 0.05}s`,
@@ -56,7 +56,7 @@ export default async function AchievementsPage() {
                   </h3>
                   <p className="text-xs text-text-muted">{achievement.description}</p>
                   {unlocked && unlockedAt && (
-                    <p className="text-[10px] text-accent-green mt-1">
+                    <p className="text-[10px] text-accent-green mt-1 font-medium">
                       Unlocked {new Date(unlockedAt).toLocaleDateString()}
                     </p>
                   )}

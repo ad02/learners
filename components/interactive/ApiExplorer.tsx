@@ -40,10 +40,10 @@ function parseHeaders(raw: string): Record<string, string> {
 }
 
 function statusColor(status: number): string {
-  if (status >= 200 && status < 300) return "bg-accent-green/20 text-accent-green";
-  if (status >= 400 && status < 500) return "bg-red-500/20 text-red-400";
-  if (status >= 500) return "bg-red-700/20 text-red-500";
-  return "bg-yellow-500/20 text-yellow-400";
+  if (status >= 200 && status < 300) return "bg-green-50 text-accent-green border border-green-200";
+  if (status >= 400 && status < 500) return "bg-red-50 text-accent-red border border-red-200";
+  if (status >= 500) return "bg-red-100 text-red-700 border border-red-300";
+  return "bg-yellow-50 text-accent-yellow border border-yellow-200";
 }
 
 export function ApiExplorer({ endpoints, onComplete }: ApiExplorerProps) {
@@ -111,12 +111,12 @@ export function ApiExplorer({ endpoints, onComplete }: ApiExplorerProps) {
   }, [method, url, headersRaw, endpoints, totalEndpoints, completed, onComplete]);
 
   return (
-    <div className="rounded-xl border border-border-default bg-bg-secondary p-6 space-y-4">
+    <div className="rounded-xl border border-border bg-white p-6 space-y-4 shadow-sm">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-text-primary">
           API Explorer
         </h3>
-        <span className="text-xs text-text-muted">
+        <span className="text-xs text-text-muted font-medium">
           {discovered.size}/{totalEndpoints} endpoints discovered
         </span>
       </div>
@@ -126,7 +126,7 @@ export function ApiExplorer({ endpoints, onComplete }: ApiExplorerProps) {
         <select
           value={method}
           onChange={(e) => setMethod(e.target.value)}
-          className="rounded-lg border border-border-default bg-bg-surface px-3 py-2 text-sm text-text-primary font-mono focus:outline-none focus:ring-2 focus:ring-accent-blue/50"
+          className="rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-text-primary font-mono focus:outline-none focus:ring-2 focus:ring-accent-blue/30 focus:border-accent-blue"
         >
           <option value="GET">GET</option>
           <option value="POST">POST</option>
@@ -138,13 +138,13 @@ export function ApiExplorer({ endpoints, onComplete }: ApiExplorerProps) {
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="https://api.example.com/users"
-          className="flex-1 rounded-lg border border-border-default bg-bg-surface px-4 py-2 text-sm text-text-primary font-mono placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent-blue/50"
+          className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-4 py-2 text-sm text-text-primary font-mono placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent-blue/30 focus:border-accent-blue"
         />
       </div>
 
       {/* Headers */}
       <div>
-        <label className="block text-xs text-text-muted mb-1">
+        <label className="block text-xs text-text-muted mb-1 font-medium">
           Headers (one per line: Key: Value)
         </label>
         <textarea
@@ -152,7 +152,7 @@ export function ApiExplorer({ endpoints, onComplete }: ApiExplorerProps) {
           onChange={(e) => setHeadersRaw(e.target.value)}
           placeholder={"Authorization: Bearer token123\nContent-Type: application/json"}
           rows={3}
-          className="w-full rounded-lg border border-border-default bg-bg-surface px-4 py-2 text-sm text-text-primary font-mono placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent-blue/50 resize-y"
+          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2 text-sm text-text-primary font-mono placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent-blue/30 focus:border-accent-blue resize-y"
         />
       </div>
 
@@ -160,14 +160,14 @@ export function ApiExplorer({ endpoints, onComplete }: ApiExplorerProps) {
       <button
         onClick={sendRequest}
         disabled={loading || !url.trim()}
-        className="rounded-lg bg-accent-blue px-5 py-2 text-sm font-medium text-white hover:bg-accent-blue/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 px-5 py-2 text-sm font-medium text-white hover:from-blue-600 hover:to-purple-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
       >
         {loading ? "Sending..." : "Send Request"}
       </button>
 
       {/* Response */}
       {response && (
-        <div className="space-y-3 rounded-lg border border-border-default bg-bg-surface p-4">
+        <div className="space-y-3 rounded-xl border border-border bg-bg-surface p-4">
           {/* Status badge */}
           <div className="flex items-center gap-2">
             <span
@@ -177,13 +177,13 @@ export function ApiExplorer({ endpoints, onComplete }: ApiExplorerProps) {
             </span>
           </div>
 
-          {/* Body */}
-          <pre className="rounded-lg bg-[#1e1e2e] p-4 text-sm text-text-primary font-mono overflow-x-auto whitespace-pre-wrap">
+          {/* Body - keep dark for code readability */}
+          <pre className="rounded-xl bg-slate-900 p-4 text-sm text-slate-100 font-mono overflow-x-auto whitespace-pre-wrap">
             {JSON.stringify(response.body, null, 2)}
           </pre>
 
           {/* Explanation */}
-          <p className="text-sm text-text-secondary border-t border-border-default pt-3">
+          <p className="text-sm text-text-secondary border-t border-border pt-3">
             {response.explanation}
           </p>
         </div>
@@ -193,14 +193,14 @@ export function ApiExplorer({ endpoints, onComplete }: ApiExplorerProps) {
       <div className="space-y-1">
         <div className="h-2 rounded-full bg-bg-surface overflow-hidden">
           <div
-            className="h-full bg-accent-blue rounded-full transition-all duration-300"
+            className="h-full bg-gradient-to-r from-accent-blue to-accent-green rounded-full transition-all duration-300"
             style={{ width: `${(discovered.size / totalEndpoints) * 100}%` }}
           />
         </div>
       </div>
 
       {completed && (
-        <p className="text-sm text-accent-green font-medium">
+        <p className="text-sm text-accent-green font-semibold">
           All endpoints discovered! Exercise complete.
         </p>
       )}

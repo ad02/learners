@@ -33,7 +33,7 @@ export function Quiz({
 
   if (!questions || !Array.isArray(questions) || questions.length === 0) {
     return (
-      <div className="bg-bg-secondary rounded-lg p-6 mt-6 text-accent-red text-sm">
+      <div className="bg-white shadow-sm rounded-xl p-6 mt-6 text-accent-red text-sm border border-red-200">
         Quiz error: questions data not loaded. Check MDX content.
       </div>
     );
@@ -87,11 +87,11 @@ export function Quiz({
 
   if (showResult) {
     return (
-      <div className="rounded-lg bg-bg-secondary p-8 text-center">
+      <div className="rounded-2xl bg-white shadow-lg p-8 text-center border border-border">
         <h2 className="mb-4 text-2xl font-bold text-text-primary">
           Quiz Complete!
         </h2>
-        <p className="mb-2 text-4xl font-bold text-accent-blue">
+        <p className="mb-2 text-4xl font-bold gradient-text">
           {scorePercent}%
         </p>
         <p className="mb-6 text-text-secondary">
@@ -104,7 +104,7 @@ export function Quiz({
             </p>
             <a
               href="/dashboard"
-              className="inline-block rounded-lg bg-accent-blue px-6 py-3 font-medium text-white transition-colors hover:opacity-90"
+              className="inline-block rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 px-6 py-3 font-medium text-white transition-all hover:from-blue-600 hover:to-purple-600 shadow-md hover:shadow-lg"
             >
               Back to Dashboard
             </a>
@@ -116,7 +116,7 @@ export function Quiz({
             </p>
             <button
               onClick={handleRetry}
-              className="rounded-lg bg-accent-blue px-6 py-3 font-medium text-white transition-colors hover:opacity-90"
+              className="rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 px-6 py-3 font-medium text-white transition-all hover:from-blue-600 hover:to-purple-600 shadow-md hover:shadow-lg"
             >
               Retry Quiz
             </button>
@@ -127,7 +127,7 @@ export function Quiz({
   }
 
   return (
-    <div className="rounded-lg bg-bg-secondary p-6">
+    <div className="rounded-2xl bg-white shadow-lg p-6 border border-border">
       <div className="mb-4 text-sm font-medium text-text-secondary">
         Question {currentIndex + 1} of {questions.length}
       </div>
@@ -139,20 +139,20 @@ export function Quiz({
       <div className="mb-6 space-y-3">
         {current.options.map((option, i) => {
           let optionClasses =
-            "w-full rounded-lg border px-4 py-3 text-left transition-colors ";
+            "w-full rounded-xl border px-4 py-3 text-left transition-all ";
 
           if (!hasAnswered) {
             optionClasses +=
-              "border-border-primary bg-bg-primary text-text-primary hover:border-accent-blue cursor-pointer";
+              "border-gray-200 bg-gray-50 text-text-primary hover:border-accent-blue hover:bg-blue-50 cursor-pointer";
           } else if (i === current.correct) {
             optionClasses +=
-              "border-accent-green bg-accent-green/10 text-accent-green";
+              "border-accent-green bg-green-50 text-accent-green font-medium";
           } else if (i === selectedOption) {
             optionClasses +=
-              "border-accent-red bg-accent-red/10 text-accent-red";
+              "border-accent-red bg-red-50 text-accent-red";
           } else {
             optionClasses +=
-              "border-border-primary bg-bg-primary text-text-secondary opacity-50";
+              "border-gray-200 bg-gray-50 text-text-muted opacity-50";
           }
 
           return (
@@ -171,14 +171,14 @@ export function Quiz({
       {hasAnswered && (
         <div className="mb-6">
           {isCorrect ? (
-            <div className="rounded-lg border border-accent-green bg-accent-green/10 p-4">
+            <div className="rounded-xl border border-accent-green bg-green-50 p-4">
               <p className="font-medium text-accent-green">Correct!</p>
               <p className="mt-1 text-sm text-text-secondary">
                 {current.explanation}
               </p>
             </div>
           ) : (
-            <div className="rounded-lg border border-accent-red bg-accent-red/10 p-4">
+            <div className="rounded-xl border border-accent-red bg-red-50 p-4">
               <p className="font-medium text-accent-red">Not quite!</p>
               <p className="mt-1 text-sm text-text-secondary">
                 {current.explanation}
@@ -191,7 +191,7 @@ export function Quiz({
       {hasAnswered && (
         <button
           onClick={handleNext}
-          className="rounded-lg bg-accent-blue px-6 py-3 font-medium text-white transition-colors hover:opacity-90"
+          className="rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 px-6 py-3 font-medium text-white transition-all hover:from-blue-600 hover:to-purple-600 shadow-md hover:shadow-lg"
         >
           {isLastQuestion ? "See Results" : "Next"}
         </button>

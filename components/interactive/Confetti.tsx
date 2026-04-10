@@ -7,7 +7,7 @@ interface ConfettiProps {
   duration?: number;
 }
 
-const COLORS = ["#89b4fa", "#a6e3a1", "#f9e2af", "#f38ba8", "#cba6f7", "#fab387"];
+const COLORS = ["#3b82f6", "#22c55e", "#eab308", "#ef4444", "#8b5cf6", "#f97316"];
 
 interface Piece {
   id: number;

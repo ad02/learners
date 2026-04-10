@@ -10,31 +10,15 @@ interface ModuleCardProps {
   lessonCount: number;
 }
 
-const statusConfig: Record<
-  ModuleStatus,
-  { label: string; color: string; borderColor: string; badge?: string }
-> = {
-  completed: {
-    label: "COMPLETED",
-    color: "text-accent-green",
-    borderColor: "border-l-accent-green",
-    badge: "\u2B50",
-  },
-  "in-progress": {
-    label: "IN PROGRESS",
-    color: "text-accent-blue",
-    borderColor: "border-l-accent-blue",
-  },
-  available: {
-    label: "START",
-    color: "text-accent-blue",
-    borderColor: "border-l-accent-blue",
-  },
-  locked: {
-    label: "LOCKED",
-    color: "text-text-muted",
-    borderColor: "border-l-bg-surface",
-  },
+const moduleEmojis = [
+  "💻", "🔄", "🤖", "⚡", "🌐", "📝", "🔌", "⚙️", "🎓",
+];
+
+const statusColors: Record<ModuleStatus, string> = {
+  completed: "text-accent-green",
+  "in-progress": "text-accent-blue",
+  available: "text-accent-purple",
+  locked: "text-text-muted",
 };
 
 export function ModuleCard({
@@ -45,52 +29,55 @@ export function ModuleCard({
   lessonsCompleted,
   lessonCount,
 }: ModuleCardProps) {
-  const config = statusConfig[status];
-  const statusIcon =
-    status === "completed"
-      ? "\u2713"
-      : status === "in-progress"
-        ? "\u25B6"
-        : status === "available"
-          ? "\u25B6"
-          : "\uD83D\uDD12";
-
   const progressPct = lessonCount > 0 ? Math.round((lessonsCompleted / lessonCount) * 100) : 0;
+  const emoji = moduleEmojis[order - 1] || "📖";
 
-  const card = (
-    <div
-      className={`glow-card bg-bg-secondary rounded-lg p-4 border-l-[3px] ${config.borderColor} ${
-        status === "locked" ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
-      } ${status === "in-progress" ? "ring-1 ring-accent-blue/20" : ""}`}
-    >
-      <div className="flex items-center justify-between">
-        <div className={`text-xs ${config.color} mb-1`}>
-          <span>{statusIcon}</span> <span>{config.label}</span>
+  const statusLabel =
+    status === "completed" ? "Completed ✓"
+    : status === "in-progress" ? `${lessonsCompleted}/${lessonCount} lessons`
+    : status === "available" ? "Ready to start"
+    : "Locked";
+
+  const content = (
+    <div className={`group py-5 ${status === "locked" ? "opacity-40" : ""}`}>
+      <div className="flex items-start gap-4">
+        <div className={`text-3xl flex-shrink-0 ${status !== "locked" ? "group-hover:scale-110 transition-transform" : ""}`}>
+          {status === "locked" ? "🔒" : emoji}
         </div>
-        {config.badge && (
-          <span className="text-lg animate-bounce-in">{config.badge}</span>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-xs font-medium text-text-muted">Module {order}</span>
+            {status === "completed" && <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">Done</span>}
+          </div>
+          <h3 className={`text-base font-semibold leading-snug ${status === "locked" ? "text-text-muted" : "text-text-primary"}`}>
+            {title}
+          </h3>
+          <div className={`text-sm mt-1 ${statusColors[status]}`}>
+            {statusLabel}
+          </div>
+          {(status === "in-progress" || status === "completed") && (
+            <div className="mt-2 h-1.5 bg-gray-100 rounded-full overflow-hidden w-full max-w-[200px]">
+              <div
+                className={`h-full rounded-full transition-all duration-700 ${status === "completed" ? "bg-accent-green" : "bg-gradient-to-r from-accent-blue to-accent-purple"}`}
+                style={{ width: `${progressPct}%` }}
+              />
+            </div>
+          )}
+        </div>
+        {status !== "locked" && (
+          <span className="text-text-muted group-hover:text-accent-blue transition-colors text-lg">→</span>
         )}
       </div>
-      <div className="text-sm font-bold text-text-primary">
-        <span>{order}.</span> <span>{title}</span>
-      </div>
-      <div className="text-xs text-text-secondary mt-2">
-        <span>{lessonsCompleted}/{lessonCount} lessons</span>
-      </div>
-      {status !== "locked" && (
-        <div className="mt-2 h-1 bg-bg-surface rounded-full overflow-hidden">
-          <div
-            className="h-full rounded-full bg-gradient-to-r from-accent-blue to-accent-green transition-all duration-500"
-            style={{ width: `${progressPct}%` }}
-          />
-        </div>
-      )}
     </div>
   );
 
   if (status === "locked") {
-    return card;
+    return <div className="border-b border-gray-100 last:border-b-0">{content}</div>;
   }
 
-  return <Link href={`/learn/${slug}`}>{card}</Link>;
+  return (
+    <Link href={`/learn/${slug}`} className="block border-b border-gray-100 last:border-b-0 hover:bg-blue-50/30 transition-colors rounded-lg -mx-3 px-3">
+      {content}
+    </Link>
+  );
 }

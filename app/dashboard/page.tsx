@@ -3,10 +3,9 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { MODULES, getModuleStatus, type ModuleProgress } from "@/lib/modules";
-import { getLevelForXp, getXpToNextLevel, ACHIEVEMENTS } from "@/lib/gamification";
+import { getLevelForXp, ACHIEVEMENTS } from "@/lib/gamification";
 import { ProgressBar } from "@/components/layout/ProgressBar";
 import { ModuleCard } from "@/components/layout/ModuleCard";
-import { XpBar } from "@/components/layout/XpBar";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -24,7 +23,6 @@ export default async function DashboardPage() {
   const userXp = user?.xp ?? 0;
   const userStreak = user?.streak ?? 0;
   const level = getLevelForXp(userXp);
-  const xpProgress = getXpToNextLevel(userXp);
 
   // Fetch user achievements (last 3)
   const userAchievements = await prisma.achievement.findMany({
@@ -81,81 +79,58 @@ export default async function DashboardPage() {
   const completedModules = moduleProgress.filter((p) => p.completed).length;
 
   return (
-    <div>
-      <h1 className="text-xl font-bold gradient-text mb-1">
-        Welcome back, {session.user.name}!
-      </h1>
-      <p className="text-sm text-text-secondary mb-4">
-        {completedModules === 0
-          ? "Ready to start your learning journey?"
-          : `You're ${Math.round((completedModules / MODULES.length) * 100)}% through the course \u2014 keep it up!`}
-      </p>
+    <div className="max-w-2xl">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-text-primary mb-1">
+          Welcome back, {session.user.name}!
+        </h1>
+        <p className="text-text-secondary">
+          {completedModules === 0
+            ? "Ready to start your learning journey?"
+            : `You're ${Math.round((completedModules / MODULES.length) * 100)}% through the course`}
+        </p>
+      </div>
 
-      {/* Gamification stats row */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-        <div className="bg-bg-secondary rounded-lg p-4 border border-border">
-          <div className="text-xs text-text-muted mb-2">Level</div>
-          <XpBar
-            currentXp={xpProgress.current}
-            nextLevelXp={xpProgress.needed}
-            percentage={xpProgress.percentage}
-            levelEmoji={level.emoji}
-            levelName={level.name}
-          />
-          <div className="text-xs text-text-muted mt-1">{userXp} XP total</div>
-        </div>
-        <div className="bg-bg-secondary rounded-lg p-4 border border-border">
-          <div className="text-xs text-text-muted mb-2">Streak</div>
-          <div className="flex items-center gap-2">
-            <span className={`text-2xl ${userStreak >= 3 ? "animate-pulse-glow" : ""}`}>{"\uD83D\uDD25"}</span>
-            <span className="text-2xl font-bold text-text-primary">{userStreak}</span>
-            <span className="text-xs text-text-muted">days</span>
+      {/* Stats inline */}
+      <div className="flex items-center gap-6 mb-8 text-sm">
+        <div className="flex items-center gap-2">
+          <span className="text-xl">{level.emoji}</span>
+          <div>
+            <span className="font-semibold text-text-primary">{level.name}</span>
+            <span className="text-text-muted ml-1">· {userXp} XP</span>
           </div>
         </div>
-        <div className="bg-bg-secondary rounded-lg p-4 border border-border">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs text-text-muted">Recent Achievements</span>
-            <Link href="/achievements" className="text-xs text-accent-blue hover:text-accent-blue/80">
-              View all
-            </Link>
+        <div className="flex items-center gap-1.5">
+          <span className="text-lg">🔥</span>
+          <span className="font-semibold text-text-primary">{userStreak}</span>
+          <span className="text-text-muted">day streak</span>
+        </div>
+        {recentAchievements.length > 0 && (
+          <div className="flex items-center gap-1">
+            {recentAchievements.map((a) => (
+              <span key={a.id} className="text-lg" title={a.name}>{a.emoji}</span>
+            ))}
           </div>
-          {recentAchievements.length > 0 ? (
-            <div className="flex gap-2">
-              {recentAchievements.map((a) => (
-                <span key={a.id} className="text-2xl" title={a.name}>
-                  {a.emoji}
-                </span>
-              ))}
-            </div>
-          ) : (
-            <p className="text-xs text-text-muted">Complete lessons to earn achievements!</p>
-          )}
+        )}
+        <div className="flex items-center gap-3 text-text-muted ml-auto">
+          <Link href="/leaderboard" className="hover:text-accent-blue transition-colors">Leaderboard</Link>
+          <Link href="/achievements" className="hover:text-accent-purple transition-colors">Achievements</Link>
         </div>
       </div>
 
-      {/* Quick links */}
-      <div className="flex gap-3 mb-6">
-        <Link
-          href="/leaderboard"
-          className="text-xs text-accent-blue hover:text-accent-blue/80 flex items-center gap-1"
-        >
-          {"\uD83C\uDFC6"} Leaderboard
-        </Link>
-        <Link
-          href="/achievements"
-          className="text-xs text-accent-purple hover:text-accent-purple/80 flex items-center gap-1"
-        >
-          {"\uD83C\uDFC5"} Achievements
-        </Link>
+      {/* Overall progress */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm text-text-secondary">Overall Progress</span>
+          <span className="text-sm font-semibold text-text-primary">{completedModules}/{MODULES.length} modules</span>
+        </div>
+        <ProgressBar current={completedModules} total={MODULES.length} />
       </div>
 
-      <ProgressBar
-        current={completedModules}
-        total={MODULES.length}
-        showLabel
-      />
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-8">
+      {/* Module list */}
+      <div>
+        <h2 className="text-lg font-semibold text-text-primary mb-2">Your Learning Path</h2>
         {MODULES.map((mod) => {
           const modData = moduleProgressMap.get(mod.order);
           const isUserAdmin = session.user?.role === "admin";

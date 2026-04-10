@@ -81,8 +81,8 @@ function scorePrompt(text: string): CriterionResult[] {
 
 function getScoreColor(score: number): string {
   if (score >= 8) return "text-accent-green";
-  if (score >= 4) return "text-yellow-400";
-  return "text-red-400";
+  if (score >= 4) return "text-accent-yellow";
+  return "text-accent-red";
 }
 
 export function PromptSandbox({ exercise, badExample, hint }: PromptSandboxProps) {
@@ -98,14 +98,14 @@ export function PromptSandbox({ exercise, badExample, hint }: PromptSandboxProps
   }
 
   return (
-    <div className="rounded-xl border border-border-default bg-bg-secondary p-6 space-y-4">
+    <div className="rounded-xl border border-border bg-white p-6 space-y-4 shadow-sm">
       <h3 className="text-lg font-semibold text-text-primary">
         Prompt Writing Exercise
       </h3>
 
       {badExample && (
-        <div className="rounded-lg bg-red-500/10 border border-red-500/30 p-4">
-          <p className="text-sm font-medium text-red-400 mb-1">Bad example:</p>
+        <div className="rounded-xl bg-red-50 border border-red-200 p-4">
+          <p className="text-sm font-medium text-accent-red mb-1">Bad example:</p>
           <p className="text-sm text-text-secondary italic">{badExample}</p>
         </div>
       )}
@@ -126,13 +126,13 @@ export function PromptSandbox({ exercise, badExample, hint }: PromptSandboxProps
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Write your prompt here..."
           rows={5}
-          className="w-full rounded-lg border border-border-default bg-bg-surface px-4 py-3 text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent-blue/50 resize-y"
+          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent-blue/30 focus:border-accent-blue resize-y"
         />
       </div>
 
       <button
         onClick={handleCheck}
-        className="rounded-lg bg-accent-blue px-5 py-2 text-sm font-medium text-white hover:bg-accent-blue/80 transition-colors"
+        className="rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 px-5 py-2 text-sm font-medium text-white hover:from-blue-600 hover:to-purple-600 transition-all shadow-md hover:shadow-lg"
       >
         Check My Prompt
       </button>
@@ -141,11 +141,11 @@ export function PromptSandbox({ exercise, badExample, hint }: PromptSandboxProps
       <div className="flex flex-wrap gap-2">
         {CRITERIA.map((c) => {
           const result = results?.find((r) => r.name === c.name);
-          let badgeClass = "bg-bg-surface text-text-secondary border-border-default";
+          let badgeClass = "bg-gray-100 text-text-secondary border-gray-200";
           if (result) {
             badgeClass = result.passed
-              ? "bg-accent-green/10 text-accent-green border-accent-green/30"
-              : "bg-red-500/10 text-red-400 border-red-500/30";
+              ? "bg-green-50 text-accent-green border-green-200"
+              : "bg-red-50 text-accent-red border-red-200";
           }
           return (
             <span
@@ -169,7 +169,7 @@ export function PromptSandbox({ exercise, badExample, hint }: PromptSandboxProps
           <ul className="space-y-2">
             {results.map((r) => (
               <li key={r.name} className="flex items-start gap-2 text-sm">
-                <span className={r.passed ? "text-accent-green" : "text-red-400"}>
+                <span className={r.passed ? "text-accent-green" : "text-accent-red"}>
                   {r.passed ? "✓" : "✗"}
                 </span>
                 <span className="text-text-secondary">{r.feedback}</span>

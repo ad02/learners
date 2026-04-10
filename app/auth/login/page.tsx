@@ -33,11 +33,11 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-bg-primary">
-      <div className="bg-bg-secondary rounded-xl p-8 w-full max-w-sm">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-sm">
         <div className="text-center mb-6">
-          <div className="text-4xl mb-2">🚀</div>
-          <h1 className="text-xl font-bold text-text-primary">
+          <div className="text-4xl mb-2">{"\uD83D\uDE80"}</div>
+          <h1 className="text-xl font-bold gradient-text">
             Learners Academy
           </h1>
           <p className="text-sm text-text-secondary mt-1">
@@ -52,7 +52,7 @@ export default function LoginPage() {
               type="email"
               placeholder="Email"
               required
-              className="w-full px-4 py-3 rounded-lg bg-bg-surface border border-border text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
+              className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/20"
             />
           </div>
           <div>
@@ -61,7 +61,7 @@ export default function LoginPage() {
               type="password"
               placeholder="Password"
               required
-              className="w-full px-4 py-3 rounded-lg bg-bg-surface border border-border text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
+              className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/20"
             />
           </div>
 
@@ -72,7 +72,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-lg bg-accent-blue text-bg-primary font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
+            className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold hover:from-blue-600 hover:to-purple-600 transition-all disabled:opacity-50 shadow-md hover:shadow-lg"
           >
             {loading ? "Signing in..." : "Sign In"}
           </button>
@@ -80,7 +80,7 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-text-secondary mt-4">
           No account?{" "}
-          <Link href="/auth/register" className="text-accent-blue hover:underline">
+          <Link href="/auth/register" className="text-accent-blue font-medium hover:underline">
             Register
           </Link>
         </p>

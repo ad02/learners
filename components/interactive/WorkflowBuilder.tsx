@@ -37,10 +37,10 @@ interface WorkflowBuilderProps {
 /* ------------------------------------------------------------------ */
 
 const BLOCK_COLORS: Record<BlockType, string> = {
-  trigger: "#89b4fa",
-  ai: "#a6e3a1",
-  action: "#f9e2af",
-  notify: "#cba6f7",
+  trigger: "#3b82f6",
+  ai: "#22c55e",
+  action: "#eab308",
+  notify: "#8b5cf6",
 };
 
 const BLOCK_LABELS: Record<BlockType, string> = {

@@ -27,10 +27,10 @@ export default async function AdminPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold text-text-primary">Admin Dashboard</h1>
+        <h1 className="text-xl font-bold gradient-text">Admin Dashboard</h1>
         <Link
           href="/dashboard"
-          className="text-sm text-text-secondary hover:text-text-primary transition-colors"
+          className="text-sm text-accent-blue hover:text-accent-blue/80 font-medium transition-colors"
         >
           Back to Learner Dashboard
         </Link>
@@ -38,20 +38,20 @@ export default async function AdminPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <div className="bg-bg-secondary border border-border rounded-lg p-4">
-          <p className="text-xs text-text-muted uppercase tracking-wide">Total Users</p>
+        <div className="bg-white border border-border rounded-xl p-4 shadow-sm">
+          <p className="text-xs text-text-muted uppercase tracking-wide font-medium">Total Users</p>
           <p className="text-2xl font-bold text-text-primary mt-1">{totalUsers}</p>
         </div>
-        <div className="bg-bg-secondary border border-border rounded-lg p-4">
-          <p className="text-xs text-text-muted uppercase tracking-wide">
+        <div className="bg-white border border-border rounded-xl p-4 shadow-sm">
+          <p className="text-xs text-text-muted uppercase tracking-wide font-medium">
             Lessons Completed
           </p>
           <p className="text-2xl font-bold text-text-primary mt-1">
             {totalLessonsCompleted}
           </p>
         </div>
-        <div className="bg-bg-secondary border border-border rounded-lg p-4">
-          <p className="text-xs text-text-muted uppercase tracking-wide">
+        <div className="bg-white border border-border rounded-xl p-4 shadow-sm">
+          <p className="text-xs text-text-muted uppercase tracking-wide font-medium">
             Avg Quiz Score
           </p>
           <p className="text-2xl font-bold text-text-primary mt-1">
@@ -62,10 +62,10 @@ export default async function AdminPage() {
 
       {/* Users Table */}
       <h2 className="text-lg font-semibold text-text-primary mb-3">Users</h2>
-      <div className="overflow-x-auto rounded-lg border border-border">
+      <div className="overflow-x-auto rounded-xl border border-border shadow-sm">
         <table className="w-full text-sm">
           <thead>
-            <tr className="bg-bg-secondary border-b border-border">
+            <tr className="bg-bg-surface border-b border-border">
               <th className="text-left px-4 py-2 text-text-secondary font-medium">
                 Name
               </th>
@@ -103,16 +103,16 @@ export default async function AdminPage() {
               return (
                 <tr
                   key={user.id}
-                  className="border-b border-border last:border-b-0 hover:bg-bg-secondary/50"
+                  className="border-b border-border last:border-b-0 hover:bg-bg-surface/50 bg-white"
                 >
-                  <td className="px-4 py-2 text-text-primary">{user.name}</td>
+                  <td className="px-4 py-2 text-text-primary font-medium">{user.name}</td>
                   <td className="px-4 py-2 text-text-secondary">{user.email}</td>
                   <td className="px-4 py-2">
                     <span
-                      className={`text-xs px-2 py-0.5 rounded ${
+                      className={`text-xs px-2 py-0.5 rounded-full ${
                         user.role === "admin"
-                          ? "bg-accent/20 text-accent"
-                          : "bg-bg-secondary text-text-muted"
+                          ? "bg-purple-100 text-accent-purple font-medium"
+                          : "bg-gray-100 text-text-muted"
                       }`}
                     >
                       {user.role}
@@ -124,7 +124,7 @@ export default async function AdminPage() {
                   <td className="px-4 py-2 text-text-primary">
                     {completedModules} / {MODULES.length}
                   </td>
-                  <td className="px-4 py-2 text-text-primary">{progressPercent}%</td>
+                  <td className="px-4 py-2 text-text-primary font-medium">{progressPercent}%</td>
                 </tr>
               );
             })}

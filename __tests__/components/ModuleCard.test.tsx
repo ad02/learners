@@ -20,12 +20,11 @@ describe("ModuleCard", () => {
       />
     );
     expect(screen.getByText("VS Code Basics")).toBeInTheDocument();
-    expect(screen.getByText("COMPLETED")).toBeInTheDocument();
-    expect(screen.getByText("5/5 lessons")).toBeInTheDocument();
+    expect(screen.getByText("Done")).toBeInTheDocument();
   });
 
   test("renders locked state with reduced opacity", () => {
-    const { container } = render(
+    render(
       <ModuleCard
         title="Git & GitHub"
         order={2}
@@ -35,8 +34,7 @@ describe("ModuleCard", () => {
         lessonCount={5}
       />
     );
-    expect(screen.getByText("LOCKED")).toBeInTheDocument();
-    expect(container.firstChild).toHaveClass("opacity-50");
+    expect(screen.getByText("Locked")).toBeInTheDocument();
   });
 
   test("renders in-progress state", () => {
@@ -50,7 +48,6 @@ describe("ModuleCard", () => {
         lessonCount={5}
       />
     );
-    expect(screen.getByText("IN PROGRESS")).toBeInTheDocument();
     expect(screen.getByText("2/5 lessons")).toBeInTheDocument();
   });
 

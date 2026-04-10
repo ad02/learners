@@ -15,8 +15,8 @@ export function LessonSidebar({
   completedLessons,
 }: LessonSidebarProps) {
   return (
-    <aside className="w-[200px] flex-shrink-0 bg-bg-secondary border-r border-border p-4">
-      <div className="text-xs uppercase text-text-secondary mb-3 tracking-wider">
+    <aside className="w-[200px] flex-shrink-0 bg-white border-r border-border p-4 shadow-sm">
+      <div className="text-xs uppercase text-text-secondary mb-3 tracking-wider font-semibold">
         Lessons
       </div>
       <nav className="flex flex-col gap-1">
@@ -29,11 +29,11 @@ export function LessonSidebar({
 
           const icon = isCompleted ? "✓" : isCurrent ? "▶" : isUnlocked ? "" : "🔒";
           const colorClass = isCompleted
-            ? "text-accent-green"
+            ? "text-accent-green font-medium"
             : isCurrent
-              ? "text-accent-blue font-bold bg-accent-blue/10"
+              ? "text-accent-blue font-bold bg-accent-blue/10 rounded-lg"
               : isUnlocked
-                ? "text-text-secondary hover:text-text-primary"
+                ? "text-text-secondary hover:text-text-primary hover:bg-bg-surface rounded-lg"
                 : "text-text-muted";
 
           if (!isUnlocked) {
@@ -51,7 +51,7 @@ export function LessonSidebar({
             <Link
               key={lesson.slug}
               href={`/learn/${moduleSlug}/${lesson.slug}`}
-              className={`text-xs px-2 py-1.5 rounded transition-colors ${colorClass}`}
+              className={`text-xs px-2 py-1.5 transition-colors ${colorClass}`}
             >
               {icon} {lesson.order}. {lesson.title}
             </Link>

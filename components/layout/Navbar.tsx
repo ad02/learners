@@ -27,7 +27,7 @@ export function Navbar() {
   }, [session?.user]);
 
   return (
-    <nav className="flex items-center justify-between px-6 py-3 bg-bg-secondary border-b border-border">
+    <nav className="flex items-center justify-between px-6 py-3 bg-white border-b border-border shadow-sm">
       <Link href="/dashboard" className="flex items-center gap-2">
         <span className="text-lg">{"\uD83D\uDE80"}</span>
         <span className="font-bold text-sm gradient-text">
@@ -50,7 +50,7 @@ export function Navbar() {
               </div>
               {xpData.streak > 0 && (
                 <span
-                  className={`text-xs font-semibold text-accent-yellow flex items-center gap-1 ${xpData.streak >= 3 ? "animate-pulse-glow" : ""}`}
+                  className={`text-xs font-semibold text-accent-orange flex items-center gap-1 ${xpData.streak >= 3 ? "animate-pulse-glow" : ""}`}
                   title={`${xpData.streak}-day streak`}
                 >
                   {"\uD83D\uDD25"} {xpData.streak}
@@ -60,32 +60,32 @@ export function Navbar() {
           )}
           <Link
             href="/leaderboard"
-            className="text-xs text-text-muted hover:text-text-secondary"
+            className="text-xs text-text-muted hover:text-accent-blue"
             title="Leaderboard"
           >
             {"\uD83C\uDFC6"}
           </Link>
           <Link
             href="/achievements"
-            className="text-xs text-text-muted hover:text-text-secondary"
+            className="text-xs text-text-muted hover:text-accent-purple"
             title="Achievements"
           >
             {"\uD83C\uDFC5"}
           </Link>
-          <span className="text-xs text-text-secondary">
+          <span className="text-xs text-text-secondary font-medium">
             {session.user.name}
           </span>
           {session.user.role === "admin" && (
             <Link
               href="/admin"
-              className="text-xs text-accent-purple hover:text-accent-purple/80"
+              className="text-xs text-accent-purple hover:text-accent-purple/80 font-medium"
             >
               Admin
             </Link>
           )}
           <button
             onClick={() => signOut({ callbackUrl: "/auth/login" })}
-            className="text-xs text-text-muted hover:text-text-secondary"
+            className="text-xs text-text-muted hover:text-accent-red"
           >
             Sign out
           </button>

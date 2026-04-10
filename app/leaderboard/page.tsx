@@ -17,9 +17,9 @@ export default async function LeaderboardPage() {
   });
 
   const rankStyles = [
-    "from-accent-yellow/20 to-accent-yellow/5 border-accent-yellow/40",
-    "from-accent-blue/15 to-accent-blue/5 border-accent-blue/30",
-    "from-accent-purple/15 to-accent-purple/5 border-accent-purple/30",
+    "from-yellow-50 to-amber-50 border-yellow-300",
+    "from-slate-50 to-gray-100 border-gray-300",
+    "from-orange-50 to-amber-50 border-orange-300",
   ];
 
   const rankEmojis = ["\uD83E\uDD47", "\uD83E\uDD48", "\uD83E\uDD49"];
@@ -42,11 +42,11 @@ export default async function LeaderboardPage() {
           return (
             <div
               key={user.id}
-              className={`flex items-center gap-4 rounded-lg px-4 py-3 border ${
+              className={`flex items-center gap-4 rounded-xl px-4 py-3 border ${
                 isTop3
-                  ? `bg-gradient-to-r ${rankStyles[index]} `
-                  : "bg-bg-secondary border-border"
-              } ${isCurrentUser ? "ring-2 ring-accent-blue/50" : ""}`}
+                  ? `bg-gradient-to-r ${rankStyles[index]} shadow-sm`
+                  : "bg-white border-border shadow-sm"
+              } ${isCurrentUser ? "ring-2 ring-accent-blue/30" : ""}`}
             >
               <span className="text-lg w-8 text-center font-bold text-text-muted">
                 {isTop3 ? rankEmojis[index] : `${index + 1}`}
@@ -62,7 +62,7 @@ export default async function LeaderboardPage() {
                 <span className="text-xs text-text-muted ml-2">{level.name}</span>
               </div>
               {user.streak > 0 && (
-                <span className="text-xs text-accent-yellow">{"\uD83D\uDD25"} {user.streak}</span>
+                <span className="text-xs text-accent-orange">{"\uD83D\uDD25"} {user.streak}</span>
               )}
               <span className="text-sm font-bold text-text-secondary">
                 {user.xp.toLocaleString()} XP
