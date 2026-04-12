@@ -49,15 +49,27 @@ const exercises: Record<string, ExerciseData> = {
       steps: [
         {
           prompt: "claude>",
-          expectedCommands: ["create a file called hello.txt", "create hello.txt", "make a file called hello.txt"],
-          response: "I'll create a file called hello.txt with 'Hello World' content.\n\nCreated: hello.txt\n\u2713 File created successfully!",
+          expectedCommands: ["create a file called hello.txt", "create hello.txt", "make a file called hello.txt", "create a file called hello.txt with the text hello world"],
+          response: "I'll create a new file called hello.txt.\n\n┌─ Create file: hello.txt ─────────┐\n│  + Hello World                   │\n└──────────────────────────────────┘\n\nDo you want to apply this change? (y/n) y\n\u2713 Created hello.txt",
           hint: "Ask Claude to create a file called hello.txt",
         },
         {
           prompt: "claude>",
-          expectedCommands: ["show me the file", "cat hello.txt", "read hello.txt", "open hello.txt"],
+          expectedCommands: ["show me the file", "cat hello.txt", "read hello.txt", "open hello.txt", "show me hello.txt", "what's in hello.txt"],
           response: "Contents of hello.txt:\n\nHello World",
           hint: "Ask Claude to show you the file contents",
+        },
+        {
+          prompt: "claude>",
+          expectedCommands: ["change hello world to hi there", "change it to hi there", "edit hello.txt", "change the text to hi there", "update hello.txt to say hi there", "replace hello world with hi there"],
+          response: "I'll update the text in hello.txt.\n\n┌─ Edit file: hello.txt ───────────┐\n│  - Hello World                   │\n│  + Hi there                      │\n└──────────────────────────────────┘\n\nDo you want to apply this change? (y/n) y\n\u2713 Updated hello.txt",
+          hint: "Ask Claude to change the text to 'Hi there' — practice editing a file",
+        },
+        {
+          prompt: "claude>",
+          expectedCommands: ["/clear", "clear", "/help", "help"],
+          response: "Conversation cleared. Project context maintained.\nWhat would you like to work on?",
+          hint: "Try a slash command: type /clear to reset the conversation",
         },
       ],
     },

@@ -7,7 +7,45 @@ type: lesson
 
 # Your First Conversation
 
-Now that Claude Code is installed, let's actually use it! In this lesson, you'll learn how to give it instructions, review what it does, and communicate effectively.
+Now that Claude Code is installed, let's actually use it! In this lesson, you'll learn how to give it instructions, review what it does, and communicate effectively. By the end, you'll know the exact vocabulary and patterns that make Claude Code feel like a superpower.
+
+## The Interface: What You're Looking At
+
+When you type `claude` and press Enter, you see something like this:
+
+```
+╭──────────────────────────────────────────────╮
+│  Claude Code                          v1.0   │
+│                                              │
+│  Type your request in plain English.         │
+│  Press Enter to send.                        │
+│                                              │
+│  Tips:                                       │
+│  • /help for commands                        │
+│  • /clear to start fresh                     │
+│  • Be specific for better results            │
+╰──────────────────────────────────────────────╯
+
+claude>
+```
+
+That `claude>` at the bottom is your **prompt** — it's where you type. Think of it like a text message box. You type, press Enter, and Claude responds right below.
+
+## Key Terms You Need to Know
+
+Before we dive in, here are the words you'll hear constantly. Knowing these makes everything click faster:
+
+| Term | What It Means | Example |
+|------|--------------|---------|
+| **Prompt** | The instruction you type for Claude | "Create a file called index.html" |
+| **Response** | What Claude says back to you | Shows the file it wants to create |
+| **Context** | Background info that helps Claude understand | "This is for a bakery website" |
+| **Diff** | A side-by-side view of changes (green = added, red = removed) | Shows what lines were changed in a file |
+| **Accept / Reject** | Your yes or no to a proposed change | Press `y` to accept, `n` to reject |
+| **Token** | A chunk of text (~4 characters) Claude processes | Longer conversations use more tokens |
+| **Slash command** | A special command starting with `/` | `/help`, `/clear`, `/compact` |
+| **Conversation** | Your full chat session with Claude | Everything from start until you exit |
+| **Hallucination** | When AI confidently says something wrong | Inventing a function that doesn't exist |
 
 ## Start Simple
 
@@ -21,12 +59,55 @@ That's it. Plain English. No special syntax or code needed.
 
 Here's something important: **Claude Code always shows you what it wants to do before doing it.** It doesn't just silently change your files.
 
-When you ask it to create a file, it will show you:
-- What file it wants to create
-- What content it wants to put in that file
-- A prompt asking if you want to **accept** or **reject** the change
+Here's what that looks like in your terminal:
+
+```
+claude> create a file called hello.txt with the text Hello World
+
+  I'll create a new file called hello.txt with the text "Hello World".
+
+  ┌─ Create file: hello.txt ─────────────────────┐
+  │                                               │
+  │  + Hello World                                │
+  │                                               │
+  └───────────────────────────────────────────────┘
+
+  Do you want to apply this change? (y/n)
+```
+
+Notice three things:
+1. **Claude explains what it's about to do** — "I'll create a new file..."
+2. **It shows the exact change** — the green `+` means "this line will be added"
+3. **It asks for your permission** — you decide yes or no
 
 This is like a safety net. You're always in control.
+
+## Reading a Diff (Change View)
+
+When Claude edits an existing file, it shows a **diff** — a before-and-after view. This is one of the most important things to understand:
+
+```
+  ┌─ Edit file: styles.css ──────────────────────┐
+  │                                               │
+  │    body {                                     │
+  │  -   background: white;                       │
+  │  +   background: #f0f4ff;                     │
+  │  -   font-size: 14px;                         │
+  │  +   font-size: 16px;                         │
+  │      margin: 0;                               │
+  │    }                                          │
+  │                                               │
+  └───────────────────────────────────────────────┘
+```
+
+Here's how to read it:
+- Lines starting with **`-` (red)** = removed (the old version)
+- Lines starting with **`+` (green)** = added (the new version)
+- Lines with **no symbol** = unchanged (still there for context)
+
+So in this example, the background color changed from white to light blue, and the font size went from 14px to 16px. The `margin: 0` line stayed the same.
+
+**Always read the diff before accepting.** It takes 10 seconds and prevents headaches.
 
 ## Accepting and Rejecting Changes
 
@@ -35,26 +116,97 @@ When Claude shows you a proposed change:
 - **Accept** — press `y` or Enter to let Claude make the change
 - **Reject** — press `n` to stop it and try a different approach
 
-Don't be afraid to reject changes! It's totally normal. You can say something like "Actually, I wanted it to say 'Hi there' instead" and Claude will adjust.
+```
+  Do you want to apply this change? (y/n) y
 
-## Five Example Conversations
+  ✓ Changes applied to styles.css
+```
 
-Here are five real conversations showing different types of requests. Notice how each one gives Claude clear context:
+Don't be afraid to reject changes! It's totally normal. You can say something like "Actually, I wanted the background to be light yellow instead" and Claude will adjust.
 
-### 1. Creating Something New
+**Pro tip:** If Claude proposes multiple file changes at once, you can accept or reject each one individually.
+
+## What a Full Conversation Looks Like
+
+Here's a realistic back-and-forth conversation. Notice how each message builds on the last:
+
+```
+claude> create an HTML page called about.html with a heading
+        that says About Our Team and a short paragraph
+
+  I'll create about.html with a heading and introductory paragraph.
+
+  ┌─ Create file: about.html ────────────────────┐
+  │  + <!DOCTYPE html>                            │
+  │  + <html lang="en">                           │
+  │  + <head>                                     │
+  │  +   <title>About Our Team</title>            │
+  │  + </head>                                    │
+  │  + <body>                                     │
+  │  +   <h1>About Our Team</h1>                  │
+  │  +   <p>We are a passionate group of...</p>   │
+  │  + </body>                                    │
+  │  + </html>                                    │
+  └───────────────────────────────────────────────┘
+
+  Do you want to apply this change? (y/n) y
+  ✓ Created about.html
+
+claude> now add three team member cards with names, titles,
+        and short bios. use a grid layout.
+
+  I'll add a CSS grid layout with three team member cards.
+
+  ┌─ Edit file: about.html ──────────────────────┐
+  │  (shows the new cards and CSS being added)    │
+  └───────────────────────────────────────────────┘
+
+  Do you want to apply this change? (y/n) y
+  ✓ Updated about.html
+
+claude> the cards look too plain. add rounded corners,
+        a subtle shadow, and a hover effect that lifts
+        the card slightly
+
+  I'll add visual polish with border-radius, box-shadow,
+  and a transform on hover.
+
+  ┌─ Edit file: about.html ──────────────────────┐
+  │  (shows CSS changes for cards)                │
+  └───────────────────────────────────────────────┘
+
+  Do you want to apply this change? (y/n) y
+  ✓ Updated about.html
+```
+
+See the pattern? **Start simple, then refine.** You don't need to describe everything upfront. Just have a conversation.
+
+## Seven Types of Requests
+
+Here are the main things you can ask Claude Code to do. These cover 90% of daily use:
+
+### 1. Create Something New
 > "Create an HTML file called about.html with a heading that says 'About Us', a paragraph introducing our team, and a contact email link."
 
-### 2. Fixing a Problem
+### 2. Fix a Problem
 > "The image on index.html isn't showing up. The file is called logo.png and it's in the images folder. Can you fix the path?"
 
-### 3. Asking for Explanations
-> "I'm looking at styles.css and I don't understand what 'display: flex' does. Can you explain it simply and show me what it looks like?"
+### 3. Ask for an Explanation
+> "I'm looking at styles.css and I don't understand what 'display: flex' does. Can you explain it simply?"
 
-### 4. Improving Existing Work
+Claude will break down any code in plain English. This is one of the best ways to learn.
+
+### 4. Improve Existing Work
 > "The contact form in contact.html works, but it looks ugly. Can you make it look more professional with better spacing, rounded corners, and a blue submit button?"
 
-### 5. Researching Something
+### 5. Research Options
 > "I need to add a newsletter signup to my WordPress site. What are the best ways to do this? Give me 3 options from simplest to most advanced."
+
+### 6. Generate Code from a Description
+> "I need a JavaScript function that takes a list of prices and returns the total, including 8% tax. Add a comment explaining what it does."
+
+### 7. Review and Improve
+> "Look at index.html and tell me what could be better. Focus on accessibility and mobile-friendliness."
 
 ## How to Give Better Context
 
@@ -70,56 +222,127 @@ The second version tells Claude:
 - **Exactly what fields** — name, email, phone, message
 - **Specific details** — the button text
 
+Here's a formula you can follow every time:
+
+> **"I'm working on [project type]. I need [specific thing] that [specific behavior]. It should [look/work like this]."**
+
 ## Understanding Claude's Responses
 
-When Claude responds, here's what to look for:
+Claude doesn't just show code. It communicates in different ways. Knowing what to expect helps you stay in control:
 
-- **File changes** — highlighted in green (added) and red (removed). Review these carefully before accepting.
-- **Explanations** — Claude often explains *why* it made certain choices. Read these — you'll learn a lot!
-- **Questions** — sometimes Claude asks for clarification. That's a good sign — it wants to get things right.
-- **Warnings** — if Claude says "this might break X" or "you should also update Y," pay attention.
+**File changes** — The diff view (green/red) we covered above. Always review before accepting.
 
-## Try It Yourself
+```
+  ┌─ Edit file: index.html ──────────────────────┐
+  │  - <h1>Welcome</h1>                          │
+  │  + <h1>Welcome to Our Bakery</h1>            │
+  └───────────────────────────────────────────────┘
+```
 
-Practice having three different conversations with Claude Code:
+**Explanations** — Claude often explains *why* it made certain choices. Read these — you'll learn a lot!
 
-1. **Create** — ask Claude to create a simple HTML page about your favorite hobby
-2. **Explain** — point Claude at any file in your project and ask it to explain what the code does
-3. **Fix** — intentionally break something (like deleting a closing tag) and ask Claude to fix it
+```
+  I changed the heading to include "Our Bakery" because your
+  project is a bakery website. This helps with SEO and makes
+  the purpose of the page clearer to visitors.
+```
 
+**Questions** — Sometimes Claude asks for clarification. That's a good sign — it wants to get things right.
 
-## Tips for Good Instructions
+```
+  Before I create this, a quick question: should the contact
+  form send emails, or just store submissions in a database?
+  This affects which approach I'll take.
+```
 
-Remember the prompt formula from Module 3? The same ideas apply here:
+**Warnings** — If Claude says "this might break X" or "you should also update Y," pay attention.
 
-1. **Be specific** — "Create a file called notes.txt" is better than "make a file"
-2. **Give context** — "I'm building a to-do app" helps Claude make better decisions
-3. **One thing at a time** — start with one task, then ask for the next
-4. **Describe what you want, not how** — say "make a login page" instead of trying to describe every HTML tag
+```
+  ⚠ Note: Changing this CSS class will also affect the header
+  on the products page, since they share the same class name.
+  Should I proceed?
+```
+
+## Slash Commands: Your Remote Control
+
+These special commands give you control over the conversation itself:
+
+| Command | What It Does | When to Use It |
+|---------|-------------|----------------|
+| `/help` | Shows all available commands | When you forget what's available |
+| `/clear` | Starts a fresh conversation | When Claude seems confused or off-track |
+| `/compact` | Summarizes the conversation to save memory | When the chat gets very long |
+| `/exit` | Exits Claude Code | When you're done working |
+
+Think of these like a TV remote — they don't create content, they control the experience.
 
 ## What If Claude Gets It Wrong?
 
-It happens! AI isn't perfect. If Claude does something unexpected:
+It happens! AI isn't perfect. Here's your troubleshooting playbook:
 
-- **Tell it what's wrong** — "That's not quite right, I wanted X instead of Y"
-- **Be more specific** — add details you might have left out
-- **Show an example** — "I want it to look like this: [description]"
-- **Start fresh** — type `/clear` to start a new conversation
+**Tell it what's wrong** — Be specific about the problem:
+> "That's not quite right. The header should be centered, not left-aligned."
 
-## Common Mistakes
+**Add missing details** — Maybe you left something out:
+> "I forgot to mention — the form should also have a file upload field for attachments."
 
-- **Accepting changes without reading them** — always review what Claude proposes. It takes 10 seconds and saves you from headaches later.
-- **Giving up after one try** — if the first result isn't perfect, refine your request. Think of it like giving directions — sometimes you need a second attempt.
-- **Typing code instead of describing** — you don't need to write code! Describe what you want in plain English and let Claude handle the technical details.
+**Show an example** — Describe what you're picturing:
+> "I want the cards to look like the ones on Apple's website — clean, lots of whitespace, subtle shadows."
+
+**Ask it to try again** — Sometimes a fresh attempt works:
+> "Let's try a completely different approach. Instead of a grid, use a vertical list layout."
+
+**Start fresh** — If things get really tangled:
+> Type `/clear` to reset the conversation. Your files stay the same, only the chat resets.
+
+**Key insight:** Claude remembers everything you've said in the current conversation. So if you gave vague instructions at the start, Claude might still be working from those. Starting fresh with clear instructions often works better than trying to fix a confused conversation.
+
+## Common Mistakes (and How to Avoid Them)
+
+| Mistake | Why It's Bad | Do This Instead |
+|---------|-------------|-----------------|
+| Accepting without reading the diff | You might approve changes that break something | Spend 10 seconds scanning the diff |
+| Giving up after one try | The first result is rarely perfect | Refine: "That's close, but change X" |
+| Typing code instead of describing | You're doing Claude's job for it | Describe what you want in plain English |
+| Being too vague | Claude has to guess what you mean | Include project type, specifics, and details |
+| Asking for too much at once | Claude may miss details | One task at a time, then build up |
+| Not using `/clear` when stuck | A confused conversation stays confused | Reset and start with better instructions |
+
+## The Iteration Mindset
+
+The biggest secret to using Claude Code well? **Don't try to get it perfect on the first message.** The best results come from a conversation:
+
+1. **Start with the basics** — "Create a contact page"
+2. **Add structure** — "Add form fields for name, email, and message"
+3. **Add style** — "Make it match our blue color scheme with rounded corners"
+4. **Polish details** — "Add placeholder text in each field and a loading spinner on submit"
+5. **Handle edge cases** — "What happens if someone leaves a field empty? Add validation."
+
+Each step is small and easy to review. That's much better than one giant instruction that might go wrong in ways you can't spot.
 
 ## Practice Scenario
 
-Here's a small challenge: imagine you're building a personal website. Have a conversation with Claude Code where you:
+Here's a challenge: imagine you're building a personal website. Have a conversation with Claude Code where you:
 
 1. Ask it to create an `index.html` file with your name as the heading
 2. Ask it to add three sections: About Me, My Skills, and Contact
 3. Ask it to make the page look professional with some CSS
+4. Ask it to make the page responsive (looks good on phones too)
+5. Ask it to add a dark mode toggle
 
-Notice how each step builds on the last. This is how real conversations with Claude Code flow.
+Notice how each step builds on the last. This is how real conversations with Claude Code flow — and now you have the vocabulary and patterns to do it confidently.
 
-The more you practice, the better you'll get at communicating with Claude Code. It's a skill, just like learning to give good directions to someone new in town.
+## Quick Reference Card
+
+Save this for later — it covers everything from this lesson:
+
+| What You Want | How to Say It |
+|---------------|--------------|
+| Create a file | "Create a file called X with Y content" |
+| Edit a file | "In X file, change Y to Z" |
+| Fix something | "X is broken — it should do Y instead" |
+| Explain code | "What does this code in X file do? Explain simply." |
+| Improve something | "Make X look better / work faster / more accessible" |
+| Undo a mistake | Press `n` to reject, or "Undo the last change" |
+| Start over | Type `/clear` to reset the conversation |
+| Get help | Type `/help` to see all commands |

@@ -154,8 +154,8 @@ export default async function LessonPage({ params }: LessonPageProps) {
                 </div>
 
                 {/* Right: interactive exercise (scrollable, equal width) */}
-                <div className="flex-1 border-l border-border overflow-y-auto bg-bg-surface px-6 py-8">
-                  <div className="text-xs uppercase text-accent-blue mb-3 tracking-wider font-bold">
+                <div className="flex-1 border-l border-border overflow-y-auto bg-bg-surface px-8 py-8">
+                  <div className="text-sm uppercase text-accent-blue mb-4 tracking-wider font-bold">
                     Practice Exercise
                   </div>
                   {exerciseComponent}

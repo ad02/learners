@@ -7,9 +7,11 @@ type: lesson
 
 # Common Workflows
 
-Now that you know the basics, let's look at the things people use Claude Code for every day. These are the "greatest hits" — the workflows you'll use over and over.
+Now that you know the basics, let's look at the things people use Claude Code for every day. These are the "greatest hits" — the workflows you'll use over and over. Master these and you can build almost anything.
 
-## 1. Fix a Bug
+## The Five Core Workflows
+
+### 1. Fix a Bug
 
 Something's broken? Just describe the problem:
 
@@ -17,13 +19,44 @@ Something's broken? Just describe the problem:
 
 Notice how this includes **what's broken**, **where it is**, and **what should happen**. That gives Claude everything it needs.
 
-**Real example:** A client reports their website's navigation menu disappears on mobile. You tell Claude Code:
+Here's what that conversation looks like:
 
-> "The nav menu on index.html disappears on screens smaller than 768px. It should show a hamburger menu icon instead. Check the CSS media queries."
+```
+claude> The submit button on contact.html doesn't do anything
+        when I click it. It should send the form data and
+        show a success message.
 
-Claude reads the CSS, finds the issue (maybe the menu is set to `display: none` without a mobile alternative), and fixes it.
+  I can see the issue. The form is missing an event handler
+  for the submit button. I'll add a JavaScript function that
+  handles the form submission.
 
-## 2. Add a Feature
+  ┌─ Edit file: contact.html ────────────────────┐
+  │    <form id="contact-form">                   │
+  │      ...                                      │
+  │  -   <button>Submit</button>                  │
+  │  +   <button type="submit">Submit</button>    │
+  │    </form>                                    │
+  │                                               │
+  │  + <script>                                   │
+  │  +   document.getElementById('contact-form')  │
+  │  +     .addEventListener('submit', (e) => {   │
+  │  +       e.preventDefault();                  │
+  │  +       // ... validation and submission     │
+  │  +       alert('Message sent!');              │
+  │  +   });                                      │
+  │  + </script>                                  │
+  └───────────────────────────────────────────────┘
+
+  The button was missing type="submit" and there was no
+  JavaScript handling the form submission.
+
+  Do you want to apply this change? (y/n)
+```
+
+**The bug-fix formula:**
+> "The [thing] on [page/file] is [broken behavior]. It should [expected behavior]. [Any other clues you have]."
+
+### 2. Add a Feature
 
 Want something new? Describe it:
 
@@ -31,67 +64,144 @@ Want something new? Describe it:
 
 You don't need to know *how* to build dark mode. Just describe what you want it to do.
 
-**Real example:** Your boss wants a "Back to Top" button on the company blog:
+**The feature formula:**
+> "Add [feature] to [location]. It should [behavior]. When [trigger], it should [response]."
 
-> "Add a smooth-scrolling 'Back to Top' button that appears when the user scrolls down more than 500 pixels. Make it a small round button in the bottom-right corner."
-
-## 3. Explain Code
+### 3. Explain Code
 
 Found confusing code? Ask Claude to break it down:
 
 > "What does the function on line 42 of auth.ts do? Explain it like I'm a beginner."
 
-Claude will read that file and explain it in plain English. This is one of the best ways to learn — let Claude be your tutor.
+```
+claude> What does the function on line 42 of auth.ts do?
+        Explain it like I'm a beginner.
 
-## 4. Refactor Code
+  The function `validateToken` on line 42 checks if a user's
+  login session is still valid. Here's what it does step by step:
+
+  1. It takes a "token" (think of it like a temporary ID card)
+  2. It checks if the token has expired (like checking an
+     expiration date on a coupon)
+  3. If valid, it returns the user's information
+  4. If expired, it returns null (meaning "no valid user")
+
+  Think of it like a bouncer at a club checking your wristband.
+  If the wristband is still valid, you get in. If it's expired,
+  you need to get a new one (log in again).
+```
+
+This is one of the best ways to learn — Claude becomes your personal tutor that never gets tired of explaining things.
+
+### 4. Refactor Code
 
 Code works but looks messy? Ask Claude to clean it up:
 
 > "This file is getting really long and hard to follow. Can you make it cleaner and add comments explaining each section?"
 
-Claude will reorganize the code while keeping it working exactly the same way.
+**What "refactor" means:** Reorganizing code to be cleaner and easier to read, without changing what it actually does. Like rewriting a messy essay to be clearer — same ideas, better structure.
 
-## 5. Generate Tests
+### 5. Generate Tests
 
 Want to make sure your code keeps working?
 
 > "Write tests for the login form. It should test that valid credentials log the user in and invalid credentials show an error."
 
-Even if you've never written a test before, Claude handles the details.
+Even if you've never written a test before, Claude handles the details. Tests are like a checklist that automatically verifies your code works correctly.
 
 ## The Golden Rule
 
-In all of these workflows, notice the pattern: **describe the problem or goal, not the solution.** You're the product manager. Claude is the developer. Tell it *what* you want, and let it figure out *how*.
+In all of these workflows, notice the pattern: **describe the problem or goal, not the solution.**
+
+You're the product manager. Claude is the developer. Tell it *what* you want, and let it figure out *how*.
+
+| Instead of This | Say This |
+|----------------|----------|
+| "Add a div with class 'container' and put an h1 inside" | "Create a centered heading on the page" |
+| "Write a forEach loop over the array" | "Go through each item and display it" |
+| "Add a media query at 768px" | "Make this look good on phones" |
+| "Set localStorage with a key of 'theme'" | "Remember the user's theme choice" |
+
+When you describe the *what*, Claude chooses the best *how*. And often it picks a better approach than you would have.
 
 ## Power User Tips
 
 Once you're comfortable with the basics, these tips will make you even faster:
 
 ### Use a CLAUDE.md File
-Create a file called `CLAUDE.md` in your project root. This is like a cheat sheet that Claude reads every time it starts. Put things like:
-- What your project is about
-- Which technologies you use
-- Rules and conventions (like "always use Tailwind CSS for styling")
-- Common patterns it should follow
+
+Create a file called `CLAUDE.md` in your project root. This is like a cheat sheet that Claude reads every time it starts. Here's what a real one looks like:
+
+```markdown
+# My Bakery Website
+
+A website for Sweet Treats Bakery in Portland, OR.
+
+## Tech Stack
+- HTML, CSS, JavaScript
+- No frameworks (keep it simple)
+- Hosted on Netlify
+
+## Style Rules
+- Primary color: #E8735A (coral)
+- Font: Inter for body, Playfair Display for headings
+- Always use rounded corners (8px)
+- Mobile-first design
+
+## Important Notes
+- Contact form submits to Formspree
+- Images are in /assets/images/
+- Keep page load under 3 seconds
+```
+
+Now every time you start Claude Code in this project, it already knows your colors, fonts, tech stack, and rules. You don't have to repeat yourself.
+
+**What to put in CLAUDE.md:**
+- What the project is about (one sentence)
+- Technologies used
+- Style rules (colors, fonts, spacing)
+- Important conventions ("always do X", "never do Y")
+- File locations that matter
 
 ### Useful Slash Commands
-- `/help` — see all available commands
-- `/clear` — start a fresh conversation (keeps project context)
-- `/compact` — summarize the conversation to save memory
+
+| Command | What It Does | When to Use It |
+|---------|-------------|----------------|
+| `/help` | Shows all available commands | When you need a refresher |
+| `/clear` | Starts a fresh conversation | When Claude seems confused |
+| `/compact` | Summarizes the conversation | When the chat gets very long |
+| `/exit` | Exits Claude Code | When you're done |
 
 ### Context Management
-- Start Claude Code from your project folder so it can see all files
-- If Claude seems confused, try `/clear` to reset the conversation
-- For big projects, point Claude at specific files: "Look at src/components/Header.tsx"
+
+Your conversation has a **context window** — think of it like Claude's short-term memory. It can only hold so much at once.
+
+Tips for managing it:
+- **Start from your project folder** so Claude can see all your files
+- **Use `/clear`** if Claude seems confused or gives weird answers
+- **Use `/compact`** when the conversation gets long (50+ messages)
+- **Point at specific files** for big projects: "Look at src/components/Header.tsx"
+- **Start a new conversation** when you switch to a completely different task
+
+```
+claude> /clear
+
+  Conversation cleared. Project context maintained.
+  What would you like to work on?
+
+claude>
+```
+
+Notice: `/clear` resets the conversation but Claude can still see your project files. It forgets what you discussed, not what exists on disk.
 
 ## Real Project Walkthrough
 
-Let's walk through a realistic scenario. Your manager says: "We need a contact form on our WordPress site."
+Let's walk through a realistic scenario. Your manager says: "We need a contact form on our website."
 
 Here's how you'd handle it with Claude Code:
 
 **Step 1 — Describe the goal:**
-> "I need to add a contact form to our WordPress site. It should have fields for name, email, subject, and message. When someone submits it, it should send an email to info@ourcompany.com and show a thank-you message."
+> "I need to add a contact form to our website. It should have fields for name, email, subject, and message. When someone submits it, it should show a thank-you message."
 
 **Step 2 — Review and refine:**
 Claude creates the form. You look at it and notice it's missing phone number. You say:
@@ -103,7 +213,38 @@ Claude creates the form. You look at it and notice it's missing phone number. Yo
 **Step 4 — Polish:**
 > "Make the form match our site's style. The primary color is #2563EB and we use rounded corners on everything."
 
+**Step 5 — Edge cases:**
+> "What happens if someone submits the form twice by accident? Add a loading state to the button so they can't double-submit."
+
 Notice how each step builds on the last. You didn't need to plan the whole thing upfront — you had a conversation.
+
+## Combining Workflows: A Real Day
+
+Here's what a typical day looks like when you use Claude Code regularly:
+
+```
+9:00 AM — Fix a bug
+claude> The mobile menu on our site won't close after clicking
+        a link. It should close automatically.
+
+10:30 AM — Add a feature
+claude> Add a "Back to Top" button that appears when the user
+        scrolls past 500 pixels. Small round button, bottom-right.
+
+1:00 PM — Explain unfamiliar code
+claude> I just inherited this project. What does the middleware
+        function in server.js do? I'm new to backend code.
+
+2:30 PM — Refactor messy code
+claude> The styles.css file is 800 lines long and hard to
+        navigate. Can you organize it into sections with comments?
+
+4:00 PM — Build something new
+claude> Create a simple dashboard page that shows our total
+        users, active sessions, and revenue. Use placeholder data.
+```
+
+Each of these is a separate conversation (use `/clear` between them or restart Claude Code). The key is: **one task per conversation** keeps things clean and focused.
 
 ## When NOT to Use Claude Code
 
@@ -114,18 +255,23 @@ Claude Code is powerful, but there are times to be careful:
 - **Critical business logic** — for things like payment processing, have a human developer review Claude's work
 - **When you don't understand the output** — if Claude generates something and you have no idea what it does, ask it to explain before accepting
 
-## Practice: Build Something Real
+## Build Your Own Playbook
 
-Try this exercise: use Claude Code to build a simple "Team" page for an imaginary company. Ask it to:
+At this point, you have enough knowledge to build real things. Here's a challenge to prove it:
+
+Use Claude Code to build a simple "Team" page for an imaginary company. Ask it to:
 
 1. Create the HTML page with a heading and three team member cards
 2. Each card should have a name, job title, and short bio
-3. Style the cards in a grid layout
-4. Add hover effects so the cards slightly enlarge when you mouse over them
+3. Style the cards in a grid layout with nice spacing
+4. Add hover effects so the cards slightly enlarge on mouseover
+5. Make it responsive — the grid should stack on phone screens
 
-This will give you practice with the create, refine, and polish workflow.
+This exercise uses the create-refine-polish workflow you've been learning. Take it step by step.
 
 ## Quick Reference
+
+Keep this table handy — it covers every common workflow with an example prompt:
 
 | Workflow | Example Prompt |
 |----------|---------------|
@@ -136,5 +282,8 @@ This will give you practice with the create, refine, and polish workflow.
 | Write tests | "Add tests for the checkout flow." |
 | Style changes | "Make the header sticky and add a shadow when scrolling." |
 | Performance | "This page loads slowly. Find what's slowing it down and fix it." |
+| Create from scratch | "Build a pricing page with three tiers: Free, Pro, Enterprise." |
+| Review code | "Look at utils.js and tell me if anything could be improved." |
+| Generate data | "Create a JSON file with 10 sample products for a clothing store." |
 
-Save this table — you'll come back to it often!
+You now have the vocabulary, the patterns, and the workflows. The rest is practice. The more conversations you have with Claude Code, the faster and more natural it becomes.
