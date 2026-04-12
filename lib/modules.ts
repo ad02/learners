@@ -21,10 +21,10 @@ export const MODULES: Module[] = [
     id: "01-vs-code",
     slug: "01-vs-code",
     title: "Your Computer is Your Workshop",
-    description: "VS Code setup, terminal basics, files and folders",
+    description: "Free tools checklist, VS Code setup, terminal basics, files and folders",
     phase: "Foundations",
     order: 1,
-    lessonCount: 5,
+    lessonCount: 6,
   },
   {
     id: "02-git",

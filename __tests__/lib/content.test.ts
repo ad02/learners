@@ -17,9 +17,9 @@ describe("getLessonsForModule", () => {
   test("returns sorted lessons for a valid module", () => {
     const lessons = getLessonsForModule("01-vs-code");
     expect(lessons.length).toBeGreaterThan(0);
-    expect(lessons[0].slug).toBe("01-what-is-vscode");
+    expect(lessons[0].slug).toBe("00-free-tools-checklist");
     expect(lessons[0].title).toBeTruthy();
-    expect(lessons[0].order).toBe(1);
+    expect(lessons[0].order).toBe(0);
   });
 
   test("lessons are sorted by order", () => {
