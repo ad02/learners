@@ -54,12 +54,13 @@ The webhook receives data like this:
 
 **Why this step matters:** Without automation, someone has to read every email and manually decide where to send it. The webhook starts the process instantly.
 
-## Step 2: Categorize with Claude AI
+## Step 2: Categorize with Groq AI
 
-Now AI reads the email and figures out what kind of issue it is and how urgent it is. This uses your prompting skills from Module 3 and 4.
+Now AI reads the email and figures out what kind of issue it is and how urgent it is. This uses your prompting skills from Module 3 and the Groq setup from Module 7.
 
-1. Add a **Claude AI** step
-2. Write a classification prompt:
+1. Add an **HTTP — Make a request** step (same pattern as Template A / Module 8)
+2. Point it at the Groq API with your API key
+3. Use this classification prompt inside the JSON body:
 
 ```
 You are a support ticket classifier. Read this email and respond with JSON.
@@ -88,106 +89,84 @@ The AI responds with something like:
 }
 ```
 
-**Expected result:** Claude returns a clean JSON object with all four fields filled in correctly. The category and urgency should match the content of the email.
+**Expected result:** Groq returns a clean JSON object with all four fields filled in. Category and urgency should match the email content.
 
 **Troubleshooting:**
-- **AI returns text instead of JSON?** Strengthen your prompt: add "You must respond with ONLY a JSON object. No other text, no explanations, no markdown formatting."
-- **Category is wrong?** Provide examples in your prompt. Add: "Example: if the customer mentions payments or charges, the category is 'billing'."
-- **Urgency seems random?** Define your urgency criteria: "high = customer is blocked or mentions a deadline, medium = customer is frustrated but can work around it, low = general question or feedback."
+- **AI returns text instead of JSON?** Add `"response_format": {"type": "json_object"}` to the request body (same trick as Template A).
+- **Category is wrong?** Add examples in your prompt: "If the customer mentions payments or charges, category is 'billing'."
+- **Urgency seems random?** Define criteria in the prompt: "high = customer is blocked, medium = frustrated but can work around it, low = general question."
 
-**Why this step matters:** AI can read and categorize hundreds of emails in minutes. A human doing the same work would take hours and might miscategorize some.
+**Why this step matters:** AI can classify hundreds of emails in seconds. A human doing the same work would take hours and might miscategorize some.
 
-## Step 3: Update the WordPress Tracker
+## Step 3: Log the Ticket to Google Sheets
 
-Now we log the ticket on a WordPress page so the team has a central tracking dashboard. This uses the WordPress REST API from Module 6 and 7.
+Create a tracker spreadsheet first:
 
-1. Add a **WordPress** step
-2. Update your support tracker page with the new ticket:
+1. Go to [sheets.google.com](https://sheets.google.com) → **Blank spreadsheet**
+2. Name it `Support Tickets`
+3. Add headers: `Date`, `From`, `Subject`, `Category`, `Urgency`, `Summary`, `Assigned To`, `Status`
 
-```
-POST https://yoursite.com/wp-json/wp/v2/posts
-{
-  "title": "Ticket: Can't log in to my account",
-  "content": "<table>
-    <tr><td>From</td><td>customer@example.com</td></tr>
-    <tr><td>Category</td><td>Account</td></tr>
-    <tr><td>Urgency</td><td>High</td></tr>
-    <tr><td>Assigned</td><td>Support Team</td></tr>
-    <tr><td>Summary</td><td>Customer cannot log in despite multiple password resets</td></tr>
-  </table>",
-  "status": "publish",
-  "categories": [support-tracker-category-id]
-}
-```
+Then in Make:
 
-**Expected result:** A new post appears in your WordPress admin under the "Support Tracker" category. It should display a clean table with all the ticket details. When viewed on the front end, the table should be readable and organized.
+1. Click `+` after the Groq step → search **Google Sheets** → **Add a Row**
+2. Pick your `Support Tickets` sheet
+3. Use the variable picker to map each column (same pattern as Template A):
+   - **Date:** Now
+   - **From:** Webhook → from
+   - **Subject:** Webhook → subject
+   - **Category / Urgency / Summary / Assigned To:** HTTP (Groq) response fields
+   - **Status:** type `new`
+4. Click **OK**
+
+**Expected result:** Each test email appears as a new row in your sheet with the AI-filled category and urgency columns.
 
 **Troubleshooting:**
-- **Table looks broken?** Make sure the HTML is valid. Check for missing closing tags (`</td>`, `</tr>`, `</table>`).
-- **Post not appearing?** Check the category ID. Also verify that your WordPress user has permission to publish posts.
-- **Content shows HTML tags instead of a formatted table?** Your WordPress theme might be stripping HTML. Try using the "Classic" editor block or add the content inside a `<!-- wp:html -->` block.
+- **Category/Urgency columns empty?** Groq response wasn't parsed. Toggle **Parse response: Yes** on the HTTP step.
+- **Permission error:** Reconnect Google Sheets in Make and accept all permissions.
 
-> **Pro tip:** Create a "Support Tracker" category in WordPress before building this step. Set it to not appear on your main blog feed if you do not want tickets visible to the public.
+## Step 4: Route the Email Based on Category
 
-**Why this step matters:** WordPress becomes your ticket database. Anyone on the team can check the tracker page to see all open tickets, search by category, and track patterns.
+Instead of Slack (which needs a paid setup), we'll use Make's **built-in Router** to send emails to different addresses depending on the category.
 
-## Step 4: Notify the Right Person
+1. Click `+` after the Google Sheets step → pick **Flow Control → Router**
+2. The Router splits your flow into multiple branches
+3. On each branch, add an **Email → Send an Email** module
+4. On each branch's **Filter** (the little wrench icon on the connection line), set a condition:
 
-Finally, send a notification to the team member who should handle this ticket (Module 8 notification pattern).
+### Branch 1 — Billing
+- **Filter condition:** HTTP (Groq) response → `category` **Equal to** `billing`
+- **Email To:** your email (or `billing@yourcompany.com` if you own that address)
+- **Subject:** `[BILLING] New ticket from [PICK: Webhook → from]`
 
-1. Add a **Notification** step
-2. Route based on the AI's `assigned_to` value:
+### Branch 2 — Technical
+- **Filter condition:** `category` **Equal to** `technical`
+- **Email To:** your email
+- **Subject:** `[TECH] New ticket from [PICK: Webhook → from]`
 
-### Routing Logic Examples
+### Branch 3 — Account / Other
+- **Filter condition:** `category` **Equal to** `account` (or no filter = fallback)
+- **Email To:** your email
+- **Subject:** `[SUPPORT] New ticket from [PICK: Webhook → from]`
 
-Here is how the conditional routing works in detail:
+Use the same HTML email body on all three branches (variable picker for category, urgency, summary, from).
 
-```
-IF assigned_to == "billing-team":
-  Send email to billing@yourcompany.com
-  Send Slack message to #billing channel
-  Include: invoice lookup link, customer email
-
-ELSE IF assigned_to == "dev-team":
-  Send email to dev@yourcompany.com
-  Send Slack message to #engineering channel
-  Include: error details, steps to reproduce
-
-ELSE IF assigned_to == "support-team":
-  Send email to support@yourcompany.com
-  Send Slack message to #support channel
-  Include: customer name, urgency level, summary
-```
-
-In your automation tool, this looks like an **IF node** or **Router** that checks the `assigned_to` value and sends the notification to the correct channel.
-
-The notification message:
-
-```
-New support ticket assigned to you!
-Category: Account (High urgency)
-Summary: Customer cannot log in despite multiple password resets
-From: customer@example.com
-Tracker: {{wordpress_post_link}}
-```
-
-**Expected result:** The correct team channel receives the notification. If the ticket is categorized as "billing", the billing channel gets the message — not the dev or support channels.
+**Expected result:** When you send a billing-style test email, only the billing branch fires. Send a tech-style email, only the tech branch fires. Your Google Sheet tracks all of them.
 
 **Troubleshooting:**
-- **Notification goes to the wrong channel?** Check the IF condition. Make sure you are comparing the exact string value (e.g., "billing-team" not "Billing Team").
-- **All tickets go to the same channel?** Your IF conditions might not be working. Test with different email content to confirm the AI is producing different `assigned_to` values.
-- **No notification at all?** Check that your Slack bot has permission to post in the target channel. Try posting a test message to the channel manually first.
+- **Multiple branches fire for one email:** Filter conditions overlap. Make each condition mutually exclusive.
+- **No branch fires:** Category value coming from Groq doesn't match the filter exactly. Use Make's execution log to see the real value — might be `"Billing"` (capitalized) instead of `"billing"`. Adjust the filter or add `toLowerCase()` to the prompt.
+- **No email received:** The fallback branch needs an "else" filter (leave it empty to catch everything unrouted).
 
-**Why this step matters:** The right person gets notified immediately. No more emails sitting in a shared inbox waiting for someone to claim them.
+**Why this step matters:** Routing is the core of real automation. The same pattern — AI decision → conditional branching → different actions — powers lead routing, moderation queues, fraud detection, and more.
 
 ## Putting It All Together
 
 Your complete workflow handles support emails end to end:
 
 1. **Email arrives** &rarr; webhook fires
-2. **Claude AI** &rarr; reads, categorizes, and assigns
-3. **WordPress** &rarr; logs the ticket for tracking
-4. **Notification** &rarr; alerts the right team member
+2. **Groq AI** &rarr; reads, categorizes, and assigns
+3. **Google Sheets** &rarr; logs the ticket for tracking
+4. **Router + Email** &rarr; alerts the right team member based on category
 
 What used to require a person reading every email, deciding the category, updating a spreadsheet, and forwarding to the right team — now happens automatically in seconds.
 
@@ -195,16 +174,16 @@ What used to require a person reading every email, deciding the category, updati
 
 Once your workflow is complete and tested:
 
-1. **Take a screenshot** of the complete workflow in your automation tool
+1. **Take a screenshot** of the complete Make.com scenario
 2. **Show at least 3 test tickets** with different categories (billing, technical, account) to prove the routing works
-3. **Show the WordPress tracker** with the logged tickets
-4. **Show notifications** arriving in the correct channels for each category
+3. **Show the Google Sheet** with the logged tickets
+4. **Show emails** arriving with the correct `[BILLING]` / `[TECH]` / `[SUPPORT]` subject prefix
 5. **Write a one-paragraph summary** explaining what the system does and how much time it saves
 
 ## What You Learned
 
 - How webhooks can capture incoming emails
 - How AI can classify and route data intelligently
-- How WordPress can serve as a lightweight ticket tracker
-- How conditional notifications route information to the right people
-- How combining four simple steps creates a powerful system
+- How Google Sheets can serve as a lightweight ticket tracker
+- How conditional routing (Make's Router + filters) sends the right info to the right person
+- How combining four simple steps creates a powerful support system

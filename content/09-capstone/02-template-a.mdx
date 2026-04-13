@@ -154,19 +154,21 @@ Back in Make:
 
 1. Click `+` after Sheets → search **Email** → **Send an Email**
 2. Create a connection (Make's built-in email — no SMTP config needed)
-3. Configure:
-   - **To:** your email
-   - **Subject:** `New content: {{Groq.title}}` (use variable picker)
+3. Configure using the **variable picker** on the right (don't type variable names by hand — click them):
+   - **To:** your email address
+   - **Subject:** `New content: ` then click the **HTTP (Groq)** module in the variable picker → pick **title**
    - **Content type:** HTML
-   - **Content:**
+   - **Content:** paste the template below, then replace each `[PICK: …]` with the actual variable from the picker panel:
 
 ```html
-<h2>{{Groq.title}}</h2>
-<p><strong>From:</strong> {{1.name}} ({{1.email}})</p>
+<h2>[PICK: HTTP module → title]</h2>
+<p><strong>From:</strong> [PICK: Webhook → name] ([PICK: Webhook → email])</p>
 <p><strong>Summary:</strong></p>
-<p>{{Groq.summary}}</p>
+<p>[PICK: HTTP module → summary]</p>
 <p><a href="https://docs.google.com/spreadsheets/">Review in your Content Queue</a></p>
 ```
+
+> 💡 **Why not type `{{2.title}}` directly?** Make.com uses numbered module references (e.g., `{{2.title}}` = module 2's `title` field). Module numbers shift if you rearrange modules, so always use the variable picker — Make will insert the correct reference automatically.
 
 4. Click **OK**
 

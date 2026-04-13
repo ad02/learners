@@ -222,11 +222,13 @@ Go back to Make — the webhook should flash green and say "Successfully determi
 
 1. Click `+` → search for **Email** → pick **Send an Email**
 2. Create a connection (Make uses a free built-in email — no SMTP setup needed)
-3. Configure:
+3. Configure (**always use the variable picker on the right — don't type variable names**):
    - **To:** your own email address
-   - **Subject:** `New submission from {{1.name}}`
-   - **Content:** Click into the field, use the variable picker to pick the Groq response → `choices[0].message.content`
+   - **Subject:** click in → from variable picker, pick **Webhook → name**
+   - **Content:** from variable picker, pick **HTTP (Groq) → choices[] → 0 → message → content** (this is the raw Groq response path; in Template A we'll parse it into cleaner fields — both ways work)
 4. Click **OK**
+
+> 💡 **Why the long path?** In this Module 8 build, we didn't turn on "Parse response" on the HTTP step, so Make treats the Groq response as raw JSON — you drill into `choices[0].message.content` manually. In the capstone (Module 9), we'll enable parsing to get cleaner `title`/`summary` variables. Either approach works; parsing is just tidier when you're using multiple fields.
 
 ### Step 6 — Run It
 
