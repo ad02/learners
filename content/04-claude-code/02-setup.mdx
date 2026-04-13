@@ -9,6 +9,28 @@ type: lesson
 
 Let's get Claude Code installed on your computer. Don't worry — we'll walk through every step, starting from the prerequisites.
 
+## 💰 Free-Tier Reality Check
+
+Claude Code is Anthropic's AI coding tool. It's **not 100% free forever**, but there are real free paths for this course:
+
+### Option A: Claude.ai Web (100% Free Forever) ⭐ Recommended for this course
+
+If you're on a strict $0 budget, use [claude.ai](https://claude.ai) (free tier) instead of installing the CLI. You can paste code into the chat and ask for help — you just won't have the automatic file-editing feature.
+
+**Practice the concepts here** — the prompting skills you'll learn transfer directly to Claude Code when you're ready to upgrade.
+
+### Option B: Claude Code CLI (small cost to run)
+
+Claude Code requires one of these:
+- **Claude Pro** plan ($20/month) — gets you CLI + higher web limits
+- **API credits** — Anthropic gives **$5 free credit** when you sign up, which is plenty for completing this course's exercises (each exercise uses pennies)
+
+If you're willing to use the free $5 credit, proceed with the install steps below. If not, skip to the next lesson and follow along using Claude.ai web.
+
+> **Honest note:** The rest of this module shows the CLI experience. The ideas (AI-assisted editing, diffs, conversation style) are the same whether you use the CLI or the web chat. Don't get stuck on the tool — the skill is in how you talk to the AI.
+
+---
+
 ## Prerequisites: Node.js
 
 Claude Code runs on **Node.js**, so you need that installed first. If you followed Module 1, you should already have it. Let's verify.
@@ -57,16 +79,24 @@ claude --version
 
 You should see a version number. If you get "command not found," try closing and reopening your terminal.
 
-## Step 3: Get an API Key
+## Step 3: Get an API Key (or Use Pro)
 
-Claude Code needs an **API key** to work. Think of an API key like a **password that lets the app talk to Claude's brain** in the cloud.
+Claude Code authenticates in one of two ways:
+
+**Path 1 — Anthropic API key (uses your $5 free credit):**
 
 1. Go to [console.anthropic.com](https://console.anthropic.com)
-2. Create an account (or sign in)
+2. Create an account (or sign in) — you'll get **$5 free credit** on signup
 3. Find the **API Keys** section
 4. Click **Create Key** and copy the key it gives you
 
-Keep this key safe — treat it like a password. Don't share it publicly.
+**Path 2 — Claude Pro subscription:**
+
+If you have Claude Pro ($20/month), Claude Code can authenticate via your Pro account with no API key setup. Just run `claude` and follow the browser-based login.
+
+Keep your API key safe — treat it like a password. Don't share it publicly or commit it to GitHub.
+
+> **Budget tip:** Each exercise in this course costs less than 1 cent. Your $5 free credit is enough to complete the entire course several times over.
 
 ## Step 4: Configure VS Code Terminal
 
