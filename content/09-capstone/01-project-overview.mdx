@@ -19,83 +19,73 @@ You will pick **one of three project templates** below. Each template is a guide
 
 Think of it like following a recipe. You have already learned what each ingredient does. Now you are combining them into a full dish.
 
+## This Capstone is 100% Real
+
+You'll build a working automation on real tools — not simulators. Everything runs on **free tiers**: Make.com, Groq AI, Google Sheets, built-in email. Total cost: $0.
+
+When you're done, you'll have a live, 24/7 automation that processes real data and delivers real output.
+
 ## Choose Your Template
 
-### Template A: Blog Auto-Publisher
+### Template A: Content Pipeline ⭐ (Recommended)
 
-**What it does:** When someone submits a form, AI summarizes the content, publishes it as a WordPress draft, and notifies your team on Slack.
+**What it does:** Receives submissions via webhook → Groq AI summarizes → logs to a Google Sheets draft queue → emails you a notification.
 
-**Skills used:** Webhooks (Module 7), AI prompting (Module 3 & 4), WordPress REST API (Module 6 & 7), Notifications (Module 8)
+**Skills used:** Webhooks (Module 7), Groq API (Module 7), AI prompting (Module 3), Google Sheets integration (Module 8), email notifications.
 
-**Best for:** People who want to automate content publishing. Great if you manage a blog or content website.
-
----
-
-### Template B: Daily Digest Bot
-
-**What it does:** Every day at 9am, it fetches data from an API, uses AI to create a summary, posts it to WordPress, and commits the config to GitHub.
-
-**Skills used:** Scheduled triggers (Module 8), APIs (Module 7), AI prompting (Module 3 & 4), WordPress (Module 6), Git/GitHub (Module 2)
-
-**Best for:** People who want to automate daily reports or news digests. Great if you work with data or analytics.
+**Best for:** Everyone. This is the **primary capstone** with the full step-by-step walkthrough. Start here.
 
 ---
 
-### Template C: Support Ticket Router
+### Template B: Daily Digest Bot (Variation)
 
-**What it does:** When a support email arrives, AI categorizes it, updates a WordPress tracking page, and notifies the right team member.
+**What it does:** Daily scheduled trigger → fetches data from a public API → Groq summarizes → logs to Google Sheets → emails.
 
-**Skills used:** Webhooks (Module 7), AI classification (Module 3 & 4), WordPress REST API (Module 6 & 7), Notifications (Module 8)
+**Skills used:** Scheduled triggers (Module 8), APIs (Module 7), Groq (Module 7), Google Sheets, email.
 
-**Best for:** People who want to automate customer support workflows. Great if you handle support tickets or customer emails.
+**Best for:** After finishing Template A, if you want to practice scheduled triggers instead of webhooks.
 
-## How to Choose Your Template
+---
 
-Not sure which one to pick? Here is a guide based on your role or interests:
+### Template C: Support Ticket Router (Variation)
 
-| Your Role / Interest | Recommended Template |
-|---|---|
-| Content creator, blogger, marketing | **Template A** — Blog Auto-Publisher |
-| Data analyst, operations, reporting | **Template B** — Daily Digest Bot |
-| Customer support, account management | **Template C** — Support Ticket Router |
-| "I just want the simplest one" | **Template A** — fewest steps |
-| "I want the most challenge" | **Template B** — uses the most tools |
+**What it does:** Receives email/form via webhook → Groq categorizes (billing/tech/account) → logs to Google Sheets → emails the right team member based on category.
+
+**Skills used:** Webhooks (Module 7), Groq classification (Module 3), Google Sheets, conditional routing.
+
+**Best for:** After finishing Template A, if you want to practice AI classification and routing logic.
+
+## Everyone: Start with Template A
+
+Template A is the **primary capstone** with a full step-by-step build. Everyone should start there. Once it's working, Templates B and C are short variations that reuse the same pattern.
 
 ## What "Done" Looks Like
 
-Here is what a completed project looks like for each template:
-
 **Template A — Done means:**
-- A webhook URL is set up and receiving data
-- AI processes incoming submissions and generates a summary
-- WordPress drafts are created automatically with the right title, content, and category
-- Slack notifications arrive within seconds of a form submission
-- You have tested it end to end with at least 3 test submissions
+- Make.com scenario is live and scheduled ON
+- Google Sheet has at least 3 rows from test submissions
+- Your inbox has 3+ emails with AI-generated titles and summaries
+- You can explain each of the 4 steps in plain English
 
-**Template B — Done means:**
-- A scheduled trigger fires daily (or you can trigger it manually for testing)
-- Live data is fetched from an API
-- AI generates a readable daily summary
-- A WordPress post is published with the digest
-- The workflow config is committed to GitHub
-- You have tested it with at least 2 runs
+**Template B (optional) — Done means:**
+- Scenario uses a scheduled trigger (instead of webhook)
+- Runs at least 2 successful cycles
+- Same Sheets + Email output as Template A
 
-**Template C — Done means:**
-- A webhook captures incoming email data
-- AI correctly categorizes and assigns tickets
-- WordPress tracking entries are created with all relevant details
-- The right team member gets notified based on the category
-- You have tested it with at least 3 different ticket types (billing, technical, account)
+**Template C (optional) — Done means:**
+- Groq successfully categorizes at least 3 test tickets
+- Emails are routed to different recipients based on category
+- Google Sheet shows category values correctly filled in
 
 ## Timeline Suggestion
 
-Plan to spend **1-2 hours** on your capstone project. Here is a rough breakdown:
+Plan to spend **30–60 minutes** on Template A:
 
-- **15 minutes** — Read through all the steps before starting
-- **30 minutes** — Set up the trigger and AI step
-- **30 minutes** — Add the WordPress and notification steps
-- **15 minutes** — Test everything end to end and fix any issues
-- **Optional: 15 minutes** — Polish and add extras (better prompts, error handling)
+- **5 minutes** — Read through the whole Template A lesson before starting
+- **10 minutes** — Set up the webhook and send test data
+- **15 minutes** — Add Groq AI + Google Sheets + Email modules
+- **10 minutes** — Run end-to-end, fix any errors, turn scenario ON
+- **Optional: 15–30 minutes each** — Build Template B and C as variations
 
 You do not need to finish in one sitting. It is totally fine to take a break and come back. Your automation tool saves your progress.
 

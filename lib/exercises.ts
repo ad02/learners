@@ -98,44 +98,8 @@ const exercises: Record<string, ExerciseData> = {
   // Module 8: Automation — exercise is now a real Make.com walkthrough
   // (webhook \u2192 Groq \u2192 email). See lesson MDX for the build steps.
 
-  // Module 9: Capstone
-  "09-capstone/02-template-a": {
-    component: "WorkflowBuilder",
-    props: {
-      availableBlocks: [
-        { id: "form-webhook", type: "trigger", label: "Form Webhook", description: "Form submitted", icon: "\ud83d\udce8" },
-        { id: "claude-summarize", type: "ai", label: "Claude AI", description: "Summarize content", icon: "\ud83e\udd16" },
-        { id: "wp-create-post", type: "action", label: "WordPress", description: "Create draft post", icon: "\ud83d\udcdd" },
-        { id: "slack-notify", type: "notify", label: "Slack", description: "Notify team", icon: "\ud83d\udd14" },
-      ],
-      expectedFlow: ["trigger", "ai", "action", "notify"],
-    },
-  },
-  "09-capstone/03-template-b": {
-    component: "WorkflowBuilder",
-    props: {
-      availableBlocks: [
-        { id: "schedule", type: "trigger", label: "Daily Schedule", description: "Every day at 9am", icon: "\u23f0" },
-        { id: "api-fetch", type: "action", label: "Fetch Data", description: "Get from API", icon: "\ud83d\udce1" },
-        { id: "claude-format", type: "ai", label: "Claude AI", description: "Format summary", icon: "\ud83e\udd16" },
-        { id: "wp-post", type: "action", label: "WordPress", description: "Create post", icon: "\ud83d\udcdd" },
-        { id: "git-commit", type: "action", label: "GitHub", description: "Commit config", icon: "\ud83d\udce6" },
-      ],
-      expectedFlow: ["trigger", "action", "ai", "action", "action"],
-    },
-  },
-  "09-capstone/04-template-c": {
-    component: "WorkflowBuilder",
-    props: {
-      availableBlocks: [
-        { id: "email-webhook", type: "trigger", label: "Email Received", description: "New support email", icon: "\ud83d\udce7" },
-        { id: "claude-classify", type: "ai", label: "Claude AI", description: "Categorize ticket", icon: "\ud83e\udd16" },
-        { id: "wp-update", type: "action", label: "WordPress", description: "Update tracker", icon: "\ud83d\udccb" },
-        { id: "notify-person", type: "notify", label: "Notify", description: "Alert team member", icon: "\ud83d\udd14" },
-      ],
-      expectedFlow: ["trigger", "ai", "action", "notify"],
-    },
-  },
+  // Module 9: Capstone — all templates are now real Make.com builds
+  // (webhook/schedule \u2192 Groq \u2192 Google Sheets \u2192 email). See lesson MDX for step-by-step walkthroughs.
 };
 
 export function getExerciseData(moduleSlug: string, lessonSlug: string): ExerciseData | null {

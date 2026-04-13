@@ -18,8 +18,13 @@ By the end, you will have a system that automatically sorts, tracks, and routes 
 
 ## The Big Picture
 
-Before we start building, let's see the full workflow. Drag the blocks below into the correct order:
+```
+[Webhook: email] → [Groq AI: categorize] → [Google Sheets: log] → [Email: route to owner]
+```
 
+This is a **variation of Template A** — same webhook-based pattern, but the AI step categorizes instead of summarizing, and the final email is routed based on the category. If you finished Template A, build this in 15 minutes by duplicating and swapping the prompts.
+
+> **Recommended:** Build Template A first. The pattern is the same.
 
 ## Step 1: Set Up the Email Webhook
 

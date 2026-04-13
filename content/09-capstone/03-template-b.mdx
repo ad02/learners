@@ -19,8 +19,13 @@ By the end, you will have a bot that creates a daily digest post — completely 
 
 ## The Big Picture
 
-Before we start building, let's see the full workflow. Drag the blocks below into the correct order:
+```
+[Schedule: daily 9am] → [HTTP: fetch data] → [Groq AI] → [Google Sheets: append] → [Email]
+```
 
+This is a **variation of Template A** — instead of a webhook trigger, it uses a scheduled trigger. The rest of the pattern (Groq → Sheets → Email) is identical. If you finished Template A, you can build this in 15 minutes by duplicating that scenario and swapping the trigger.
+
+> **Recommended:** Build Template A first, then come back to this one. The shared steps will feel familiar.
 
 ## Step 1: Set Up the Daily Schedule
 

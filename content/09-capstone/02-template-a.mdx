@@ -1,183 +1,226 @@
 ---
-title: "Template A: Blog Auto-Publisher"
-description: "Build an automation that publishes blog posts from form submissions"
+title: "Template A: Content Pipeline (Recommended)"
+description: "Build a real Make.com automation that processes submissions with Groq AI and logs to Google Sheets"
 order: 2
 type: lesson
 ---
 
-# Template A: Blog Auto-Publisher
+# Template A: Content Pipeline
 
-In this project, you will build an automation that does four things in sequence:
+This is the **primary capstone project**. You'll build a real, running automation on Make.com's free tier that:
 
-1. **Receives** a form submission via webhook
-2. **Summarizes** the content using Claude AI
-3. **Publishes** a draft post to WordPress
-4. **Notifies** your team on Slack
+1. **Receives** a submission via webhook
+2. **Summarizes** it with Groq AI
+3. **Logs** the result to a Google Sheet (your draft queue)
+4. **Emails** you a notification
 
-By the end, you will have a complete workflow that turns raw form submissions into polished blog drafts — automatically.
+Every tool is free. Total build time: ~30 minutes.
 
-## The Big Picture
+## What You'll Need (All Free)
 
-Before we start building, let's see the full workflow. Drag the blocks below into the correct order:
+- ✅ Make.com account ([from Module 8](https://www.make.com))
+- ✅ Groq API key ([from Module 7](https://console.groq.com))
+- ✅ Google account (for Sheets — probably already have this)
+- ✅ An email address
 
+## The Workflow
 
-## Step 1: Set Up the Webhook Trigger
+```
+[Webhook] → [Groq AI] → [Google Sheets: append row] → [Email: notify]
+```
 
-Remember webhooks from Module 7? A webhook is like a doorbell — when someone submits the form, it "rings" your automation.
+Four steps, no WordPress-specific setup headaches. The Google Sheet becomes your **review queue** — just like draft posts, but on the free tier.
 
-Here is what you need to do:
+---
 
-1. In your automation tool (like n8n, Make, or Zapier), create a new workflow
-2. Add a **Webhook** trigger as the first step
-3. Set it to accept POST requests
-4. Copy the webhook URL — you will paste this into your form
+## Step 1 — Create the Make Scenario
 
-The webhook will receive data like this:
+1. Log in to [Make.com](https://www.make.com) → **Scenarios** → **Create a new scenario**
+2. Click the big `+` → search **Webhooks** → pick **Custom webhook**
+3. **Add** → name it `content-pipeline` → **Save**
+4. **Copy the webhook URL** somewhere safe
+
+**Expected result:** Make says "The webhook is listening for data." Leave this tab open.
+
+**Troubleshooting:**
+- Can't find Webhooks module? Search lowercase: `webhook`
+- Webhook URL changed? Make regenerates if you delete and recreate — always use the current one
+
+---
+
+## Step 2 — Send Test Data
+
+In a new browser tab, open DevTools (F12) → **Console** tab → paste and run:
+
+```js
+fetch("PASTE_YOUR_WEBHOOK_URL", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    name: "Jane Smith",
+    email: "jane@example.com",
+    topic: "How AI helps small business",
+    content: "AI tools like ChatGPT and Claude are changing how small businesses operate. What used to require a team of 5 can now be done by one person with the right tools. This is especially true for content creation, customer service, and data analysis."
+  })
+});
+```
+
+Go back to Make → the webhook bubble should now show the sample data. Click **OK**.
+
+**Expected result:** Make displays your JSON data with each field individually mapped (name, email, topic, content).
+
+**Troubleshooting:**
+- Webhook didn't fire? Check the URL has no typos. Re-copy it.
+- Getting CORS error in console? That's normal — Make still received the request. Check the Make tab.
+
+---
+
+## Step 3 — Add Groq AI
+
+1. Click the `+` after the webhook → search **HTTP** → **Make a request**
+2. Configure:
+   - **URL:** `https://api.groq.com/openai/v1/chat/completions`
+   - **Method:** `POST`
+   - **Headers:** add 2 items
+     - `Authorization` = `Bearer YOUR_GROQ_KEY` (your real key)
+     - `Content-Type` = `application/json`
+   - **Body type:** Raw | **Content type:** JSON (application/json)
+   - **Request content:**
 
 ```json
 {
-  "name": "Jane Smith",
-  "topic": "How AI is changing small business",
-  "content": "AI tools are making it easier for small businesses to compete with larger companies. From automated customer service to content creation..."
+  "model": "llama-3.1-8b-instant",
+  "messages": [
+    {"role": "system", "content": "You are a blog editor. Given a topic and raw content, write a polished 2-paragraph blog-style summary. Respond with JSON: {\"title\": \"...\", \"summary\": \"...\"}"},
+    {"role": "user", "content": "Topic: {{1.topic}}\n\nContent: {{1.content}}"}
+  ],
+  "response_format": {"type": "json_object"}
 }
 ```
 
-**Expected result:** After setting up the webhook and sending a test request, you should see the JSON data appear in your automation tool's execution panel. Each field (name, topic, content) should be visible and selectable for use in later steps.
+> 💡 **Variable mapping:** After clicking into the Request content field, Make shows variable pills like `{{1.topic}}` — click them in the right panel to insert instead of typing them.
+
+3. **Parse response:** scroll down → toggle **Parse response** to **Yes**
+4. Click **OK**
+
+**Expected result:** After a test run, Groq returns a JSON response with `title` and `summary` fields — accessible as variables in later steps.
 
 **Troubleshooting:**
-- **No data appears?** Make sure the webhook URL is correct and the workflow is active/listening. In n8n, you need to click "Listen for test event" before sending the test request.
-- **Data shows as empty?** Check that your test tool is sending the `Content-Type: application/json` header.
-- **Getting a 404 error?** The webhook URL may have expired. Create a new one and try again.
+- **401 Unauthorized:** API key wrong or has extra spaces. Copy/paste fresh from Groq console.
+- **No variables show up from Groq:** Parse response must be **Yes** — rerun the scenario after toggling.
+- **Response cut off:** Add `"max_tokens": 500` to the body.
 
-**Why this step matters:** Without a trigger, nothing starts. The webhook is the "when" — when a form is submitted, do everything else.
+---
 
-## Step 2: Connect Claude AI to Summarize
+## Step 4 — Create a Google Sheet
 
-Now we connect Claude AI to process the form submission. This is where your prompting skills from Module 3 and 4 come in.
+In a new tab:
 
-1. Add an **AI** step after the webhook
-2. Connect it to Claude (via API key)
-3. Write a prompt like this:
+1. Go to [sheets.google.com](https://sheets.google.com) → **Blank spreadsheet**
+2. Name it `Content Queue`
+3. In row 1, add these headers (one per column): `Date`, `Name`, `Email`, `Topic`, `Title`, `Summary`, `Status`
+4. Save — don't close
 
-```
-You are a blog editor. Take the following submission and create a polished blog post summary.
+---
 
-Topic: {{topic}}
-Raw content: {{content}}
+## Step 5 — Add Google Sheets Module
 
-Write a 2-3 paragraph summary that is engaging and professional. Include a suggested title.
-```
+Back in Make:
 
-**Expected result:** Claude returns a polished summary. For the test data above, you might see:
+1. Click `+` after the Groq step → search **Google Sheets** → pick **Add a Row**
+2. Click **Create a connection** → sign in with your Google account → allow access
+3. **Spreadsheet:** click the dropdown → find your `Content Queue` sheet
+4. **Sheet Name:** Sheet1 (default)
+5. **Column values** — map each column:
+   - **Date:** click the variable picker → pick **Now** (under Date)
+   - **Name:** `{{1.name}}`
+   - **Email:** `{{1.email}}`
+   - **Topic:** `{{1.topic}}`
+   - **Title:** from Groq response → extract `.title` (the parsed JSON field)
+   - **Summary:** from Groq response → extract `.summary`
+   - **Status:** type `pending review`
+6. Click **OK**
 
-```
-Title: "How AI Levels the Playing Field for Small Businesses"
-
-Small businesses have long struggled to compete with larger corporations that have bigger budgets and more staff. But artificial intelligence is changing that equation. Today, even a one-person shop can use AI tools to automate customer service, create professional content, and streamline operations — tasks that used to require entire departments.
-
-From chatbots that handle customer questions 24/7 to AI writing assistants that draft marketing emails in seconds, these tools are giving small businesses superpowers they never had before...
-```
-
-**Troubleshooting:**
-- **AI returns an error?** Check your API key. Make sure it is valid and has not expired.
-- **Response is too long or too short?** Adjust your prompt. Add "Keep it under 200 words" or "Write at least 3 paragraphs" to guide the length.
-- **Response does not include a title?** Make sure your prompt explicitly asks for one. AI follows instructions literally.
-
-**Why this step matters:** Raw form submissions are messy. AI turns them into something publishable without anyone having to manually edit.
-
-## Step 3: Create a WordPress Draft Post
-
-Now we use the WordPress REST API (Module 6 & 7) to create a draft post.
-
-1. Add a **WordPress** action step
-2. Connect it to your WordPress site using the REST API
-3. Set it to create a new post with:
-   - **Title:** The AI-generated title
-   - **Content:** The AI-generated summary
-   - **Status:** "draft" (so a human can review before publishing)
-   - **Author:** Set to your default author
-
-The API call looks like this:
-
-```
-POST https://yoursite.com/wp-json/wp/v2/posts
-{
-  "title": "AI-Generated Title Here",
-  "content": "The polished summary from Claude...",
-  "status": "draft"
-}
-```
-
-**Expected result:** WordPress responds with the created post data, including:
-
-```json
-{
-  "id": 789,
-  "title": { "rendered": "How AI Levels the Playing Field for Small Businesses" },
-  "status": "draft",
-  "link": "https://yoursite.com/?p=789"
-}
-```
-
-You should be able to log into your WordPress admin, go to **Posts > All Posts**, and see the new draft.
+**Expected result:** After running, a new row appears in your Google Sheet with all fields filled.
 
 **Troubleshooting:**
-- **401 Unauthorized?** Your WordPress credentials are wrong. Double-check your username and application password. (Remember: you need an Application Password, not your regular login password.)
-- **404 Not Found?** The site URL is wrong, or the REST API is disabled. Check if `yoursite.com/wp-json/wp/v2/posts` works in your browser.
-- **Post appears but content is empty?** Make sure you are mapping the AI output to the content field correctly. Check variable names in your automation tool.
+- **Permission denied on Sheets:** sign out of the Google connection in Make and reconnect, accepting all permissions.
+- **Columns misaligned:** recount — the header row must match what you map. Case-sensitive isn't required but field order matters.
+- **Title/Summary show as `[object Object]`:** Groq's JSON wasn't parsed. Go back to Step 3 and verify "Parse response" is on.
 
-**Why this step matters:** Automating the draft creation saves time. The post is ready for review — no copy-pasting required.
+---
 
-## Step 4: Send a Slack Notification
+## Step 6 — Add Email Notification
 
-Finally, let the team know a new draft is ready (Module 8 notification pattern).
+1. Click `+` after Sheets → search **Email** → **Send an Email**
+2. Create a connection (Make's built-in email — no SMTP config needed)
+3. Configure:
+   - **To:** your email
+   - **Subject:** `New content: {{Groq.title}}` (use variable picker)
+   - **Content type:** HTML
+   - **Content:**
 
-1. Add a **Slack** notification step
-2. Connect it to your Slack workspace
-3. Send a message to your content channel:
-
+```html
+<h2>{{Groq.title}}</h2>
+<p><strong>From:</strong> {{1.name}} ({{1.email}})</p>
+<p><strong>Summary:</strong></p>
+<p>{{Groq.summary}}</p>
+<p><a href="https://docs.google.com/spreadsheets/">Review in your Content Queue</a></p>
 ```
-New blog draft ready for review!
-Title: {{post_title}}
-Author: {{submitter_name}}
-Link: {{wordpress_edit_link}}
-```
 
-**Expected result:** A message appears in your Slack channel within seconds. It should include the post title, the submitter's name, and a link to edit the draft in WordPress.
+4. Click **OK**
 
-**Troubleshooting:**
-- **Message not appearing?** Check that the bot is added to the channel. In Slack, type `/invite @yourbotname` in the channel.
-- **Message appears but link is wrong?** Make sure you are using the WordPress edit link (usually `yoursite.com/wp-admin/post.php?post=ID&action=edit`), not the public post link.
+---
 
-**Why this step matters:** Without notification, the draft sits there unnoticed. The Slack message closes the loop — someone knows to review it.
+## Step 7 — Run End-to-End
 
-## Putting It All Together
+1. Click **Run once** (bottom-left in Make)
+2. Re-send the DevTools fetch from Step 2
+3. Watch all 4 bubbles turn green
+4. Check: Google Sheet has a new row ✅
+5. Check: Your inbox has the summary email ✅
 
-Your complete workflow now looks like this:
+**If anything failed:** Click the red bubble → the error pane shows the exact issue. Fix, then Run Once again.
 
-1. **Form submitted** &rarr; webhook fires
-2. **Claude AI** &rarr; summarizes and polishes the content
-3. **WordPress API** &rarr; creates a draft post
-4. **Slack** &rarr; notifies the team
+---
 
-That is four tools working together automatically. What used to take 15-20 minutes of manual work now happens in seconds.
+## Step 8 — Turn It On
 
-## How to Present Your Project
+Flip **Scheduling** (bottom-left) from **OFF** to **ON**.
 
-Once your workflow is complete and tested, here is how to document it:
+Your automation now runs 24/7. Anyone who sends data to your webhook URL triggers the full pipeline. **You built a real content operations tool.**
 
-1. **Take a screenshot** of your complete workflow in the automation tool
-2. **Write a brief description:** What does it do? What problem does it solve?
-3. **List the tools used:** Webhook, Claude AI, WordPress REST API, Slack
-4. **Show a test result:** Include the Slack notification or WordPress draft as proof it works
-5. **Note any customizations:** Did you add error handling? Change the prompt? Add extra steps?
+---
 
-This documentation is useful for your own reference and for showing others what you have built.
+## What "Done" Looks Like
 
-## What You Learned
+✅ Google Sheet with at least 3 rows from test submissions
+✅ 3 emails in your inbox, each with an AI-generated title and summary
+✅ The Make scenario is ON and has run successfully at least 3 times
+✅ You can explain what each of the 4 steps does in plain English
 
-- How to chain multiple steps into one automation
-- How webhooks start workflows automatically
-- How AI can transform raw data into polished content
-- How APIs let tools talk to each other
-- How notifications close the loop for human review
+## Free-Tier Check
+
+This whole project costs **$0**:
+
+- Make: ~12 operations used (4 per test × 3 tests). You have 1,000/month.
+- Groq: 3 API calls of ~300 tokens. You have tens of thousands free/day.
+- Google Sheets: always free for personal use
+- Email: free via Make's built-in sender
+
+If you sent 250 submissions/month, still free. 1000+/month? Groq still free; Make would need an upgrade.
+
+## Extensions (Optional)
+
+Want to go deeper? Try adding:
+
+- **A filter:** Only email you if the topic contains certain keywords (Make has a Filter module between steps)
+- **A second AI step:** Classify the submission as "blog / question / complaint" before storing
+- **A Discord/webhook.site notification** instead of email for team channels
+- **A cron schedule** that summarizes all "pending review" rows every morning
+
+## What You Built
+
+A production-grade content pipeline. This same pattern — webhook in, AI process, store, notify — runs millions of real business workflows. You're not simulating automation anymore. You built one.
+
+Put the **Google Sheet URL** and a **screenshot of your Make scenario** somewhere you can share — that's your capstone deliverable.
