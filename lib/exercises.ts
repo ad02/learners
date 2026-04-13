@@ -95,19 +95,8 @@ const exercises: Record<string, ExerciseData> = {
   // Module 7: APIs — exercises are now real (Groq API via browser DevTools,
   // real WordPress.com REST API via browser). See lesson MDX for walkthroughs.
 
-  // Module 8: Automation
-  "08-automation/04-building-a-workflow": {
-    component: "WorkflowBuilder",
-    props: {
-      availableBlocks: [
-        { id: "webhook", type: "trigger", label: "Webhook", description: "Form submitted", icon: "\ud83d\udce8" },
-        { id: "claude", type: "ai", label: "Claude AI", description: "Summarize content", icon: "\ud83e\udd16" },
-        { id: "wordpress", type: "action", label: "WordPress", description: "Create post", icon: "\ud83d\udcdd" },
-        { id: "slack", type: "notify", label: "Slack", description: "Send message", icon: "\ud83d\udd14" },
-      ],
-      expectedFlow: ["trigger", "ai", "action", "notify"],
-    },
-  },
+  // Module 8: Automation — exercise is now a real Make.com walkthrough
+  // (webhook \u2192 Groq \u2192 email). See lesson MDX for the build steps.
 
   // Module 9: Capstone
   "09-capstone/02-template-a": {
