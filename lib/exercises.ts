@@ -92,62 +92,8 @@ const exercises: Record<string, ExerciseData> = {
     },
   },
 
-  // Module 7: APIs
-  "07-apis/02-api-keys-and-requests": {
-    component: "ApiExplorer",
-    props: {
-      endpoints: [
-        {
-          method: "GET",
-          url: "/weather",
-          response: {
-            status: 200,
-            statusText: "OK",
-            body: { city: "London", temperature: 15, condition: "Cloudy", humidity: 72 },
-            explanation: "Success! The API returned weather data for London. GET requests are used to read data.",
-          },
-        },
-        {
-          method: "GET",
-          url: "/users",
-          response: {
-            status: 200,
-            statusText: "OK",
-            body: { users: [{ name: "Alice", role: "admin" }, { name: "Bob", role: "editor" }] },
-            explanation: "This endpoint returns a list of users. Notice the data comes back as JSON \u2014 a structured format that computers can easily read.",
-          },
-        },
-      ],
-    },
-  },
-  "07-apis/04-wordpress-rest-api": {
-    component: "ApiExplorer",
-    props: {
-      endpoints: [
-        {
-          method: "GET",
-          url: "/wp-json/wp/v2/posts",
-          response: {
-            status: 200,
-            statusText: "OK",
-            body: { posts: [{ id: 1, title: "Hello World", status: "published" }, { id: 2, title: "My Second Post", status: "draft" }] },
-            explanation: "The WordPress REST API returned your site's posts. You can use this to read content from any WordPress site.",
-          },
-        },
-        {
-          method: "POST",
-          url: "/wp-json/wp/v2/posts",
-          requiredHeaders: { authorization: "Bearer your-api-key" },
-          response: {
-            status: 201,
-            statusText: "Created",
-            body: { id: 3, title: "New Post", status: "draft", message: "Post created successfully!" },
-            explanation: "You just created a new WordPress post via API! Notice we needed an Authorization header \u2014 the API key proves you're allowed to create content.",
-          },
-        },
-      ],
-    },
-  },
+  // Module 7: APIs — exercises are now real (Groq API via browser DevTools,
+  // real WordPress.com REST API via browser). See lesson MDX for walkthroughs.
 
   // Module 8: Automation
   "08-automation/04-building-a-workflow": {

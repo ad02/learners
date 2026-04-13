@@ -163,10 +163,42 @@ Here is how popular automation tools connect to WordPress:
 
 All three tools are using the same WordPress REST API under the hood — they just give you a friendly interface for it.
 
-## Try It Out
+## Try It Out — For Real with Your WP.com Site
 
-Use the explorer below to see how the WordPress REST API works. Try reading posts, then creating one.
+Remember the free WordPress.com site you made in Module 6? It has a working REST API right now. Let's prove it.
 
+### Exercise A — Read Posts from Any WordPress Site (No Key Needed)
+
+1. Open a new browser tab
+2. Paste this URL and hit Enter:
+
+```
+https://yoursite.wordpress.com/wp-json/wp/v2/posts
+```
+
+Replace `yoursite` with your actual WordPress.com subdomain. You'll see a big wall of JSON — every post on your site, served by the API. **No login, no key — just public data.**
+
+> No posts yet? Create one in your dashboard first, publish it, then reload the URL.
+
+### Exercise B — Read Posts from a Real Big Site
+
+Try these real URLs in your browser:
+
+```
+https://techcrunch.com/wp-json/wp/v2/posts?per_page=3
+https://wordpress.org/news/wp-json/wp/v2/posts?per_page=3
+```
+
+You just pulled live content from two major sites via their APIs. Install the **JSON Formatter** browser extension to make it readable.
+
+### Exercise C — Create a Post via API (Authenticated)
+
+This one's more advanced. On WordPress.com free tier, API writing uses OAuth (more complex). Here's the shortcut path using the tool you'll use in Module 8:
+
+1. For now, just confirm you can **read** via API (Exercises A and B above) ✅
+2. Bookmark this: in Module 8 (Automation), you'll connect Make.com to your WordPress.com site — Make handles the OAuth for you, and you'll create posts via API as part of a real automation. No raw credentials needed.
+
+> **Self-hosted WordPress?** If you have your own WP install (not WordPress.com), use **Application Passwords** (steps above) to write via API directly. WordPress.com free tier makes this harder, which is why we defer writes to Module 8.
 
 ## The Automation Connection
 
